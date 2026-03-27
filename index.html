@@ -805,7 +805,7 @@ async function sendAI(){
 }
 async function callClaude(msgs){
   if(!CLAUDE_API_KEY||CLAUDE_API_KEY==='YOUR_API_KEY_HERE')throw 0;
-  const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':CLAUDE_API_KEY,'anthropic-version':'2023-06-01'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1024,system:'You are NEXUS AI, a smart helpful assistant. Be concise and friendly.',messages:msgs})});
+  const r=await fetch('https://corsproxy.io/?https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':CLAUDE_API_KEY,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1024,system:'You are NEXUS AI, a smart helpful assistant. Be concise and friendly.',messages:msgs})});
   const d=await r.json();if(d.error)throw d.error;return d.content[0].text;
 }
 function clearAI(){document.getElementById('ai-body').innerHTML='<div class="msg ai"><div class="mav ai">🤖</div><div><div class="mbub">Chat cleared. How can I help?</div></div></div>';aiHistory=[];}
