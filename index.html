@@ -542,7 +542,7 @@ html,body{width:100%;height:100%;font-family:'Inter',sans-serif;background:var(-
             <div class="fcard" onclick="switchPanel('ai')">
               <span class="fcard-ic">🤖</span>
               <div class="fcard-title">AI Assistant</div>
-              <div class="fcard-desc">Powered by OpenAI. Ask anything, get intelligent answers with voice support.</div>
+              <div class="fcard-desc">Powered by Claude. Ask anything, get intelligent answers with voice support.</div>
               <span class="fcard-arr">→</span>
             </div>
             <div class="fcard" onclick="openMessenger()">
@@ -560,7 +560,7 @@ html,body{width:100%;height:100%;font-family:'Inter',sans-serif;background:var(-
         <div class="topbar">
           <div>
             <div class="tb-title">AI Assistant</div>
-            <div class="tb-sub">Powered by GPT-4o Mini</div>
+            <div class="tb-sub">Powered by Claude</div>
           </div>
           <div class="tb-actions">
             <button class="tb-btn" onclick="clearAI()">Clear</button>
@@ -571,7 +571,7 @@ html,body{width:100%;height:100%;font-family:'Inter',sans-serif;background:var(-
           <div class="msg ai">
             <div class="mav ai">🤖</div>
             <div>
-              <div class="mbub">Hi, I'm NEXUS AI powered by OpenAI. I can help with writing, coding, research, analysis, or just a conversation. How can I help you today?</div>
+              <div class="mbub">Hi, I'm NEXUS AI powered by Claude. I can help with writing, coding, research, analysis, or just a conversation. How can I help you today?</div>
               <div class="mtime">Now</div>
             </div>
           </div>
@@ -654,11 +654,11 @@ function toggleTheme(){
 // ── STATE ──
 let currentUser='',deviceId=null,activeContact=null,faceStream=null,faceMode='',isListening=false,recognition=null,aiHistory=[],msgUnlocked=false,pinBuf='';
 
-// ─── OPENAI API CONFIGURATION ───────────────────────────────────────────────
-// 1. Go to https://platform.openai.com/signup (or login)
-// 2. Click "API Keys" in the left sidebar → "Create new secret key"
-// 3. Copy the key (starts with "sk-") and paste it below
-const OPENAI_API_KEY = 'sk-YOUR-API-KEY-HERE'; // ← PASTE YOUR KEY HERE
+// ─── YOUR CLAUDE API KEY ──────────────────────────────────────────────────────
+// 1. Go to https://console.anthropic.com
+// 2. Sign up / log in → click "API Keys" → "Create Key"
+// 3. Copy the key and paste it below replacing YOUR_API_KEY_HERE
+const CLAUDE_API_KEY = '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';
 // ─────────────────────────────────────────────────────────────────────────────
 
 let contacts=[
@@ -788,56 +788,24 @@ function checkPin(){
   else{document.getElementById('pin-err').textContent='Incorrect PIN. Try again.';pinBuf='';updatePinDots();captureIntruder();}
 }
 
-// ── AI (OPENAI INTEGRATION) ──
+// ── AI ──
 async function sendAI(){
   const ta=document.getElementById('ai-ta'),text=ta.value.trim();
   if(!text)return;ta.value='';ta.style.height='auto';
   appendMsg('ai-body','user',text);aiHistory.push({role:'user',content:text});
   showTyping();
   try{
-    const r=await callOpenAI(aiHistory);hideTyping();
+    const r=await callClaude(aiHistory);hideTyping();
     appendMsg('ai-body','ai',r);aiHistory.push({role:'assistant',content:r});
-  }catch(err){
+  }catch{
     hideTyping();
-    if(!OPENAI_API_KEY||OPENAI_API_KEY==='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'){
-      appendMsg('ai-body','ai','🔑 To enable AI: Open this file, find OPENAI_API_KEY, and replace sk-YOUR-API-KEY-HERE with your key from platform.openai.com');
-    } else if(err.status===401){
-      appendMsg('ai-body','ai','❌ Invalid API Key. Please check your OpenAI key.');
-    } else if(err.status===429){
-      appendMsg('ai-body','ai','⏳ Rate limit reached. Please wait a moment.');
-    } else if(err.status===400 && err.message?.includes('quota')){
-      appendMsg('ai-body','ai','💳 Out of credits. Visit platform.openai.com to add funds.');
-    } else {
-      appendMsg('ai-body','ai','⚠️ Error: '+(err.message||'Could not connect to AI service'));
-    }
+    if(!CLAUDE_API_KEY||CLAUDE_API_KEY==='YOUR_API_KEY_HERE')appendMsg('ai-body','ai','To enable AI responses: open index.html, find CLAUDE_API_KEY and replace YOUR_API_KEY_HERE with your key from console.anthropic.com');
+    else appendMsg('ai-body','ai','Connection error. Please check your API key and try again.');
   }
 }
-async function callOpenAI(msgs){
-  if(!OPENAI_API_KEY||OPENAI_API_KEY==='sk-YOUR-API-KEY-HERE')throw {message:'No API key'};
-  
-  const r=await fetch('https://api.openai.com/v1/chat/completions',{
-    method:'POST',
-    headers:{
-      'Content-Type':'application/json',
-      'Authorization':'Bearer '+OPENAI_API_KEY
-    },
-    body:JSON.stringify({
-      model:'gpt-4o-mini', // Fast, cheap, capable. Use 'gpt-3.5-turbo' for lower cost or 'gpt-4o' for higher quality
-      max_tokens:1024,
-      messages:[
-        {role:'system',content:'You are NEXUS AI, a smart helpful assistant. Be concise, friendly, and helpful.'},
-        ...msgs
-      ]
-    })
-  });
-  
-  if(!r.ok){
-    const err=await r.json().catch(()=>({}));
-    throw {status:r.status,message:err.error?.message||`HTTP ${r.status}`};
-  }
-  
-  const d=await r.json();
-  return d.choices[0].message.content;
+async function callClaude(msgs){
+  const r=await fetch('https://api.groq.com/openai/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer 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'},body:JSON.stringify({model:'llama-3.3-70b-versatile',max_tokens:1024,messages:[{role:'system',content:'You are NEXUS AI, a smart helpful assistant. Be concise and friendly.'},...msgs]})});
+  const d=await r.json();if(d.error)throw d.error;return d.choices[0].message.content;
 }
 function clearAI(){document.getElementById('ai-body').innerHTML='<div class="msg ai"><div class="mav ai">🤖</div><div><div class="mbub">Chat cleared. How can I help?</div></div></div>';aiHistory=[];}
 function aiKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendAI();}}
