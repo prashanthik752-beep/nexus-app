@@ -228,7 +228,7 @@ html,body{width:100%;height:100%;font-family:'Inter',sans-serif;background:var(-
             <div class="fcard" onclick="switchPanel('ai')">
               <div style="font-size:32px;margin-bottom:14px;">🤖</div>
               <div style="font-size:15px;font-weight:700;">AI Assistant</div>
-              <div style="font-size:12px;color:var(--text2);margin-top:6px;">GPT-4o mini powered. Images, voice, chat.</div>
+              <div style="font-size:12px;color:var(--text2);margin-top:6px;">Free AI powered. Images, voice, chat.</div>
             </div>
             <div class="fcard" onclick="openMessenger()">
               <div style="font-size:32px;margin-bottom:14px;">💬</div>
@@ -243,7 +243,7 @@ html,body{width:100%;height:100%;font-family:'Inter',sans-serif;background:var(-
         <div class="topbar">
           <div>
             <div class="tb-title">AI Assistant</div>
-            <div style="font-size:11px;color:var(--text3);">GPT-4o mini · OpenRouter</div>
+            <div style="font-size:11px;color:var(--text3);">Free AI · No API Key Needed</div>
           </div>
           <div style="display:flex;">
             <div class="tb-btn" onclick="openImgen()">🎨 Image</div>
@@ -254,7 +254,7 @@ html,body{width:100%;height:100%;font-family:'Inter',sans-serif;background:var(-
         <div class="chat-body" id="ai-body">
           <div class="msg ai">
             <div class="mav">🤖</div>
-            <div class="mbub">Hi! I'm NEXUS AI with GPT-4o mini (Oct 2024 knowledge). Ask me anything, generate images, or use voice input!</div>
+            <div class="mbub">Hi! I'm NEXUS AI using free models. Ask me anything, generate images, or use voice input!</div>
           </div>
         </div>
         <div class="ibar">
@@ -318,10 +318,12 @@ html,body{width:100%;height:100%;font-family:'Inter',sans-serif;background:var(-
 
 <script>
 // ═════════════════════════════════════════════════════════════════════════════
-// CONFIGURATION - YOUR OPENROUTER API KEY (LINE 350)
+// FREE AI CONFIGURATION - NO API KEY NEEDED!
+// Uses Pollinations AI (completely free, no signup)
 // ═════════════════════════════════════════════════════════════════════════════
-const OPENROUTER_API_KEY = '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';
+
 const IMAGE_API_URL = 'https://image.pollinations.ai/prompt/';
+const TEXT_API_URL = 'https://text.pollinations.ai/';
 
 let isDark=true,currentUser='',activeContact=null,faceStream=null,faceMode='';
 let isListening=false,recognition=null,aiHistory=[],msgUnlocked=false,pinBuf='';
@@ -489,12 +491,15 @@ function checkPin(){
     switchPanel('msg');
     notif('success','Unlocked','Messenger ready');
   }else{
-    document.getElementById('pin-err').textContent='Wrong PIN';
     pinBuf='';
     updatePinDots();
     captureIntruder();
   }
 }
+
+// ═════════════════════════════════════════════════════════════════════════════
+// FREE AI USING POLLINATIONS (NO API KEY NEEDED)
+// ═════════════════════════════════════════════════════════════════════════════
 
 async function sendAI(){
   const ta=document.getElementById('ai-ta'),text=ta.value.trim();
@@ -511,40 +516,34 @@ async function sendAI(){
   showTyping();
   
   try{
-    const r=await callOpenRouter(aiHistory);
+    const r=await callFreeAI(aiHistory);
     hideTyping();
     appendMsg('ai-body','ai',r);
     aiHistory.push({role:'assistant',content:r});
   }catch(e){
     hideTyping();
-    appendMsg('ai-body','ai','Error: '+e.message);
+    appendMsg('ai-body','ai','Sorry, I had trouble connecting. Try again!');
   }
 }
 
-async function callOpenRouter(msgs){
+async function callFreeAI(msgs){
   const lastMsg=msgs[msgs.length-1].content.toLowerCase();
   if(lastMsg.includes('location')&&userLocation){
-    return `You're in ${userLocation.city}, ${userLocation.country} (Timezone: ${userLocation.timezone})`;
+    return `📍 You're in ${userLocation.city}, ${userLocation.country} (Timezone: ${userLocation.timezone})`;
   }
   
-  const r=await fetch('https://openrouter.ai/api/v1/chat/completions',{
-    method:'POST',
-    headers:{
-      'Content-Type':'application/json',
-      'Authorization':'Bearer '+OPENROUTER_API_KEY,
-      'HTTP-Referer':window.location.href,
-      'X-Title':'NEXUS AI'
-    },
-    body:JSON.stringify({
-      model:'openai/gpt-4o-mini',
-      max_tokens:1024,
-      messages:[{role:'system',content:'You are NEXUS AI. Knowledge: Oct 2024. Be helpful and concise.'},...msgs]
-    })
-  });
+  // Build prompt from message history
+  const prompt = msgs.map(m => {
+    if(m.role==='system')return m.content;
+    return m.role==='user'?`User: ${m.content}`:`Assistant: ${m.content}`;
+  }).join('\n') + '\nAssistant:';
   
-  const d=await r.json();
-  if(d.error)throw new Error(d.error.message);
-  return d.choices[0].message.content;
+  // Use Pollinations AI (completely free, no key needed)
+  const response = await fetch(`${TEXT_API_URL}${encodeURIComponent(prompt)}?model=openai&seed=${Math.floor(Math.random()*1000)}`);
+  
+  if(!response.ok)throw new Error('API error');
+  const text = await response.text();
+  return text || 'I apologize, but I could not generate a response at this time.';
 }
 
 function appendMsg(bid,role,text){
