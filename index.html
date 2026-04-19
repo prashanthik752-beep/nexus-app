@@ -787,24 +787,18 @@ input,textarea,button,select{font-family:inherit;}
 <script>
 'use strict';
 // ═══════════════════════════════════════════
-//  NEXUS v4.2 — Queue-Bypass Edition
+//  NEXUS v4.3 — Unified API Fix
 // ═══════════════════════════════════════════
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-//  API CONFIG — Zero Key Required
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// Pollinations GET endpoint is explicitly exempt from queue limits per their error message:
-// "Anonymous requests to text.pollinations.ai are NOT affected"
 const API = {
-  // Primary: Direct GET (no queue, no key, no streaming but instant full response)
-  textGet: 'https://text.pollinations.ai/',
-  image: 'https://image.pollinations.ai/prompt/',
-  model: 'openai-large',
+  // NEW unified Pollinations endpoints (2026)
+  text: 'https://gen.pollinations.ai/text/',
+  image: 'https://gen.pollinations.ai/image/',
+  model: 'openai-large', // valid: openai, openai-fast, openai-large, qwen-coder, mistral
   timeout: 20000,
   
-  // Optional upgrade: Get a free key from Groq (console.groq.com) for 300+ tokens/sec streaming
-  // Paste it here to automatically switch to premium streaming mode:
-  groqKey: '', // ← Paste free Groq key here for lightning speed
+  // Optional: paste a free Groq key (console.groq.com) for streaming mode
+  groqKey: '',
   groqUrl: 'https://api.groq.com/openai/v1/chat/completions',
   groqModel: 'llama-3.3-70b-versatile'
 };
@@ -1207,7 +1201,7 @@ function appendFileMsgs(bid,files){
 }
 
 // ═══════════════════════════════════════════
-//  AI ENGINE — GET-Based Queue Bypass
+//  AI ENGINE — Fixed Unified API
 // ═══════════════════════════════════════════
 
 function setAiBusy(busy){
@@ -1235,27 +1229,21 @@ async function sendAI(){
   if(hasFiles) appendFileMsgs('ai-body',uploads.ai);
   if(text) appendMsg('ai-body','user',text);
 
-  // Build prompt content
   const txtCtx=await readTextFiles('ai');
   let userContent=txtCtx?(txtCtx+(text?'\n\nUser: '+text:'')):(text||'[File uploaded]');
-  
-  // Note image attachments in text since GET can't handle vision bytes
   const imgFiles=uploads.ai.filter(f=>f.type.startsWith('image/'));
   if(imgFiles.length>0){
     userContent+='\n[User attached '+imgFiles.length+' image(s): '+imgFiles.map(f=>f.name).join(', ')+']';
   }
-  
   uploads.ai=[]; renderChips('ai');
   aiHistory.push({role:'user',content:userContent});
   msgCount++; updateStats();
   showNeuralThink();
   
   try {
-    // If user provided a Groq key, use premium streaming
     if(API.groqKey && API.groqKey.length > 10){
       await streamGroq(aiHistory);
     } else {
-      // Use keyless Pollinations GET (no queue limits)
       const response = await fetchKeylessAI(aiHistory);
       hideNeuralThink();
       appendMsg('ai-body','ai',response);
@@ -1270,13 +1258,14 @@ async function sendAI(){
 }
 
 function buildPrompt(msgs){
-  let prompt='System: '+AI_SYSTEM+'\n\n';
-  // Use last 6 messages to keep URL safe
-  const recent=msgs.slice(-6);
+  // Build conversation context (last 4 exchanges to keep URL short)
+  let prompt='';
+  const recent=msgs.slice(-8);
   for(const m of recent){
     const content=typeof m.content==='string'?m.content:
       (m.content.filter&&m.content.filter(p=>p.type==='text').map(p=>p.text).join(' '))||'';
-    prompt+=(m.role==='user'?'User: ':'Assistant: ')+content+'\n';
+    if(m.role==='user') prompt+='User: '+content+'\n';
+    else prompt+='Assistant: '+content+'\n';
   }
   prompt+='Assistant:';
   return prompt;
@@ -1286,14 +1275,20 @@ async function fetchKeylessAI(msgs){
   const prompt=buildPrompt(msgs);
   const encoded=encodeURIComponent(prompt);
   
-  // Keep URL under safe limit (~3000 chars encoded)
-  let url;
-  if(encoded.length>3000){
-    const shortPrompt=buildPrompt(msgs.slice(-2));
-    url=`${API.textGet}${encodeURIComponent(shortPrompt)}?model=${API.model}&private=true&seed=${Date.now()}`;
-  } else {
-    url=`${API.textGet}${encoded}?model=${API.model}&private=true&seed=${Date.now()}`;
+  // Keep URL under safe limit
+  let finalPrompt=prompt;
+  if(encoded.length>2500){
+    finalPrompt=buildPrompt(msgs.slice(-2));
   }
+  
+  // New unified API: gen.pollinations.ai/text/{prompt}
+  const params=new URLSearchParams({
+    model: API.model,
+    seed: Date.now().toString(),
+    system: AI_SYSTEM
+  });
+  
+  const url=`${API.text}${encodeURIComponent(finalPrompt)}?${params.toString()}`;
   
   aiAbortCtrl=new AbortController();
   const timeout=setTimeout(()=>aiAbortCtrl.abort(),API.timeout);
@@ -1302,6 +1297,7 @@ async function fetchKeylessAI(msgs){
     const res=await fetch(url,{signal:aiAbortCtrl.signal});
     clearTimeout(timeout);
     if(!res.ok){
+      if(res.status===404) throw new Error('API endpoint not found — model may be unavailable');
       if(res.status===429) throw new Error('Server busy — please wait a few seconds');
       throw new Error('API '+res.status);
     }
@@ -1312,7 +1308,7 @@ async function fetchKeylessAI(msgs){
   }
 }
 
-// Optional premium streaming via Groq (requires free key)
+// Optional premium streaming via Groq
 async function streamGroq(msgs){
   const apiMsgs=msgs.slice(-20).map(m=>{
     const content=typeof m.content==='string'?m.content:
@@ -1396,13 +1392,13 @@ function clearAI(){
   if(isAiProcessing && aiAbortCtrl){ aiAbortCtrl.abort(); setAiBusy(false); hideNeuralThink(); }
   const b=document.getElementById('ai-body');b.innerHTML='';
   const d=document.createElement('div');d.className='msg ai';
-  const av=document.createElement('div');d.className='m-av';av.appendChild(icon('bot'));
+  const av=document.createElement('div');av.className='m-av';av.appendChild(icon('bot'));
   const bub=document.createElement('div');bub.className='m-bub';bub.textContent='Chat cleared. How can I help?';
   d.appendChild(av);d.appendChild(bub);b.appendChild(d);lucide.createIcons({nodes:[d]});
   aiHistory=[];uploads.ai=[];renderChips('ai');
 }
 
-// ── IMAGE GEN with Download
+// ── IMAGE GEN with Download (Unified API)
 function openImgen(pre=''){ 
   document.getElementById('imgen-modal').classList.remove('hidden'); 
   document.getElementById('ig-prompt').value=pre||''; 
@@ -1416,8 +1412,18 @@ function generateImage(){
   const el=document.getElementById('ig-preview'); 
   el.innerHTML='<div class="ig-empty" style="opacity:.4;">Generating…</div><button class="ig-dl hidden" id="ig-dl-btn" onclick="downloadImage()"><span id="dl-ico"></span> Download</button>';
   ri('dl-ico','download');
-  const url=`${API.image}${encodeURIComponent(p)}?width=1024&height=1024&nologo=true&seed=${Date.now()}&model=flux`;
+  
+  // New unified image endpoint: gen.pollinations.ai/image/{prompt}
+  const params=new URLSearchParams({
+    width: '1024',
+    height: '1024',
+    nologo: 'true',
+    seed: Date.now().toString(),
+    model: 'flux'
+  });
+  const url=`${API.image}${encodeURIComponent(p)}?${params.toString()}`;
   currentGeneratedImage = url;
+  
   const img=new Image(); 
   img.onload=()=>{ 
     el.innerHTML=''; 
