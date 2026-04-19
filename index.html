@@ -800,32 +800,16 @@ input,textarea,button,select{font-family:inherit;}
 <script>
 'use strict';
 // ═══════════════════════════════════════════
-//  NEXUS v4 — 2026 API Edition
+//  NEXUS v4.1 — Queue-Fixed Edition
 // ═══════════════════════════════════════════
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-//  API CONFIGURATION — Free Tier 2026
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 const API = {
-  // PRIMARY: Pollinations AI (Zero API Key Required)
-  // This is the fastest keyless option available in 2026
   text: 'https://text.pollinations.ai/openai',
   image: 'https://image.pollinations.ai/prompt/',
-  model: 'openai-large', // GPT-4o class model
-  
-  // FALLBACK: Direct GET endpoint if POST streaming fails
+  model: 'openai-large',
   fallbackText: 'https://text.pollinations.ai/',
-  
-  // OPTIONAL SPEED UPGRADES — Get free keys from:
-  // • Groq (groq.com) — 300+ tokens/sec, OpenAI-compatible
-  // • Google AI Studio (aistudio.google.com) — 1,500 req/day
-  // • OpenRouter (openrouter.ai) — Free models with :free suffix
-  // Paste your key below to unlock lightning speeds:
-  groq: { key: '', model: 'llama-3.3-70b-versatile', url: 'https://api.groq.com/openai/v1/chat/completions' },
-  gemini: { key: '', model: 'gemini-2.5-flash', url: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:streamGenerateContent' },
-  
-  timeout: 10000, // 10s timeout for fast failure detection
-  retries: 2
+  timeout: 15000,
+  retries: 3
 };
 
 const AI_SYSTEM = `You are NEXUS AI — a sharp, knowledgeable, and genuinely helpful assistant inside a private secure terminal. 
@@ -844,6 +828,8 @@ const uploads = { ai:[], msg:[] };
 let pendingFiles = { ctx:'', files:[] };
 let pendingUploadCtx = null;
 let currentGeneratedImage = null;
+let aiAbortCtrl = null;
+let isAiProcessing = false; // ← CRITICAL: prevents queue overflow
 
 // ── User Store
 const USER_KEY = 'nexus_v3_user';
@@ -865,7 +851,6 @@ function initIcons(){
   ri('reg-nk-del','delete');
   ri('up-ico','folder-lock');
   ri('dl-ico','download');
-  // Btn+label
   setBtnIcon('unlock-btn','lock-open','Unlock Terminal');
   setBtnIcon('tb-img-btn','sparkles','Image');
   setBtnIcon('tb-clear-btn','eraser','Clear');
@@ -873,11 +858,8 @@ function initIcons(){
   setBtnIcon('msg-back-btn','arrow-left','Back');
   setBtnIcon('bin-back-btn','arrow-left','Back');
   const genBtn=document.getElementById('gen-btn'); if(genBtn){ genBtn.innerHTML=''; genBtn.appendChild(icon('sparkles')); genBtn.appendChild(document.createTextNode('\u00A0Generate')); lucide.createIcons({nodes:[genBtn]}); }
-  // File confirm
   const fcBtn=document.getElementById('fc-confirm-btn'); if(fcBtn){ fcBtn.innerHTML=''; fcBtn.appendChild(icon('paperclip')); fcBtn.appendChild(document.createTextNode('\u00A0Attach')); lucide.createIcons({nodes:[fcBtn]}); }
-  // Upload permission
   const upAllow=document.querySelector('.up-btn.allow'); if(upAllow){ const sp=upAllow.querySelector('span'); if(sp){ sp.innerHTML=''; sp.appendChild(icon('check')); lucide.createIcons({nodes:[sp]}); } }
-  // Simple icons
   ri('lock-btn','lock-keyhole');
   ri('vbtn','mic');
   ri('ai-send-btn','send');
@@ -893,16 +875,14 @@ function initIcons(){
   ri('bin-ico','trash-2');
   ri('ai-av-init','bot');
   ri('cz-av','user');
-  // Sidebar
   ['sb-home','sb-ai','sb-bin'].forEach((id,i)=>{ const d=[['house','Home'],['bot','AI Assistant'],['trash-2','Recycle Bin']][i]; setSbItem(id,...d); });
   setSbItemMsg();
-  // Reg btns
   [['rb-0-ico','arrow-right'],['rb-1-ico','key-round'],['rb-3-ico','camera'],['rb-4-ico','bell'],['rb-5-ico','log-in']].forEach(([id,ic])=>ri(id,ic));
 }
 function setSbItem(id,ic,label){ const el=document.getElementById(id); if(!el)return; const badge=el.querySelector('.sb-badge'); el.innerHTML=''; el.appendChild(icon(ic)); el.appendChild(document.createTextNode('\u00A0'+label)); if(badge) el.appendChild(badge); lucide.createIcons({nodes:[el]}); }
 function setSbItemMsg(){ const el=document.getElementById('sb-msg'); if(!el)return; const badge=el.querySelector('.sb-badge'); el.innerHTML=''; el.appendChild(icon('message-circle')); el.appendChild(document.createTextNode('\u00A0Messenger')); if(badge) el.appendChild(badge); lucide.createIcons({nodes:[el]}); }
 
-// ── Lock screen canvas (particle network)
+// ── Lock screen canvas
 function initCanvas(){
   const c=document.getElementById('lock-canvas'); if(!c)return;
   const ctx=c.getContext('2d');
@@ -1229,11 +1209,31 @@ function appendFileMsgs(bid,files){
   });
 }
 
-// ── AI CHAT — GPT-4o Vision + Streaming with Retry Logic
+// ═══════════════════════════════════════════
+//  AI ENGINE — Queue-Fixed & Retry-Enhanced
+// ═══════════════════════════════════════════
+
+function setAiBusy(busy){
+  isAiProcessing = busy;
+  const btn = document.getElementById('ai-send-btn');
+  const ta = document.getElementById('ai-ta');
+  if(busy){
+    btn.style.opacity = '0.4'; btn.style.pointerEvents = 'none';
+    ta.placeholder = 'NEXUS AI is processing your request…';
+  } else {
+    btn.style.opacity = '1'; btn.style.pointerEvents = 'auto';
+    ta.placeholder = 'Ask me anything, send an image, or paste a URL…';
+    aiAbortCtrl = null;
+  }
+}
+
 async function sendAI(){
+  if(isAiProcessing){ notif('warning','Please wait','NEXUS AI is still processing your previous message'); return; }
   const ta=document.getElementById('ai-ta'), text=ta.value.trim();
   const hasFiles=uploads.ai.length>0;
   if(!text&&!hasFiles) return;
+  
+  setAiBusy(true);
   ta.value=''; ta.style.height='auto';
   if(hasFiles) appendFileMsgs('ai-body',uploads.ai);
   if(text) appendMsg('ai-body','user',text);
@@ -1259,30 +1259,34 @@ async function sendAI(){
   
   try{ await streamAIWithRetry(aiHistory,filesnap); }
   catch(e){ hideNeuralThink(); appendMsg('ai-body','ai','Connection error — please try again.'); }
+  finally{ setAiBusy(false); }
 }
 
-// Enhanced streaming with timeout and retry
 async function streamAIWithRetry(msgs,attached=[],attempt=1){
+  aiAbortCtrl = new AbortController();
   try{
     await Promise.race([
       streamAI(msgs,attached),
       new Promise((_,reject)=>setTimeout(()=>reject(new Error('Timeout')),API.timeout))
     ]);
   }catch(e){
-    if(attempt<API.retries){
-      notif('info','Retrying','Optimizing connection…');
-      await new Promise(r=>setTimeout(r,800));
+    hideNeuralThink();
+    const is429 = e.message && e.message.includes('429');
+    if(attempt < API.retries){
+      const delay = is429 ? 4000 * attempt : 1200 * attempt;
+      notif('info', is429 ? 'Queue busy' : 'Retrying', `Waiting ${delay/1000}s before attempt ${attempt+1}…`);
+      await new Promise(r=>setTimeout(r,delay));
+      showNeuralThink();
       return streamAIWithRetry(msgs,attached,attempt+1);
     }
-    // Final fallback: direct GET for instant response
-    hideNeuralThink();
+    // Final fallback: direct GET
     const prompt=buildFallbackPrompt(msgs);
     try{
       const gr=await fetch(`${API.fallbackText}${encodeURIComponent(prompt)}?model=${API.model}&private=true&seed=${Date.now()}`);
       const txt=await gr.text();
       appendMsg('ai-body','ai',txt); aiHistory.push({role:'assistant',content:txt});
     }catch(fallbackErr){
-      appendMsg('ai-body','ai','All connection attempts failed. Please check your network and try again.');
+      appendMsg('ai-body','ai','All connection attempts failed. Pollinations queue is at capacity for your IP. Please wait 10 seconds and try again.');
     }
   }
 }
@@ -1308,13 +1312,18 @@ async function streamAI(msgs,attached=[]){
     seed:Math.floor(Math.random()*999999)
   };
 
-  let r;
-  try{
-    r=await fetch(API.text,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
-    if(!r.ok) throw new Error('API '+r.status);
-  }catch(e){
-    throw e; // Let retry handler deal with it
+  const r=await fetch(API.text,{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify(body),
+    signal: aiAbortCtrl.signal
+  });
+  
+  if(r.status === 429){
+    const errData = await r.json().catch(()=>({}));
+    throw new Error(`429: ${errData.error || 'Queue full'}`);
   }
+  if(!r.ok) throw new Error('API '+r.status);
 
   hideNeuralThink();
   const b=document.getElementById('ai-body');
@@ -1384,6 +1393,7 @@ function appendMsg(bid,role,text){
 }
 function aiKey(e){ if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendAI();} }
 function clearAI(){
+  if(isAiProcessing && aiAbortCtrl){ aiAbortCtrl.abort(); setAiBusy(false); hideNeuralThink(); }
   const b=document.getElementById('ai-body');b.innerHTML='';
   const d=document.createElement('div');d.className='msg ai';
   const av=document.createElement('div');av.className='m-av';av.appendChild(icon('bot'));
@@ -1440,7 +1450,6 @@ async function downloadImage(){
     URL.revokeObjectURL(blobUrl);
     notif('success','Saved','Image downloaded to your device');
   }catch(e){
-    // Fallback: open in new tab
     window.open(currentGeneratedImage, '_blank');
     notif('warning','Download Info','Image opened in new tab — long-press to save');
   }
