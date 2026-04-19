@@ -59,12 +59,10 @@ svg.lucide{width:1em;height:1em;stroke-width:1.75;vertical-align:middle;flex-shr
 .n-body{font-size:11.5px;color:var(--text-m);}
 
 /* ═══════════════════════════════════════
-   LOCK SCREEN — Premium
+   LOCK SCREEN
 ═══════════════════════════════════════ */
 #page-safekey{flex-direction:column;gap:20px;overflow:hidden;}
 #lock-canvas{position:absolute;inset:0;z-index:0;}
-
-/* Gradient orbs */
 .orb{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;animation:orbFloat 12s ease-in-out infinite;}
 .orb-1{width:500px;height:500px;background:radial-gradient(circle,rgba(201,174,126,.12),transparent 70%);top:-100px;left:-100px;animation-delay:0s;}
 .orb-2{width:400px;height:400px;background:radial-gradient(circle,rgba(123,164,212,.1),transparent 70%);bottom:-100px;right:-80px;animation-delay:-5s;}
@@ -73,8 +71,6 @@ svg.lucide{width:1em;height:1em;stroke-width:1.75;vertical-align:middle;flex-shr
 [data-theme="light"] .orb-1{background:radial-gradient(circle,rgba(154,112,48,.1),transparent 70%);}
 [data-theme="light"] .orb-2{background:radial-gradient(circle,rgba(42,90,154,.08),transparent 70%);}
 [data-theme="light"] .orb-3{background:radial-gradient(circle,rgba(42,138,74,.06),transparent 70%);}
-
-/* Floating stat pills on lockscreen */
 .lock-float{position:absolute;z-index:2;display:flex;align-items:center;gap:9px;padding:10px 16px;background:var(--bg-alt);border:1px solid var(--border);border-radius:99px;font-size:12px;color:var(--text-m);backdrop-filter:blur(20px);box-shadow:var(--shadow-sm);animation:floatIn .8s var(--ease) both,floatBob 6s ease-in-out infinite;}
 .lock-float.lf1{top:14%;left:7%;animation-delay:.2s, 1.2s;}
 .lock-float.lf2{top:22%;right:8%;animation-delay:.4s, 2s;}
@@ -90,13 +86,9 @@ svg.lucide{width:1em;height:1em;stroke-width:1.75;vertical-align:middle;flex-shr
 .lf-label{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;}
 .lf-val{font-weight:600;color:var(--text);font-size:13px;}
 [data-theme="light"] .lock-float{background:rgba(253,250,245,.9);}
-
-/* Grid lines overlay */
 .lock-grid{position:absolute;inset:0;z-index:1;pointer-events:none;opacity:.025;}
 .lock-grid svg{width:100%;height:100%;}
 [data-theme="light"] .lock-grid{opacity:.04;}
-
-/* Lock card */
 .lock-card{position:relative;z-index:5;width:460px;max-width:94vw;background:var(--bg-alt);border:1px solid var(--border);border-radius:var(--r5);padding:48px 44px 40px;box-shadow:var(--shadow-lg),0 0 0 1px var(--bsoft) inset;animation:cardUp 1s var(--ease) .1s both;overflow:hidden;backdrop-filter:blur(40px);}
 .lock-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent 5%,var(--goldd) 30%,var(--goldb) 50%,var(--goldd) 70%,transparent 95%);opacity:.7;}
 .lock-card::after{content:'';position:absolute;bottom:0;left:20%;right:20%;height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);}
@@ -226,7 +218,7 @@ svg.lucide{width:1em;height:1em;stroke-width:1.75;vertical-align:middle;flex-shr
 .m-cancel:hover{border-color:var(--text-m);color:var(--text);}
 .igmodal{background:var(--bg-alt);border:1px solid var(--border);border-radius:var(--r4);padding:30px;width:520px;box-shadow:var(--shadow-lg);position:relative;overflow:hidden;transition:all .45s var(--ease);}
 .igmodal::before{content:'';position:absolute;top:0;left:10%;right:10%;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.45;}
-.ig-canvas{width:100%;height:300px;background:var(--bg-sec);border:1px solid var(--border);border-radius:var(--r3);display:flex;align-items:center;justify-content:center;overflow:hidden;margin-bottom:14px;}
+.ig-canvas{width:100%;height:300px;background:var(--bg-sec);border:1px solid var(--border);border-radius:var(--r3);display:flex;align-items:center;justify-content:center;overflow:hidden;margin-bottom:14px;position:relative;}
 .ig-canvas img{width:100%;height:100%;object-fit:cover;}
 .ig-empty{font-size:13px;color:var(--text-m);}
 .ig-inp{width:100%;padding:12px 16px;margin-bottom:12px;background:var(--bg-sec);border:1px solid var(--border);border-radius:var(--r2);color:var(--text);font-family:var(--sans);font-size:13px;outline:none;transition:all .28s;}
@@ -238,6 +230,10 @@ svg.lucide{width:1em;height:1em;stroke-width:1.75;vertical-align:middle;flex-shr
 .gbtn:hover{opacity:.85;transform:translateY(-1px);}
 .gbtn.sec{background:var(--bg-sec);border:1px solid var(--border);color:var(--text-m);}
 .gbtn.sec:hover{border-color:var(--text-m);color:var(--text);}
+/* Download button in image gen */
+.ig-dl-bar{position:absolute;bottom:0;left:0;right:0;display:flex;gap:6px;padding:10px;background:linear-gradient(transparent,rgba(0,0,0,.7));z-index:3;}
+.ig-dl-btn{flex:1;padding:8px 10px;border:none;border-radius:var(--r2);background:rgba(255,255,255,.15);backdrop-filter:blur(8px);color:#fff;font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;transition:all .2s;}
+.ig-dl-btn:hover{background:rgba(255,255,255,.28);transform:translateY(-1px);}
 
 /* ═══ SHELL ═══ */
 .shell{display:grid;grid-template-columns:244px 1fr;width:100vw;height:100vh;padding:13px;gap:11px;}
@@ -333,9 +329,22 @@ svg.lucide{width:1em;height:1em;stroke-width:1.75;vertical-align:middle;flex-shr
 [data-theme="light"] .f-ref{background:var(--bg-sec);}
 .f-ref-n{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .f-ref-s{font-family:var(--mono);font-size:9px;color:var(--text-m);flex-shrink:0;}
-.t-dot{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--text-f);animation:tB 1.4s infinite ease-in-out;}
-.t-dot:nth-child(1){animation-delay:-.32s;}.t-dot:nth-child(2){animation-delay:-.16s;}
-@keyframes tB{0%,80%,100%{transform:scale(0);}40%{transform:scale(1);}}
+
+/* ── AI THINKING ANIMATION ── */
+.thinking-container{display:flex;align-items:center;gap:14px;padding:14px 18px;}
+.think-orb-wrap{position:relative;width:36px;height:36px;flex-shrink:0;}
+.think-orb{position:absolute;inset:0;border-radius:50%;border:1.5px solid transparent;border-top-color:var(--gold);animation:thinkSpin 1.2s linear infinite;}
+.think-orb:nth-child(2){inset:4px;border-top-color:var(--accent);animation-duration:1.8s;animation-direction:reverse;}
+.think-orb:nth-child(3){inset:8px;border-top-color:var(--green);animation-duration:2.4s;}
+.think-core{position:absolute;inset:10px;border-radius:50%;background:radial-gradient(circle,var(--gold),transparent);opacity:.5;animation:thinkPulse 1.6s ease-in-out infinite;}
+@keyframes thinkSpin{to{transform:rotate(360deg);}}
+@keyframes thinkPulse{0%,100%{opacity:.3;transform:scale(.8);}50%{opacity:.7;transform:scale(1.1);}}
+.think-text{display:flex;flex-direction:column;gap:3px;}
+.think-label{font-family:var(--display);font-size:12px;font-weight:600;color:var(--text);letter-spacing:.02em;}
+.think-sub{font-family:var(--mono);font-size:9px;color:var(--text-m);letter-spacing:.14em;text-transform:uppercase;}
+.think-bar{width:120px;height:2px;background:var(--border);border-radius:2px;overflow:hidden;margin-top:3px;}
+.think-bar-fill{height:100%;width:30%;background:linear-gradient(90deg,var(--gold),var(--accent));border-radius:2px;animation:thinkBar 1.5s ease-in-out infinite;}
+@keyframes thinkBar{0%{width:10%;transform:translateX(0);}50%{width:60%;transform:translateX(50%);}100%{width:10%;transform:translateX(400%);}}
 
 /* ── INPUT BAR ── */
 .ibar{padding:10px 22px 15px;border-top:1px solid var(--border);background:var(--bg-alt);z-index:2;}
@@ -408,13 +417,21 @@ label.ib-ghost input[type=file]{display:none;}
 .empty-title{font-family:var(--display);font-size:15px;font-weight:500;color:var(--text-m);margin-bottom:6px;}
 .empty-sub{font-size:12.5px;color:var(--text-f);}
 
-/* AI markdown-ish rendering */
+/* AI markdown rendering */
 .m-bub.ai-content code{font-family:var(--mono);font-size:12px;background:var(--bg);border:1px solid var(--border);padding:1px 5px;border-radius:3px;color:var(--gold);}
 .m-bub.ai-content pre{background:var(--bg);border:1px solid var(--border);border-radius:var(--r2);padding:12px;margin:6px 0;overflow-x:auto;}
 .m-bub.ai-content pre code{background:transparent;border:none;padding:0;}
 .m-bub.ai-content strong{color:var(--text);font-weight:600;}
 .m-bub.ai-content ul,.m-bub.ai-content ol{padding-left:18px;margin:6px 0;}
 .m-bub.ai-content li{margin-bottom:3px;}
+
+/* Generated image in chat with download */
+.gen-img-wrap{position:relative;max-width:320px;border-radius:var(--r3);overflow:hidden;border:1px solid var(--border);margin-top:6px;}
+.gen-img-wrap img{width:100%;display:block;}
+.gen-img-actions{position:absolute;bottom:0;left:0;right:0;display:flex;gap:4px;padding:8px;background:linear-gradient(transparent,rgba(0,0,0,.65));opacity:0;transition:opacity .25s;}
+.gen-img-wrap:hover .gen-img-actions{opacity:1;}
+.gen-img-dl{padding:6px 10px;border:none;border-radius:var(--r1);background:rgba(255,255,255,.18);backdrop-filter:blur(8px);color:#fff;font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;gap:4px;transition:all .2s;text-decoration:none;}
+.gen-img-dl:hover{background:rgba(255,255,255,.32);}
 
 .hidden{display:none!important;}
 input,textarea,button,select{font-family:inherit;}
@@ -557,13 +574,10 @@ input,textarea,button,select{font-family:inherit;}
   <canvas id="lock-canvas"></canvas>
   <div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div>
   <div class="lock-grid"><svg><defs><pattern id="g" width="60" height="60" patternUnits="userSpaceOnUse"><path d="M 60 0 L 0 0 0 60" fill="none" stroke="currentColor" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(#g)"/></svg></div>
-
-  <!-- Floating live pills -->
   <div class="lock-float lf1"><div class="lf-dot green"></div><div><div class="lf-label">System</div><div class="lf-val">Online</div></div></div>
   <div class="lock-float lf2"><div class="lf-dot gold"></div><div><div class="lf-label">Encryption</div><div class="lf-val">AES-256</div></div></div>
   <div class="lock-float lf3"><div class="lf-dot blue"></div><div><div class="lf-label">AI Model</div><div class="lf-val">GPT-4o</div></div></div>
   <div class="lock-float lf4"><div class="lf-dot red"></div><div><div class="lf-label">Intrusion</div><div class="lf-val">Active Guard</div></div></div>
-
   <div class="lock-card">
     <div class="lc-brand">
       <div class="lc-mark">N</div>
@@ -610,13 +624,10 @@ input,textarea,button,select{font-family:inherit;}
         </div>
       </div>
     </div>
-
     <div class="content">
       <!-- HOME PANEL -->
       <div class="panel" id="p-home">
-        <div class="topbar">
-          <div><div class="t-title" id="tb-greeting">Home</div></div>
-        </div>
+        <div class="topbar"><div><div class="t-title" id="tb-greeting">Home</div></div></div>
         <div class="home-body">
           <div class="hello-row">
             <div class="hello-av" id="wb-av">?</div>
@@ -666,7 +677,7 @@ input,textarea,button,select{font-family:inherit;}
         <div class="chat-area" id="ai-body">
           <div class="msg ai">
             <div class="m-av" id="ai-av-init"></div>
-            <div class="m-bub">Welcome to NEXUS AI — powered by <strong>GPT-4o</strong> with streaming, vision, and file analysis. Send images to analyze them, attach documents to ask questions about them, or just chat. I'm ready.</div>
+            <div class="m-bub">Welcome to NEXUS AI — powered by <strong>GPT-4o</strong> with streaming, vision, and file analysis. Send images to analyze them, attach documents to ask questions about them, or just chat. Type <strong>/imagine</strong> followed by a description to generate images right in the chat. I'm ready.</div>
           </div>
         </div>
         <div class="ibar">
@@ -678,7 +689,7 @@ input,textarea,button,select{font-family:inherit;}
               <input type="file" id="ai-file" multiple accept="image/*,.pdf,.txt,.doc,.docx,.csv,.json,.md" onchange="handleFileSelect('ai',this)"/>
             </label>
             <div class="iwrap">
-              <textarea class="cta" id="ai-ta" placeholder="Ask me anything, send an image, or paste a URL…" rows="1" onkeydown="aiKey(event)"></textarea>
+              <textarea class="cta" id="ai-ta" placeholder="Ask anything… or /imagine to generate images" rows="1" onkeydown="aiKey(event)"></textarea>
             </div>
             <button class="ib ib-send" onclick="sendAI()" id="ai-send-btn"></button>
           </div>
@@ -750,11 +761,11 @@ input,textarea,button,select{font-family:inherit;}
 <script>
 'use strict';
 // ═══════════════════════════════════════════
-//  NEXUS v3
+//  NEXUS v4 — Enhanced AI + Image Gen + File Fix
 // ═══════════════════════════════════════════
 
 const IMAGE_API = 'https://image.pollinations.ai/prompt/';
-const AI_API    = 'https://text.pollinations.ai/';
+const AI_API    = 'https://text.pollinations.ai/openai';
 
 // ── State
 let isDark = true, currentUser = null;
@@ -766,6 +777,7 @@ let regPinBuf = '', regStep = 0, feState = 'idle';
 let userLoc = null, msgCount = 0, sessionStart = Date.now();
 const uploads = { ai:[], msg:[] };
 let pendingFiles = { ctx:'', files:[] };
+let aiThinking = false;
 
 // ── User Store
 const USER_KEY = 'nexus_v3_user';
@@ -785,7 +797,6 @@ function initIcons(){
   ri('done-ico','shield-check');
   ri('nk-del','delete');
   ri('reg-nk-del','delete');
-  // Btn+label
   setBtnIcon('unlock-btn','lock-open','Unlock Terminal');
   setBtnIcon('tb-img-btn','sparkles','Image');
   setBtnIcon('tb-clear-btn','eraser','Clear');
@@ -793,9 +804,7 @@ function initIcons(){
   setBtnIcon('msg-back-btn','arrow-left','Back');
   setBtnIcon('bin-back-btn','arrow-left','Back');
   const genBtn=document.getElementById('gen-btn'); if(genBtn){ genBtn.innerHTML=''; genBtn.appendChild(icon('sparkles')); genBtn.appendChild(document.createTextNode('\u00A0Generate')); lucide.createIcons({nodes:[genBtn]}); }
-  // File confirm
   const fcBtn=document.getElementById('fc-confirm-btn'); if(fcBtn){ fcBtn.innerHTML=''; fcBtn.appendChild(icon('paperclip')); fcBtn.appendChild(document.createTextNode('\u00A0Attach')); lucide.createIcons({nodes:[fcBtn]}); }
-  // Simple icons
   ri('lock-btn','lock-keyhole');
   ri('vbtn','mic');
   ri('ai-send-btn','send');
@@ -811,23 +820,20 @@ function initIcons(){
   ri('bin-ico','trash-2');
   ri('ai-av-init','bot');
   ri('cz-av','user');
-  // Sidebar
   ['sb-home','sb-ai','sb-bin'].forEach((id,i)=>{ const d=[['house','Home'],['bot','AI Assistant'],['trash-2','Recycle Bin']][i]; setSbItem(id,...d); });
   setSbItemMsg();
-  // Reg btns
   [['rb-0-ico','arrow-right'],['rb-1-ico','key-round'],['rb-3-ico','camera'],['rb-4-ico','bell'],['rb-5-ico','log-in']].forEach(([id,ic])=>ri(id,ic));
 }
 function setSbItem(id,ic,label){ const el=document.getElementById(id); if(!el)return; const badge=el.querySelector('.sb-badge'); el.innerHTML=''; el.appendChild(icon(ic)); el.appendChild(document.createTextNode('\u00A0'+label)); if(badge) el.appendChild(badge); lucide.createIcons({nodes:[el]}); }
 function setSbItemMsg(){ const el=document.getElementById('sb-msg'); if(!el)return; const badge=el.querySelector('.sb-badge'); el.innerHTML=''; el.appendChild(icon('message-circle')); el.appendChild(document.createTextNode('\u00A0Messenger')); if(badge) el.appendChild(badge); lucide.createIcons({nodes:[el]}); }
 
-// ── Lock screen canvas (particle network)
+// ── Lock screen canvas
 function initCanvas(){
   const c=document.getElementById('lock-canvas'); if(!c)return;
   const ctx=c.getContext('2d');
   let W,H,pts=[];
   function resize(){ W=c.width=window.innerWidth; H=c.height=window.innerHeight; pts=[]; for(let i=0;i<60;i++) pts.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.25,vy:(Math.random()-.5)*.25}); }
   window.addEventListener('resize',resize); resize();
-  const goldR = isDark ? [201,174,126] : [154,112,48];
   function draw(){
     ctx.clearRect(0,0,W,H);
     const [r,g,b]=isDark?[201,174,126]:[154,112,48];
@@ -917,7 +923,6 @@ async function feAction(){
       document.getElementById('fe-status').innerHTML='<span class="fe-success">✓ Face enrolled successfully</span>';
       document.getElementById('fe-btn-lbl').textContent='Continue'; ri('rb-3-ico','arrow-right');
       document.getElementById('fe-video').style.opacity='0.5';
-      // store descriptor on regData immediately
       regData.faceDescriptor=Array.from(desc);
     }catch(e){ document.getElementById('fe-status').textContent='No face detected — try again'; ri('rb-3-ico','camera'); document.getElementById('fe-btn-lbl').textContent='Try Again'; feState='ready'; }
   } else if(feState==='done'){
@@ -1050,20 +1055,21 @@ function pinDel(){ pinBuf=pinBuf.slice(0,-1); updatePinDots(); }
 function updatePinDots(){ for(let i=0;i<4;i++) document.getElementById('pd'+i).classList[i<pinBuf.length?'add':'remove']('on'); }
 function checkPin(){ const u=getUser(); if(pinBuf===(u?.pin||'1234')){ msgUnlocked=true; closePinModal(); switchPanel('msg'); notif('success','Vault opened','Messenger decrypted'); } else{ pinBuf=''; updatePinDots(); notif('danger','Wrong PIN','Access denied'); fireIntruderAlert('Wrong messenger PIN'); } }
 
-// ── FILE UPLOAD with confirm dialog
+// ── FILE UPLOAD with confirm dialog — FIXED
 function fmtSize(b){ if(b<1024) return b+'B'; if(b<1048576) return (b/1024).toFixed(1)+'KB'; return (b/1048576).toFixed(1)+'MB'; }
-function fileIconName(f){ const t=f.type,n=f.name.toLowerCase(); if(t.startsWith('image/')) return 'image'; if(n.endsWith('.pdf')) return 'file-text'; if(n.endsWith('.doc')||n.endsWith('.docx')) return 'file-type-2'; if(n.endsWith('.csv')) return 'table-2'; if(n.endsWith('.json')) return 'braces'; if(n.endsWith('.md')) return 'file-code-2'; return 'file'; }
+function fileIconName(f){ const t=f.type||'',n=f.name.toLowerCase(); if(t.startsWith('image/')) return 'image'; if(n.endsWith('.pdf')) return 'file-text'; if(n.endsWith('.doc')||n.endsWith('.docx')) return 'file-type-2'; if(n.endsWith('.csv')) return 'table-2'; if(n.endsWith('.json')) return 'braces'; if(n.endsWith('.md')) return 'file-code-2'; return 'file'; }
 
 function handleFileSelect(ctx, input){
   const files=[...input.files]; if(!files.length) return;
   const ok=files.filter(f=>{ if(f.size>20*1024*1024){ notif('warning','Too large',f.name+' exceeds 20MB'); return false; } return true; });
-  if(!ok.length) return;
+  if(!ok.length){ input.value=''; return; }
+  // Reset input so same file can be re-selected
   input.value='';
   pendingFiles={ctx,files:ok};
   showFileConfirm(ok);
 }
 
-async function showFileConfirm(files){
+function showFileConfirm(files){
   const list=document.getElementById('fc-file-list');
   list.innerHTML='';
   document.getElementById('fc-title').textContent=`Attach ${files.length} file${files.length>1?'s':''}`;
@@ -1073,27 +1079,40 @@ async function showFileConfirm(files){
     const fIco=document.createElement('span'); fIco.className='fc-ficon'; fIco.appendChild(icon(fileIconName(f)));
     const nm=document.createElement('span'); nm.className='fc-fname'; nm.textContent=f.name;
     const sz=document.createElement('span'); sz.className='fc-fsize'; sz.textContent=fmtSize(f.size);
-    row.appendChild(fIco); row.appendChild(nm); row.appendChild(sz);
-    if(f.type.startsWith('image/')){
+    if(f.type && f.type.startsWith('image/')){
+      const wrapper=document.createElement('div'); wrapper.style.cssText='width:100%;';
+      const top=document.createElement('div'); top.style.cssText='display:flex;align-items:center;gap:10px;width:100%;margin-bottom:6px;';
+      top.appendChild(fIco); top.appendChild(nm); top.appendChild(sz);
       const img=document.createElement('img'); img.className='fc-img-preview'; img.src=URL.createObjectURL(f); img.alt=f.name;
       row.style.flexDirection='column'; row.style.alignItems='flex-start';
-      const top=document.createElement('div'); top.style.cssText='display:flex;align-items:center;gap:10px;width:100%;';
-      top.appendChild(fIco); top.appendChild(nm); top.appendChild(sz); row.appendChild(top); row.appendChild(img);
+      row.appendChild(top); row.appendChild(img);
+    } else {
+      row.appendChild(fIco); row.appendChild(nm); row.appendChild(sz);
     }
     list.appendChild(row);
   }
   lucide.createIcons({nodes:[list]});
-  document.getElementById('file-confirm').classList.remove('hidden');
+  // Show the modal — use classList properly
+  const modal = document.getElementById('file-confirm');
+  modal.classList.remove('hidden');
+  modal.style.display = 'flex';
 }
 function confirmUpload(){
-  document.getElementById('file-confirm').classList.add('hidden');
+  const modal = document.getElementById('file-confirm');
+  modal.classList.add('hidden');
+  modal.style.display = '';
   const {ctx,files}=pendingFiles;
   files.forEach(f=>uploads[ctx].push(f));
   renderChips(ctx);
   notif('info','Attached',files.length===1?files[0].name:files.length+' files ready');
   pendingFiles={ctx:'',files:[]};
 }
-function cancelUpload(){ document.getElementById('file-confirm').classList.add('hidden'); pendingFiles={ctx:'',files:[]}; }
+function cancelUpload(){
+  const modal = document.getElementById('file-confirm');
+  modal.classList.add('hidden');
+  modal.style.display = '';
+  pendingFiles={ctx:'',files:[]};
+}
 
 function renderChips(ctx){
   const row=document.getElementById(ctx+'-chips'); row.innerHTML='';
@@ -1109,12 +1128,11 @@ function renderChips(ctx){
 }
 function removeFile(ctx,idx){ uploads[ctx].splice(idx,1); renderChips(ctx); }
 
-// Convert file to base64 for vision API
 async function fileToBase64(file){ return new Promise(res=>{ const r=new FileReader(); r.onload=()=>res(r.result); r.readAsDataURL(file); }); }
 
 async function readTextFiles(ctx){
   const types=['text/','.md','.json','.csv','.txt'];
-  const textFiles=uploads[ctx].filter(f=>types.some(t=>f.type.startsWith(t)||f.name.toLowerCase().endsWith(t)));
+  const textFiles=uploads[ctx].filter(f=>types.some(t=>(f.type||'').startsWith(t)||f.name.toLowerCase().endsWith(t)));
   if(!textFiles.length) return '';
   const parts=await Promise.all(textFiles.map(f=>f.text().then(t=>`[File: ${f.name}]\n${t.slice(0,5000)}`)));
   return parts.join('\n\n');
@@ -1125,7 +1143,7 @@ function appendFileMsgs(bid,files){
   files.forEach(f=>{
     const d=document.createElement('div'); d.className='msg user';
     const bub=document.createElement('div'); bub.className='m-bub'; bub.style.maxWidth='75%';
-    if(f.type.startsWith('image/')){ const img=document.createElement('img'); img.className='u-img'; img.src=URL.createObjectURL(f); img.alt=f.name; bub.appendChild(img); }
+    if(f.type && f.type.startsWith('image/')){ const img=document.createElement('img'); img.className='u-img'; img.src=URL.createObjectURL(f); img.alt=f.name; bub.appendChild(img); }
     else{ const ref=document.createElement('div'); ref.className='f-ref'; const fIco=document.createElement('span'); fIco.style.cssText='color:var(--gold);font-size:15px;'; fIco.appendChild(icon(fileIconName(f))); const fNm=document.createElement('span'); fNm.className='f-ref-n'; fNm.textContent=f.name; const fSz=document.createElement('span'); fSz.className='f-ref-s'; fSz.textContent=fmtSize(f.size); ref.appendChild(fIco);ref.appendChild(fNm);ref.appendChild(fSz);bub.appendChild(ref); }
     const av=document.createElement('div'); av.className='m-av'; av.appendChild(icon('user'));
     d.appendChild(bub);d.appendChild(av); b.appendChild(d); b.scrollTop=b.scrollHeight;
@@ -1133,54 +1151,64 @@ function appendFileMsgs(bid,files){
   });
 }
 
-// ── AI CHAT — GPT-4o Vision + Streaming
+// ── AI CHAT — OpenAI-compatible via Pollinations (fast GPT-4o)
 const AI_SYSTEM=`You are NEXUS AI — a sharp, knowledgeable, and genuinely helpful assistant inside a private secure terminal. 
 Be direct and informative. Use markdown formatting when it adds clarity: **bold** for emphasis, bullet points for lists, \`code\` for technical terms, code blocks for code. 
-When analyzing images, describe what you see in detail. Always be substantive and accurate.`;
+When analyzing images, describe what you see in detail. Always be substantive and accurate.
+When the user types /imagine followed by a description, respond with EXACTLY this format and nothing else: [IMAGE_GEN: description here]
+Do not add any other text when generating images.`;
 
 async function sendAI(){
   const ta=document.getElementById('ai-ta'), text=ta.value.trim();
   const hasFiles=uploads.ai.length>0;
   if(!text&&!hasFiles) return;
   ta.value=''; ta.style.height='auto';
+
+  // Check for /imagine command — handle inline image gen
+  if(text.startsWith('/imagine ')){
+    const prompt=text.slice(9).trim();
+    if(!prompt){ notif('warning','Missing prompt','Usage: /imagine a futuristic city'); return; }
+    appendMsg('ai-body','user',text);
+    showThinking();
+    setTimeout(()=>{
+      hideThinking();
+      appendGenImage('ai-body',prompt);
+      notif('success','Image Generated','Your image is ready to download');
+    },500);
+    return;
+  }
+
   if(hasFiles) appendFileMsgs('ai-body',uploads.ai);
   if(text) appendMsg('ai-body','user',text);
 
-  // Build content array for vision support
+  // Build content array for vision
   const contentParts=[];
-  const imgFiles=uploads.ai.filter(f=>f.type.startsWith('image/'));
+  const imgFiles=uploads.ai.filter(f=>f.type && f.type.startsWith('image/'));
   const txtCtx=await readTextFiles('ai');
   
-  // Add text content
   let textContent=txtCtx?(txtCtx+(text?'\n\nUser question: '+text:'')):(text||'[File uploaded]');
   if(textContent) contentParts.push({type:'text',text:textContent});
   
-  // Add images as base64 for vision
   for(const img of imgFiles){
     const b64=await fileToBase64(img);
     contentParts.push({type:'image_url',image_url:{url:b64}});
   }
 
   const msgContent=contentParts.length===1&&contentParts[0].type==='text'?contentParts[0].text:contentParts;
-  const filesnap=[...uploads.ai];
   uploads.ai=[]; renderChips('ai');
   aiHistory.push({role:'user',content:msgContent});
   msgCount++; updateStats();
-  showTyping();
-  try{ await streamAI(aiHistory,filesnap); }
-  catch(e){ hideTyping(); appendMsg('ai-body','ai','Connection error — please try again.'); }
+  showThinking();
+  try{ await streamAI(aiHistory); }
+  catch(e){ hideThinking(); appendMsg('ai-body','ai','Connection error — please try again.'); }
 }
 
-async function streamAI(msgs,attached=[]){
-  // Build messages for API — handle multipart content
-  const apiMsgs=msgs.slice(-20).map(m=>{
-    if(typeof m.content==='string') return m;
-    return m; // already in correct format for vision
-  });
+async function streamAI(msgs){
+  const apiMsgs=msgs.slice(-20);
 
   const body={
+    model:'openai-large',
     messages:[{role:'system',content:AI_SYSTEM},...apiMsgs],
-    model:'openai-large', // GPT-4o
     stream:true,
     private:true,
     seed:Math.floor(Math.random()*999999)
@@ -1191,19 +1219,25 @@ async function streamAI(msgs,attached=[]){
     r=await fetch(AI_API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
     if(!r.ok) throw new Error('API '+r.status);
   }catch(e){
-    // Fallback to GET
-    hideTyping();
-    const prompt=msgs.map(m=>{ const c=typeof m.content==='string'?m.content:m.content.filter(p=>p.type==='text').map(p=>p.text).join(' '); return m.role==='user'?`User: ${c}`:`Assistant: ${c}`; }).join('\n')+'\nAssistant:';
-    const gr=await fetch(`${AI_API}${encodeURIComponent(prompt)}?model=openai-large&private=true`);
-    const txt=await gr.text();
-    appendMsg('ai-body','ai',txt); aiHistory.push({role:'assistant',content:txt}); return;
+    // Fallback to non-streaming
+    hideThinking();
+    const fallbackBody={...body,stream:false};
+    try{
+      const fr=await fetch(AI_API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(fallbackBody)});
+      const fd=await fr.json();
+      const txt=fd.choices?.[0]?.message?.content||'I apologize, but I encountered an error. Please try again.';
+      handleAIResponse(txt);
+    }catch(e2){
+      appendMsg('ai-body','ai','Connection error — please try again.');
+    }
+    return;
   }
 
-  hideTyping();
+  hideThinking();
   const b=document.getElementById('ai-body');
   const msgEl=document.createElement('div'); msgEl.className='msg ai';
   const av=document.createElement('div'); av.className='m-av'; av.appendChild(icon('bot'));
-  const bub=document.createElement('div'); bub.className='m-bub'; bub.style.whiteSpace='pre-wrap';
+  const bub=document.createElement('div'); bub.className='m-bub ai-content'; bub.style.whiteSpace='pre-wrap';
   msgEl.appendChild(av); msgEl.appendChild(bub); b.appendChild(msgEl); b.scrollTop=b.scrollHeight;
   lucide.createIcons({nodes:[msgEl]});
 
@@ -1218,35 +1252,198 @@ async function streamAI(msgs,attached=[]){
       try{
         const parsed=JSON.parse(data);
         const delta=parsed.choices?.[0]?.delta?.content||'';
-        if(delta){ fullText+=delta; bub.textContent=fullText; b.scrollTop=b.scrollHeight; }
+        if(delta){ fullText+=delta; bub.innerHTML=renderMarkdown(fullText); b.scrollTop=b.scrollHeight; }
       }catch{}
     }
   }
-  // If streaming returned empty, use the direct text API as fallback
+  
+  // If streaming returned empty, fallback
   if(!fullText){
-    const prompt=msgs.map(m=>{ const c=typeof m.content==='string'?m.content:m.content.filter&&m.content.filter(p=>p.type==='text').map(p=>p.text).join(' ')||''; return m.role==='user'?`User: ${c}`:`Assistant: ${c}`; }).join('\n')+'\nAssistant:';
-    const gr=await fetch(`${AI_API}${encodeURIComponent(prompt)}?model=openai-large&private=true`);
-    fullText=await gr.text(); bub.textContent=fullText;
+    const fallbackBody={...{model:'openai-large',messages:[{role:'system',content:AI_SYSTEM},...apiMsgs],private:true,seed:Math.floor(Math.random()*999999)},stream:false};
+    try{
+      const fr=await fetch(AI_API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(fallbackBody)});
+      const fd=await fr.json();
+      fullText=fd.choices?.[0]?.message?.content||'';
+      if(fullText) bub.innerHTML=renderMarkdown(fullText);
+    }catch(e2){}
   }
+
+  // Check if AI response contains image gen command
+  if(fullText.includes('[IMAGE_GEN:')){
+    const match=fullText.match(/\[IMAGE_GEN:\s*(.+?)\]/);
+    if(match){
+      bub.remove(); av.remove(); msgEl.remove();
+      appendGenImage('ai-body',match[1].trim());
+    }
+  }
+
   if(fullText) aiHistory.push({role:'assistant',content:fullText});
+}
+
+function handleAIResponse(txt){
+  if(txt.includes('[IMAGE_GEN:')){
+    const match=txt.match(/\[IMAGE_GEN:\s*(.+?)\]/);
+    if(match){ appendGenImage('ai-body',match[1].trim()); return; }
+  }
+  appendMsg('ai-body','ai',txt);
+  aiHistory.push({role:'assistant',content:txt});
+}
+
+// Simple markdown renderer
+function renderMarkdown(text){
+  let html=text
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/```(\w*)\n([\s\S]*?)```/g,'<pre><code>$2</code></pre>')
+    .replace(/`([^`]+)`/g,'<code>$1</code>')
+    .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g,'<em>$1</em>');
+  return html;
+}
+
+// ── Image generation in chat with download
+function appendGenImage(bid,prompt){
+  const b=document.getElementById(bid);
+  const d=document.createElement('div'); d.className='msg ai';
+  const av=document.createElement('div'); av.className='m-av'; av.appendChild(icon('bot'));
+  const bub=document.createElement('div'); bub.className='m-bub'; bub.style.padding='8px';
+
+  const wrap=document.createElement('div'); wrap.className='gen-img-wrap';
+  const img=document.createElement('img');
+  const seed=Date.now();
+  const imgUrl=`${IMAGE_API}${encodeURIComponent(prompt)}?width=1024&height=1024&nologo=true&seed=${seed}`;
+  
+  // Loading state
+  wrap.innerHTML='<div style="padding:40px;text-align:center;"><div class="think-orb-wrap" style="margin:0 auto 12px;"><div class="think-orb"></div><div class="think-orb"></div><div class="think-orb"></div><div class="think-core"></div></div><div style="font-family:var(--mono);font-size:9px;color:var(--text-m);letter-spacing:.14em;text-transform:uppercase;">Generating image…</div></div>';
+  
+  img.onload=()=>{
+    wrap.innerHTML='';
+    wrap.appendChild(img);
+    // Download/save actions
+    const actions=document.createElement('div'); actions.className='gen-img-actions';
+    
+    const dlBtn=document.createElement('a'); dlBtn.className='gen-img-dl';
+    dlBtn.href=imgUrl; dlBtn.download=`nexus-image-${seed}.png`; dlBtn.target='_blank';
+    dlBtn.innerHTML=''; dlBtn.appendChild(icon('download')); dlBtn.appendChild(document.createTextNode(' Download'));
+    
+    const saveBtn=document.createElement('button'); saveBtn.className='gen-img-dl';
+    saveBtn.innerHTML=''; saveBtn.appendChild(icon('save')); saveBtn.appendChild(document.createTextNode(' Save'));
+    saveBtn.onclick=async()=>{
+      try{
+        const resp=await fetch(imgUrl); const blob=await resp.blob();
+        const url=URL.createObjectURL(blob);
+        const a=document.createElement('a'); a.href=url; a.download=`nexus-image-${seed}.png`; a.click();
+        URL.revokeObjectURL(url);
+        notif('success','Saved','Image downloaded to your device');
+      }catch(e){ notif('danger','Error','Could not save image'); }
+    };
+    
+    actions.appendChild(dlBtn); actions.appendChild(saveBtn);
+    wrap.appendChild(actions);
+    lucide.createIcons({nodes:[actions]});
+    b.scrollTop=b.scrollHeight;
+  };
+  img.onerror=()=>{
+    wrap.innerHTML='<div style="padding:20px;text-align:center;color:var(--red);font-size:12px;">Failed to generate — try again</div>';
+  };
+  img.src=imgUrl;
+  img.alt=prompt; img.style.cssText='width:100%;display:block;';
+
+  bub.appendChild(wrap);
+  d.appendChild(av); d.appendChild(bub); b.appendChild(d); b.scrollTop=b.scrollHeight;
+  lucide.createIcons({nodes:[d]});
+}
+
+// ── Image Gen Modal — enhanced with download
+function openImgen(pre=''){ document.getElementById('imgen-modal').classList.remove('hidden'); document.getElementById('ig-prompt').value=pre||''; document.getElementById('ig-preview').innerHTML='<div class="ig-empty">Awaiting creative direction…</div>'; }
+function closeImgen(){ document.getElementById('imgen-modal').classList.add('hidden'); }
+function generateImage(){
+  const p=document.getElementById('ig-prompt').value.trim(); if(!p) return;
+  const el=document.getElementById('ig-preview');
+  el.innerHTML='<div style="display:flex;flex-direction:column;align-items:center;gap:10px;"><div class="think-orb-wrap"><div class="think-orb"></div><div class="think-orb"></div><div class="think-orb"></div><div class="think-core"></div></div><div style="font-family:var(--mono);font-size:9.5px;color:var(--text-m);letter-spacing:.14em;text-transform:uppercase;">Generating…</div></div>';
+  const seed=Date.now();
+  const url=`${IMAGE_API}${encodeURIComponent(p)}?width=1024&height=1024&nologo=true&seed=${seed}`;
+  const img=new Image();
+  img.onload=()=>{
+    el.innerHTML='';
+    el.appendChild(img); img.style.cssText='width:100%;height:100%;object-fit:cover;';
+    // Add download bar
+    const dlBar=document.createElement('div'); dlBar.className='ig-dl-bar';
+    const dlBtn=document.createElement('button'); dlBtn.className='ig-dl-btn';
+    dlBtn.appendChild(icon('download')); dlBtn.appendChild(document.createTextNode(' Download'));
+    dlBtn.onclick=async()=>{
+      try{
+        const resp=await fetch(url); const blob=await resp.blob();
+        const blobUrl=URL.createObjectURL(blob);
+        const a=document.createElement('a'); a.href=blobUrl; a.download=`nexus-gen-${seed}.png`; a.click();
+        URL.revokeObjectURL(blobUrl);
+        notif('success','Downloaded','Image saved to your device');
+      }catch(e){ notif('danger','Error','Could not download image'); }
+    };
+    const saveBtn=document.createElement('button'); saveBtn.className='ig-dl-btn';
+    saveBtn.appendChild(icon('share-2')); saveBtn.appendChild(document.createTextNode(' Share'));
+    saveBtn.onclick=async()=>{
+      try{
+        const resp=await fetch(url); const blob=await resp.blob();
+        const file=new File([blob],`nexus-gen-${seed}.png`,{type:'image/png'});
+        if(navigator.share){ await navigator.share({files:[file],title:'NEXUS Image'}); }
+        else{ notif('info','Tip','Use the Download button to save'); }
+      }catch(e){ notif('info','Tip','Use the Download button to save'); }
+    };
+    dlBar.appendChild(dlBtn); dlBar.appendChild(saveBtn);
+    el.appendChild(dlBar);
+    lucide.createIcons({nodes:[dlBar]});
+  };
+  img.onerror=()=>{ el.innerHTML='<div class="ig-empty" style="color:var(--red);">Generation failed — try a different prompt</div>'; };
+  img.src=url;
 }
 
 function appendMsg(bid,role,text){
   const b=document.getElementById(bid), d=document.createElement('div'); d.className='msg '+role;
   const av=document.createElement('div'); av.className='m-av'; av.appendChild(icon(role==='ai'?'bot':'user'));
-  const bub=document.createElement('div'); bub.className='m-bub'; bub.style.whiteSpace='pre-wrap'; bub.textContent=text;
+  const bub=document.createElement('div'); bub.className='m-bub'+(role==='ai'?' ai-content':''); bub.style.whiteSpace='pre-wrap';
+  if(role==='ai') bub.innerHTML=renderMarkdown(text); else bub.textContent=text;
   if(role==='ai'){d.appendChild(av);d.appendChild(bub);}else{d.appendChild(bub);d.appendChild(av);}
   b.appendChild(d); b.scrollTop=b.scrollHeight; lucide.createIcons({nodes:[d]});
 }
 function aiKey(e){ if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendAI();} }
-function showTyping(){
-  const b=document.getElementById('ai-body'),d=document.createElement('div'); d.className='msg ai'; d.id='tind';
+
+// ── NEW THINKING ANIMATION (replaces old typing dots)
+function showThinking(){
+  aiThinking=true;
+  const b=document.getElementById('ai-body');
+  const d=document.createElement('div'); d.className='msg ai'; d.id='tind';
   const av=document.createElement('div');av.className='m-av';av.appendChild(icon('bot'));
-  const bub=document.createElement('div');bub.className='m-bub';bub.style.cssText='display:flex;gap:5px;align-items:center;padding:12px 16px;';
-  bub.innerHTML='<span class="t-dot"></span><span class="t-dot"></span><span class="t-dot"></span>';
-  d.appendChild(av);d.appendChild(bub);b.appendChild(d);b.scrollTop=b.scrollHeight;lucide.createIcons({nodes:[d]});
+  const bub=document.createElement('div');bub.className='m-bub';bub.style.padding='0';bub.style.background='transparent';bub.style.border='none';
+  
+  bub.innerHTML=`
+    <div class="thinking-container" style="background:var(--bg-sec);border:1px solid var(--border);border-radius:var(--r3);border-bottom-left-radius:3px;">
+      <div class="think-orb-wrap">
+        <div class="think-orb"></div>
+        <div class="think-orb"></div>
+        <div class="think-orb"></div>
+        <div class="think-core"></div>
+      </div>
+      <div class="think-text">
+        <div class="think-label">Processing</div>
+        <div class="think-sub" id="think-status">Analyzing your request…</div>
+        <div class="think-bar"><div class="think-bar-fill"></div></div>
+      </div>
+    </div>`;
+  d.appendChild(av);d.appendChild(bub);b.appendChild(d);b.scrollTop=b.scrollHeight;
+  lucide.createIcons({nodes:[d]});
+  
+  // Cycle through status messages
+  const statuses=['Analyzing your request…','Searching knowledge base…','Composing response…','Refining output…'];
+  let si=0;
+  const interval=setInterval(()=>{
+    if(!aiThinking){clearInterval(interval);return;}
+    si=(si+1)%statuses.length;
+    const el=document.getElementById('think-status');
+    if(el) el.textContent=statuses[si];
+  },2200);
 }
-function hideTyping(){ document.getElementById('tind')?.remove(); }
+function hideThinking(){ aiThinking=false; document.getElementById('tind')?.remove(); }
+
 function clearAI(){
   const b=document.getElementById('ai-body');b.innerHTML='';
   const d=document.createElement('div');d.className='msg ai';
@@ -1254,16 +1451,6 @@ function clearAI(){
   const bub=document.createElement('div');bub.className='m-bub';bub.textContent='Chat cleared. How can I help?';
   d.appendChild(av);d.appendChild(bub);b.appendChild(d);lucide.createIcons({nodes:[d]});
   aiHistory=[];uploads.ai=[];renderChips('ai');
-}
-
-// ── IMAGE GEN
-function openImgen(pre=''){ document.getElementById('imgen-modal').classList.remove('hidden'); document.getElementById('ig-prompt').value=pre||''; document.getElementById('ig-preview').innerHTML='<div class="ig-empty">Awaiting creative direction…</div>'; }
-function closeImgen(){ document.getElementById('imgen-modal').classList.add('hidden'); }
-function generateImage(){
-  const p=document.getElementById('ig-prompt').value.trim(); if(!p) return;
-  const el=document.getElementById('ig-preview'); el.innerHTML='<div class="ig-empty" style="opacity:.4;">Generating…</div>';
-  const url=`${IMAGE_API}${encodeURIComponent(p)}?width=1024&height=1024&nologo=true&seed=${Date.now()}`;
-  const img=new Image(); img.onload=()=>{ el.innerHTML=''; el.appendChild(img); img.style.cssText='width:100%;height:100%;object-fit:cover;'; }; img.src=url;
 }
 
 // ── VOICE
@@ -1280,10 +1467,10 @@ function stopVoice(){ isListening=false; document.getElementById('vbtn')?.classL
 
 // ── MESSENGER
 let contacts=[
-  {id:1,name:'Alice Chen',   init:'AC',online:true, preview:'Are we still on for the meeting?',time:'2m',unread:1,msgs:[{from:'them',text:'Hello! How are you?'},{from:'them',text:'Are we still on for the meeting?'}]},
-  {id:2,name:'Bob Miller',   init:'BM',online:false,preview:'Check this report I found',         time:'1h',unread:0,msgs:[]},
-  {id:3,name:'Sarah Voss',   init:'SV',online:true, preview:'The quarterly numbers look great',  time:'3h',unread:2,msgs:[{from:'them',text:'Hey!'},{from:'them',text:'The quarterly numbers look great!'}]},
-  {id:4,name:'James Wright', init:'JW',online:false,preview:'Pushing the update tonight',        time:'1d',unread:0,msgs:[]},
+  {id:1,name:'Alice Chen',init:'AC',online:true,preview:'Are we still on for the meeting?',time:'2m',unread:1,msgs:[{from:'them',text:'Hello! How are you?'},{from:'them',text:'Are we still on for the meeting?'}]},
+  {id:2,name:'Bob Miller',init:'BM',online:false,preview:'Check this report I found',time:'1h',unread:0,msgs:[]},
+  {id:3,name:'Sarah Voss',init:'SV',online:true,preview:'The quarterly numbers look great',time:'3h',unread:2,msgs:[{from:'them',text:'Hey!'},{from:'them',text:'The quarterly numbers look great!'}]},
+  {id:4,name:'James Wright',init:'JW',online:false,preview:'Pushing the update tonight',time:'1d',unread:0,msgs:[]},
 ];
 let activeContact=null;
 function renderContacts(f=''){
