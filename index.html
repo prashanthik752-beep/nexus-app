@@ -24,8 +24,6 @@
   --shadow-sm:0 2px 8px rgba(0,0,0,.3);
   --shadow-md:0 8px 32px rgba(0,0,0,.4);
   --shadow-lg:0 24px 72px rgba(0,0,0,.5);
-  /* Robot colors */
-  --rob-body:#0a1428;--rob-armor:#1a2a4a;--rob-chrome:#8ab0d8;--rob-glow:#4a9eff;--rob-glow2:#00d4ff;--rob-joint:#2a4a7a;
 }
 [data-theme="light"]{
   --bg:#F2EDE4;--bg-alt:#FDFAF5;--bg-sec:#EDE8DE;--bg-tri:#E8E2D6;
@@ -297,7 +295,7 @@ svg.lucide{width:1em;height:1em;stroke-width:1.75;vertical-align:middle;flex-shr
 .stat-l{font-family:var(--mono);font-size:9px;color:var(--text-m);letter-spacing:.18em;text-transform:uppercase;}
 
 /* ══════════════════════════════════════════════
-   AI PANEL — ROBOT INTERFACE
+   AI PANEL — PHOTOREALISTIC TRANSLUCENT ROBOT
 ══════════════════════════════════════════════ */
 #p-ai{background:#060810;}
 
@@ -312,22 +310,21 @@ svg.lucide{width:1em;height:1em;stroke-width:1.75;vertical-align:middle;flex-shr
   padding:0;
 }
 
-/* Deep space background */
+/* Deep space background with nebula */
 .ai-bg{
-  position:absolute;
-  inset:0;
-  background: radial-gradient(ellipse at 30% 20%, rgba(30,60,120,.35) 0%, transparent 55%),
-              radial-gradient(ellipse at 70% 80%, rgba(10,30,80,.3) 0%, transparent 50%),
-              radial-gradient(ellipse at 50% 50%, rgba(5,10,25,.9) 0%, #040608 100%);
-  z-index:0;
+  position:absolute;inset:0;z-index:0;
+  background:
+    radial-gradient(ellipse at 20% 30%, rgba(30,80,180,.25) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 70%, rgba(10,40,120,.2) 0%, transparent 45%),
+    radial-gradient(ellipse at 50% 50%, rgba(5,15,40,.95) 0%, #020408 100%);
 }
 .ai-grid{
   position:absolute;inset:0;z-index:1;pointer-events:none;
   background-image:
-    linear-gradient(rgba(74,158,255,.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(74,158,255,.04) 1px, transparent 1px);
-  background-size:40px 40px;
-  mask-image:radial-gradient(ellipse at 50% 50%, black 30%, transparent 80%);
+    linear-gradient(rgba(74,158,255,.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(74,158,255,.03) 1px, transparent 1px);
+  background-size:50px 50px;
+  mask-image:radial-gradient(ellipse at 50% 50%, black 25%, transparent 75%);
 }
 
 /* Robot name setup bar */
@@ -335,49 +332,49 @@ svg.lucide{width:1em;height:1em;stroke-width:1.75;vertical-align:middle;flex-shr
   position:relative;z-index:10;
   width:100%;
   padding:10px 24px;
-  background:rgba(6,8,16,.9);
-  border-bottom:1px solid rgba(74,158,255,.15);
+  background:rgba(6,8,16,.92);
+  border-bottom:1px solid rgba(74,158,255,.12);
   display:flex;
   align-items:center;
   gap:12px;
   flex-shrink:0;
 }
 .ai-name-label{
-  font-family:var(--mono);font-size:9px;color:rgba(74,158,255,.7);
+  font-family:var(--mono);font-size:9px;color:rgba(74,158,255,.6);
   letter-spacing:.2em;text-transform:uppercase;white-space:nowrap;
 }
 .ai-name-input{
   flex:1;max-width:200px;
   padding:6px 12px;
   background:rgba(74,158,255,.06);
-  border:1px solid rgba(74,158,255,.2);
+  border:1px solid rgba(74,158,255,.18);
   border-radius:var(--r2);
   color:#a0c8f8;
   font-family:var(--mono);font-size:12px;
   outline:none;
   transition:all .3s;
 }
-.ai-name-input:focus{border-color:rgba(74,158,255,.5);background:rgba(74,158,255,.1);}
-.ai-name-input::placeholder{color:rgba(74,158,255,.3);}
+.ai-name-input:focus{border-color:rgba(74,158,255,.4);background:rgba(74,158,255,.1);}
+.ai-name-input::placeholder{color:rgba(74,158,255,.25);}
 .ai-name-save{
   padding:6px 14px;
-  background:rgba(74,158,255,.15);
-  border:1px solid rgba(74,158,255,.3);
+  background:rgba(74,158,255,.12);
+  border:1px solid rgba(74,158,255,.25);
   border-radius:var(--r2);
   color:#7ba4d4;
   font-family:var(--mono);font-size:10px;
   letter-spacing:.1em;text-transform:uppercase;
   cursor:pointer;transition:all .25s;white-space:nowrap;
 }
-.ai-name-save:hover{background:rgba(74,158,255,.25);border-color:rgba(74,158,255,.5);color:#a8d0ff;}
+.ai-name-save:hover{background:rgba(74,158,255,.22);border-color:rgba(74,158,255,.45);color:#a8d0ff;}
 
 /* Voice & Language selectors */
 .ai-controls{
   position:relative;z-index:10;
   width:100%;
   padding:8px 24px;
-  background:rgba(6,8,16,.8);
-  border-bottom:1px solid rgba(74,158,255,.1);
+  background:rgba(6,8,16,.85);
+  border-bottom:1px solid rgba(74,158,255,.08);
   display:flex;
   align-items:center;
   gap:16px;
@@ -386,14 +383,14 @@ svg.lucide{width:1em;height:1em;stroke-width:1.75;vertical-align:middle;flex-shr
 }
 .ctrl-label{
   font-family:var(--mono);font-size:9px;
-  color:rgba(74,158,255,.5);
+  color:rgba(74,158,255,.45);
   letter-spacing:.18em;text-transform:uppercase;
   white-space:nowrap;
 }
 .ctrl-seg{
   display:flex;gap:3px;
-  background:rgba(0,0,0,.4);
-  border:1px solid rgba(74,158,255,.1);
+  background:rgba(0,0,0,.35);
+  border:1px solid rgba(74,158,255,.08);
   border-radius:var(--r2);
   padding:2px;
 }
@@ -401,12 +398,12 @@ svg.lucide{width:1em;height:1em;stroke-width:1.75;vertical-align:middle;flex-shr
   padding:4px 12px;
   border-radius:5px;border:none;
   background:transparent;
-  color:rgba(74,158,255,.5);
+  color:rgba(74,158,255,.45);
   font-family:var(--mono);font-size:10px;
   cursor:pointer;transition:all .2s;white-space:nowrap;
 }
-.ctrl-btn.active{background:rgba(74,158,255,.2);color:#7ba4d4;border:1px solid rgba(74,158,255,.25);}
-.ctrl-btn:hover:not(.active){background:rgba(74,158,255,.08);color:rgba(74,158,255,.8);}
+.ctrl-btn.active{background:rgba(74,158,255,.18);color:#7ba4d4;border:1px solid rgba(74,158,255,.2);}
+.ctrl-btn:hover:not(.active){background:rgba(74,158,255,.06);color:rgba(74,158,255,.7);}
 
 /* Robot display area */
 .robot-stage{
@@ -424,11 +421,11 @@ svg.lucide{width:1em;height:1em;stroke-width:1.75;vertical-align:middle;flex-shr
 /* Speech bubble */
 .speech-orb{
   position:relative;
-  background:rgba(8,15,35,.92);
-  border:1px solid rgba(74,158,255,.25);
+  background:rgba(8,15,35,.94);
+  border:1px solid rgba(74,158,255,.2);
   border-radius:16px;
   padding:14px 22px;
-  max-width:420px;
+  max-width:440px;
   min-width:200px;
   text-align:center;
   font-family:var(--mono);
@@ -444,19 +441,19 @@ svg.lucide{width:1em;height:1em;stroke-width:1.75;vertical-align:middle;flex-shr
   bottom:-9px;left:50%;transform:translateX(-50%);
   width:0;height:0;
   border-left:8px solid transparent;border-right:8px solid transparent;
-  border-top:9px solid rgba(74,158,255,.25);
+  border-top:9px solid rgba(74,158,255,.2);
 }
 .speech-orb::before{
   content:'';position:absolute;
   bottom:-7px;left:50%;transform:translateX(-50%);
   width:0;height:0;
   border-left:7px solid transparent;border-right:7px solid transparent;
-  border-top:8px solid rgba(8,15,35,.92);
+  border-top:8px solid rgba(8,15,35,.94);
   z-index:1;
 }
-.speech-orb.thinking{border-color:rgba(201,174,126,.3);color:#c9ae7e;}
-.speech-orb.speaking{border-color:rgba(0,212,255,.3);color:#00d4ff;animation:speechPulse 2s ease-in-out infinite;}
-@keyframes speechPulse{0%,100%{box-shadow:0 0 0 0 rgba(0,212,255,.05);}50%{box-shadow:0 0 20px 4px rgba(0,212,255,.08);}}
+.speech-orb.thinking{border-color:rgba(201,174,126,.25);color:#c9ae7e;}
+.speech-orb.speaking{border-color:rgba(0,212,255,.25);color:#00d4ff;animation:speechPulse 2s ease-in-out infinite;}
+@keyframes speechPulse{0%,100%{box-shadow:0 0 0 0 rgba(0,212,255,.04);}50%{box-shadow:0 0 24px 4px rgba(0,212,255,.06);}}
 
 .voice-waves{
   display:none;gap:3px;align-items:center;justify-content:center;
@@ -472,16 +469,22 @@ svg.lucide{width:1em;height:1em;stroke-width:1.75;vertical-align:middle;flex-shr
 .tdai:nth-child(2){animation-delay:.2s}.tdai:nth-child(3){animation-delay:.4s}
 @keyframes tdaAnim{0%,100%{opacity:.2;transform:scale(.8)}50%{opacity:1;transform:scale(1.2)}}
 
-/* ROBOT SVG animations */
-@keyframes robFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
-@keyframes robTalk{0%,100%{transform:translateY(0) rotate(0)}25%{transform:translateY(-4px) rotate(.4deg)}75%{transform:translateY(-2px) rotate(-.4deg)}}
-@keyframes robThink{0%,100%{transform:rotate(0) translateY(0)}33%{transform:rotate(2deg) translateY(-4px)}66%{transform:rotate(-1.5deg) translateY(-2px)}}
-@keyframes glowPulse{0%,100%{opacity:.7}50%{opacity:1}}
-@keyframes eyeGlow{0%,100%{opacity:.6;r:6}50%{opacity:1;r:7}}
+/* ══════════════════════════════════════════════
+   ROBOT SVG — PHOTOREALISTIC TRANSLUCENT STYLE
+══════════════════════════════════════════════ */
+
+/* Glassmorphism body effect using SVG filters */
+@keyframes robFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes robTalk{0%,100%{transform:translateY(0) rotate(0)}25%{transform:translateY(-3px) rotate(.3deg)}75%{transform:translateY(-1px) rotate(-.3deg)}}
+@keyframes robThink{0%,100%{transform:rotate(0) translateY(0)}33%{transform:rotate(1.5deg) translateY(-3px)}66%{transform:rotate(-1deg) translateY(-2px)}}
+@keyframes glowPulse{0%,100%{opacity:.6}50%{opacity:1}}
+@keyframes eyeGlow{0%,100%{opacity:.5}50%{opacity:1}}
 @keyframes jointSpin{to{transform:rotate(360deg)}}
-@keyframes limbSwing{0%,100%{transform:rotate(0)}50%{transform:rotate(12deg)}}
-@keyframes fingerCurl{0%,100%{transform:rotate(0)}50%{transform:rotate(15deg)}}
-@keyframes chestPulse{0%,100%{opacity:.4;transform:scale(1)}50%{opacity:.8;transform:scale(1.08)}}
+@keyframes limbSwing{0%,100%{transform:rotate(0)}50%{transform:rotate(10deg)}}
+@keyframes fingerCurl{0%,100%{transform:rotate(0)}50%{transform:rotate(12deg)}}
+@keyframes chestPulse{0%,100%{opacity:.3;transform:scale(1)}50%{opacity:.7;transform:scale(1.06)}}
+@keyframes nodePulse{0%,100%{opacity:.4}50%{opacity:.9}}
+@keyframes circuitFlow{0%{stroke-dashoffset:20}100%{stroke-dashoffset:0}}
 
 .robo-root{animation:robFloat 4s ease-in-out infinite;cursor:default;}
 .robo-root.speaking{animation:robTalk .35s ease-in-out infinite;}
@@ -490,56 +493,56 @@ svg.lucide{width:1em;height:1em;stroke-width:1.75;vertical-align:middle;flex-shr
 /* Input bar for AI */
 .ai-input-bar{
   padding:12px 20px 16px;
-  border-top:1px solid rgba(74,158,255,.12);
+  border-top:1px solid rgba(74,158,255,.1);
   background:rgba(6,8,16,.95);
   z-index:10;
   flex-shrink:0;
 }
 .ai-input-bar::before{
   content:'';display:block;height:1px;margin-bottom:10px;
-  background:linear-gradient(90deg,transparent,rgba(74,158,255,.15),transparent);
+  background:linear-gradient(90deg,transparent,rgba(74,158,255,.12),transparent);
 }
 .ai-irow{display:flex;gap:8px;align-items:flex-end;}
 .ai-iwrap{
   flex:1;
-  background:rgba(74,158,255,.05);
-  border:1px solid rgba(74,158,255,.18);
+  background:rgba(74,158,255,.04);
+  border:1px solid rgba(74,158,255,.15);
   border-radius:var(--r3);
   display:flex;align-items:center;
   padding:5px 5px 5px 14px;
   transition:all .25s;
 }
-.ai-iwrap:focus-within{border-color:rgba(74,158,255,.4);background:rgba(74,158,255,.08);}
+.ai-iwrap:focus-within{border-color:rgba(74,158,255,.35);background:rgba(74,158,255,.07);}
 .ai-cta{
   flex:1;background:transparent;border:none;
   color:#a0c8f8;
   font-family:var(--sans);font-size:13.5px;
   padding:8px 0;outline:none;resize:none;max-height:100px;line-height:1.5;
 }
-.ai-cta::placeholder{color:rgba(74,158,255,.25);}
+.ai-cta::placeholder{color:rgba(74,158,255,.2);}
 .ai-ib{
   width:40px;height:40px;border-radius:var(--r2);
   display:flex;align-items:center;justify-content:center;
   font-size:17px;cursor:pointer;transition:all .25s;flex-shrink:0;border:none;
 }
-.ai-ib-ghost{background:rgba(74,158,255,.06);border:1px solid rgba(74,158,255,.18)!important;color:rgba(74,158,255,.5);}
-.ai-ib-ghost:hover{border-color:rgba(74,158,255,.4)!important;color:#7ba4d4;}
-.ai-ib-send{background:rgba(74,158,255,.2);border:1px solid rgba(74,158,255,.3)!important;color:#7ba4d4;}
-.ai-ib-send:hover{background:rgba(74,158,255,.35);transform:translateY(-1px);}
-.ai-ib-mic{background:rgba(74,158,255,.06);border:1px solid rgba(74,158,255,.18)!important;color:rgba(74,158,255,.5);}
-.ai-ib-mic.on{background:rgba(232,84,84,.12);border-color:rgba(232,84,84,.4)!important;color:var(--red);animation:vPulse 2s infinite;}
-@keyframes vPulse{0%,100%{box-shadow:0 0 0 0 rgba(232,84,84,.15);}50%{box-shadow:0 0 0 8px rgba(232,84,84,0);}}
-.ai-ib-img{background:rgba(74,158,255,.06);border:1px solid rgba(74,158,255,.18)!important;color:rgba(74,158,255,.5);}
-.ai-ib-img:hover{border-color:rgba(74,158,255,.4)!important;color:#7ba4d4;}
+.ai-ib-ghost{background:rgba(74,158,255,.05);border:1px solid rgba(74,158,255,.15)!important;color:rgba(74,158,255,.45);}
+.ai-ib-ghost:hover{border-color:rgba(74,158,255,.35)!important;color:#7ba4d4;}
+.ai-ib-send{background:rgba(74,158,255,.18);border:1px solid rgba(74,158,255,.28)!important;color:#7ba4d4;}
+.ai-ib-send:hover{background:rgba(74,158,255,.32);transform:translateY(-1px);}
+.ai-ib-mic{background:rgba(74,158,255,.05);border:1px solid rgba(74,158,255,.15)!important;color:rgba(74,158,255,.45);}
+.ai-ib-mic.on{background:rgba(232,84,84,.1);border-color:rgba(232,84,84,.35)!important;color:var(--red);animation:vPulse 2s infinite;}
+@keyframes vPulse{0%,100%{box-shadow:0 0 0 0 rgba(232,84,84,.12);}50%{box-shadow:0 0 0 8px rgba(232,84,84,0);}}
+.ai-ib-img{background:rgba(74,158,255,.05);border:1px solid rgba(74,158,255,.15)!important;color:rgba(74,158,255,.45);}
+.ai-ib-img:hover{border-color:rgba(74,158,255,.35)!important;color:#7ba4d4;}
 .ai-clear-btn{
   display:flex;align-items:center;gap:5px;
   padding:5px 11px;
-  background:transparent;border:1px solid rgba(74,158,255,.15);
+  background:transparent;border:1px solid rgba(74,158,255,.12);
   border-radius:var(--r2);
-  color:rgba(74,158,255,.4);font-family:var(--mono);font-size:9px;
+  color:rgba(74,158,255,.35);font-family:var(--mono);font-size:9px;
   letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:all .25s;
 }
-.ai-clear-btn:hover{border-color:rgba(74,158,255,.3);color:rgba(74,158,255,.7);}
+.ai-clear-btn:hover{border-color:rgba(74,158,255,.25);color:rgba(74,158,255,.6);}
 
 /* MESSENGER */
 #p-msg{flex-direction:row!important;}
@@ -614,6 +617,7 @@ label.ib-ghost input[type=file]{display:none;}
 input,textarea,button,select{font-family:inherit;}
 @media(max-width:768px){.shell{grid-template-columns:1fr;padding:8px;}.sb{display:none;}.grid-2,.grid-3{grid-template-columns:1fr;}}
 </style>
+<base target="_blank">
 </head>
 <body>
 
@@ -858,18 +862,18 @@ input,textarea,button,select{font-family:inherit;}
       </div>
 
       <!-- ══════════════════════════════════════════
-           AI PANEL — MECHANICAL HUMANOID ROBOT
+           AI PANEL — PHOTOREALISTIC TRANSLUCENT ROBOT
       ══════════════════════════════════════════ -->
       <div class="panel hidden" id="p-ai">
-        <div class="topbar" style="background:#060810;border-bottom:1px solid rgba(74,158,255,.12);">
+        <div class="topbar" style="background:#060810;border-bottom:1px solid rgba(74,158,255,.1);">
           <div>
             <div class="t-title" id="ai-panel-title" style="color:#7ab8f8;">AI Assistant</div>
-            <div class="t-tag" style="color:rgba(74,158,255,.4);">Humanoid · Voice Only · EN · TE · HI</div>
+            <div class="t-tag" style="color:rgba(74,158,255,.35);">Humanoid · Voice Only · EN · TE · HI</div>
           </div>
           <div style="display:flex;gap:7px;">
-            <div class="t-btn" onclick="openImgen()" id="tb-img-btn" style="border-color:rgba(74,158,255,.2);color:rgba(74,158,255,.5);"></div>
-            <div class="t-btn" onclick="clearRobotChat()" id="tb-clear-btn" style="border-color:rgba(74,158,255,.2);color:rgba(74,158,255,.5);"></div>
-            <div class="t-btn" onclick="switchPanel('home')" id="tb-back-ai" style="border-color:rgba(74,158,255,.2);color:rgba(74,158,255,.5);"></div>
+            <div class="t-btn" onclick="openImgen()" id="tb-img-btn" style="border-color:rgba(74,158,255,.18);color:rgba(74,158,255,.45);"></div>
+            <div class="t-btn" onclick="clearRobotChat()" id="tb-clear-btn" style="border-color:rgba(74,158,255,.18);color:rgba(74,158,255,.45);"></div>
+            <div class="t-btn" onclick="switchPanel('home')" id="tb-back-ai" style="border-color:rgba(74,158,255,.18);color:rgba(74,158,255,.45);"></div>
           </div>
         </div>
 
@@ -882,7 +886,7 @@ input,textarea,button,select{font-family:inherit;}
             <span class="ai-name-label">Name your AI</span>
             <input class="ai-name-input" id="robot-name-input" type="text" placeholder="e.g. ARIA, MAX, NOVA…" maxlength="20"/>
             <button class="ai-name-save" onclick="saveRobotName()">Save Name</button>
-            <span id="robot-name-display" style="font-family:var(--mono);font-size:10px;color:rgba(74,158,255,.6);margin-left:8px;"></span>
+            <span id="robot-name-display" style="font-family:var(--mono);font-size:10px;color:rgba(74,158,255,.55);margin-left:8px;"></span>
           </div>
 
           <!-- Voice & Language Controls -->
@@ -898,7 +902,7 @@ input,textarea,button,select{font-family:inherit;}
               <button class="ctrl-btn" onclick="setLang('te',this)">Telugu</button>
               <button class="ctrl-btn" onclick="setLang('hi',this)">Hindi</button>
             </div>
-            <span id="voice-status" style="margin-left:auto;font-family:var(--mono);font-size:9px;color:rgba(74,158,255,.35);letter-spacing:.1em;text-transform:uppercase;"></span>
+            <span id="voice-status" style="margin-left:auto;font-family:var(--mono);font-size:9px;color:rgba(74,158,255,.3);letter-spacing:.1em;text-transform:uppercase;"></span>
           </div>
 
           <!-- Robot Stage -->
@@ -915,325 +919,501 @@ input,textarea,button,select{font-family:inherit;}
               <div class="vw"></div><div class="vw"></div><div class="vw"></div><div class="vw"></div>
             </div>
 
-            <!-- MECHANICAL HUMANOID ROBOT SVG -->
-            <svg class="robo-root" id="roboSvg" width="240" height="360" viewBox="0 0 240 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+            <!-- ════════════════════════════════════════════════
+                 PHOTOREALISTIC TRANSLUCENT HUMANOID ROBOT SVG
+                 Glass body, chrome joints, glowing blue nodes
+            ════════════════════════════════════════════════ -->
+            <svg class="robo-root" id="roboSvg" width="260" height="400" viewBox="0 0 260 400" fill="none" xmlns="http://www.w3.org/2000/svg">
               <defs>
-                <filter id="glow"><feGaussianBlur stdDeviation="3" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-                <filter id="glow2"><feGaussianBlur stdDeviation="6" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-                <radialGradient id="headGrad" cx="40%" cy="35%"><stop offset="0%" stop-color="#2a4a7a" stop-opacity=".9"/><stop offset="100%" stop-color="#0a1428" stop-opacity="1"/></radialGradient>
-                <radialGradient id="bodyGrad" cx="50%" cy="30%"><stop offset="0%" stop-color="#1a2a4a" stop-opacity=".95"/><stop offset="100%" stop-color="#060e20" stop-opacity="1"/></radialGradient>
-                <radialGradient id="limbGrad" cx="30%" cy="20%"><stop offset="0%" stop-color="#162240" stop-opacity=".9"/><stop offset="100%" stop-color="#060e20" stop-opacity="1"/></radialGradient>
-                <linearGradient id="chromeV" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#8ab0d8" stop-opacity=".9"/><stop offset="50%" stop-color="#4a7aaa" stop-opacity=".6"/><stop offset="100%" stop-color="#1a3a6a" stop-opacity=".8"/></linearGradient>
-                <linearGradient id="chromeH" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#1a3a6a" stop-opacity=".8"/><stop offset="50%" stop-color="#8ab0d8" stop-opacity=".6"/><stop offset="100%" stop-color="#1a3a6a" stop-opacity=".8"/></linearGradient>
+                <!-- Glow filters -->
+                <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+                  <feGaussianBlur stdDeviation="2.5" result="blur"/>
+                  <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                </filter>
+                <filter id="glow2" x="-50%" y="-50%" width="200%" height="200%">
+                  <feGaussianBlur stdDeviation="5" result="blur"/>
+                  <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                </filter>
+                <filter id="glow3" x="-50%" y="-50%" width="200%" height="200%">
+                  <feGaussianBlur stdDeviation="8" result="blur"/>
+                  <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                </filter>
+
+                <!-- Glass body gradient -->
+                <radialGradient id="glassHead" cx="40%" cy="30%" r="60%">
+                  <stop offset="0%" stop-color="#1a3a6a" stop-opacity=".85"/>
+                  <stop offset="40%" stop-color="#0d2040" stop-opacity=".9"/>
+                  <stop offset="100%" stop-color="#050a18" stop-opacity=".95"/>
+                </radialGradient>
+                <radialGradient id="glassBody" cx="50%" cy="25%" r="65%">
+                  <stop offset="0%" stop-color="#122850" stop-opacity=".88"/>
+                  <stop offset="50%" stop-color="#081830" stop-opacity=".92"/>
+                  <stop offset="100%" stop-color="#020610" stop-opacity=".98"/>
+                </radialGradient>
+                <radialGradient id="glassLimb" cx="30%" cy="20%" r="55%">
+                  <stop offset="0%" stop-color="#0f2448" stop-opacity=".85"/>
+                  <stop offset="100%" stop-color="#040818" stop-opacity=".95"/>
+                </radialGradient>
+
+                <!-- Chrome/metal gradients -->
+                <linearGradient id="chromeV" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#8ab8e8" stop-opacity=".8"/>
+                  <stop offset="50%" stop-color="#4a7aaa" stop-opacity=".5"/>
+                  <stop offset="100%" stop-color="#1a3a6a" stop-opacity=".75"/>
+                </linearGradient>
+                <linearGradient id="chromeH" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stop-color="#1a3a6a" stop-opacity=".7"/>
+                  <stop offset="50%" stop-color="#8ab8e8" stop-opacity=".5"/>
+                  <stop offset="100%" stop-color="#1a3a6a" stop-opacity=".7"/>
+                </linearGradient>
+                <linearGradient id="chromeRing" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#6aa0d8" stop-opacity=".9"/>
+                  <stop offset="50%" stop-color="#2a5a9a" stop-opacity=".6"/>
+                  <stop offset="100%" stop-color="#6aa0d8" stop-opacity=".9"/>
+                </linearGradient>
+
+                <!-- Internal glow nodes -->
+                <radialGradient id="nodeGlow" cx="50%" cy="50%">
+                  <stop offset="0%" stop-color="#00d4ff" stop-opacity="1"/>
+                  <stop offset="50%" stop-color="#4a9eff" stop-opacity=".6"/>
+                  <stop offset="100%" stop-color="#4a9eff" stop-opacity="0"/>
+                </radialGradient>
+                <radialGradient id="coreGlow" cx="50%" cy="50%">
+                  <stop offset="0%" stop-color="#00ffff" stop-opacity=".9"/>
+                  <stop offset="40%" stop-color="#00d4ff" stop-opacity=".5"/>
+                  <stop offset="100%" stop-color="#4a9eff" stop-opacity="0"/>
+                </radialGradient>
               </defs>
 
-              <!-- floor glow -->
-              <ellipse cx="120" cy="354" rx="55" ry="6" fill="#4a9eff" opacity=".06"/>
-              <ellipse cx="120" cy="354" rx="30" ry="3" fill="#4a9eff" opacity=".1"/>
+              <!-- Floor reflection glow -->
+              <ellipse cx="130" cy="394" rx="65" ry="7" fill="#4a9eff" opacity=".04"/>
+              <ellipse cx="130" cy="394" rx="35" ry="4" fill="#00d4ff" opacity=".08"/>
 
-              <!-- ── SPINE / NECK CABLES ── -->
-              <path d="M112 92 Q108 100 110 108" stroke="#1a3a6a" stroke-width="1.5" stroke-linecap="round" fill="none"/>
-              <path d="M128 92 Q132 100 130 108" stroke="#1a3a6a" stroke-width="1.5" stroke-linecap="round" fill="none"/>
-              <path d="M120 94 L120 110" stroke="#4a9eff" stroke-width=".8" stroke-dasharray="3 2" stroke-linecap="round" fill="none" opacity=".4"/>
+              <!-- ══ NECK / SPINE CABLES ══ -->
+              <g opacity=".5">
+                <path d="M120 108 Q116 118 118 128" stroke="#1a3a6a" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+                <path d="M140 108 Q144 118 142 128" stroke="#1a3a6a" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+                <path d="M130 110 L130 130" stroke="#4a9eff" stroke-width=".8" stroke-dasharray="4 3" stroke-linecap="round" fill="none" opacity=".35"/>
+                <!-- Neural cable glow -->
+                <circle cx="118" cy="118" r="1.5" fill="#4a9eff" opacity=".6" filter="url(#glow)"/>
+                <circle cx="142" cy="118" r="1.5" fill="#4a9eff" opacity=".6" filter="url(#glow)"/>
+              </g>
 
-              <!-- ── HEAD ── -->
-              <!-- Head shell - translucent dark with chrome rim -->
-              <ellipse cx="120" cy="55" rx="44" ry="48" fill="url(#headGrad)" stroke="#2a5a9a" stroke-width="1.2"/>
-              <!-- Cranial highlight / translucent dome top -->
-              <ellipse cx="105" cy="38" rx="22" ry="14" fill="#4a9eff" opacity=".06"/>
+              <!-- ══ HEAD ══ -->
+              <!-- Main skull dome - translucent glass effect -->
+              <ellipse cx="130" cy="62" rx="50" ry="56" fill="url(#glassHead)" stroke="#1a4a8a" stroke-width="1"/>
+
+              <!-- Cranial highlight - glass sheen -->
+              <ellipse cx="112" cy="42" rx="28" ry="18" fill="#4a9eff" opacity=".05"/>
+              <ellipse cx="108" cy="38" rx="15" ry="8" fill="#8ab8e8" opacity=".06"/>
+
               <!-- Chrome head band horizontal -->
-              <rect x="76" y="52" width="88" height="10" rx="2" fill="url(#chromeH)" opacity=".7"/>
-              <!-- Inner skull circuitry suggestion -->
-              <circle cx="120" cy="48" r="18" fill="none" stroke="#1a3a6a" stroke-width=".7" stroke-dasharray="4 3" opacity=".5"/>
-              <circle cx="120" cy="48" r="12" fill="none" stroke="#4a9eff" stroke-width=".5" opacity=".2"/>
+              <rect x="80" y="58" width="100" height="12" rx="3" fill="url(#chromeH)" opacity=".65"/>
 
-              <!-- FACE VISOR - dark tinted transparent -->
-              <rect x="82" y="50" width="76" height="30" rx="8" fill="#04080f" stroke="#1a4a8a" stroke-width="1"/>
-              <rect x="84" y="52" width="72" height="8" rx="3" fill="#4a9eff" opacity=".04"/>
+              <!-- Inner skull circuitry - visible through glass -->
+              <circle cx="130" cy="52" r="22" fill="none" stroke="#1a3a6a" stroke-width=".6" stroke-dasharray="5 4" opacity=".4"/>
+              <circle cx="130" cy="52" r="15" fill="none" stroke="#2a5a9a" stroke-width=".5" stroke-dasharray="3 5" opacity=".25"/>
 
-              <!-- LEFT EYE assembly -->
-              <circle cx="100" cy="64" r="11" fill="#020508" stroke="#1a3a6a" stroke-width="1"/>
-              <circle cx="100" cy="64" r="8" fill="#010204" stroke="#2a5a9a" stroke-width=".8"/>
+              <!-- Internal neural nodes inside head -->
+              <circle cx="115" cy="42" r="3" fill="#4a9eff" opacity=".3" filter="url(#glow)" style="animation:nodePulse 2.5s ease-in-out infinite"/>
+              <circle cx="145" cy="48" r="2.5" fill="#00d4ff" opacity=".25" filter="url(#glow)" style="animation:nodePulse 2.5s ease-in-out infinite;animation-delay:.8s"/>
+              <circle cx="130" cy="35" r="2" fill="#4a9eff" opacity=".2" filter="url(#glow)" style="animation:nodePulse 3s ease-in-out infinite;animation-delay:.4s"/>
+
+              <!-- FACE VISOR - dark tinted transparent panel -->
+              <rect x="88" y="56" width="84" height="34" rx="10" fill="#02060e" stroke="#1a4a8a" stroke-width="1.2" opacity=".9"/>
+              <rect x="90" y="58" width="80" height="10" rx="4" fill="#4a9eff" opacity=".03"/>
+
+              <!-- Visor glass reflection -->
+              <path d="M92 60 Q110 58 128 62" stroke="#4a9eff" stroke-width=".8" fill="none" opacity=".15"/>
+
+              <!-- LEFT EYE - glowing cyan assembly -->
+              <circle cx="112" cy="72" r="13" fill="#010308" stroke="#1a3a6a" stroke-width="1.2"/>
+              <circle cx="112" cy="72" r="10" fill="#010205" stroke="#2a5a9a" stroke-width=".9"/>
               <!-- Eye iris ring -->
-              <circle cx="100" cy="64" r="6" fill="none" stroke="#4a9eff" stroke-width="1.5" opacity=".8" filter="url(#glow)"/>
-              <circle cx="100" cy="64" r="4" fill="#4a9eff" opacity=".15"/>
-              <!-- Eye pupil glow -->
-              <circle cx="100" cy="64" r="2.5" fill="#00d4ff" filter="url(#glow)" id="eyeL" style="animation:glowPulse 2.5s ease-in-out infinite"/>
-              <circle cx="100" cy="64" r="1.2" fill="white" opacity=".9"/>
-              <!-- Eye reflection -->
-              <circle cx="102" cy="62" r=".8" fill="white" opacity=".6"/>
+              <circle cx="112" cy="72" r="7" fill="none" stroke="#4a9eff" stroke-width="2" opacity=".85" filter="url(#glow)"/>
+              <circle cx="112" cy="72" r="5" fill="#4a9eff" opacity=".12"/>
+              <!-- Eye pupil - bright cyan glow -->
+              <circle cx="112" cy="72" r="3.2" fill="#00d4ff" filter="url(#glow2)" id="eyeL" style="animation:eyeGlow 2.5s ease-in-out infinite"/>
+              <circle cx="112" cy="72" r="1.6" fill="white" opacity=".9"/>
+              <!-- Eye reflection highlight -->
+              <circle cx="114.5" cy="69.5" r="1" fill="white" opacity=".7"/>
+              <circle cx="110" cy="74" r=".5" fill="#00d4ff" opacity=".5"/>
 
-              <!-- RIGHT EYE assembly -->
-              <circle cx="140" cy="64" r="11" fill="#020508" stroke="#1a3a6a" stroke-width="1"/>
-              <circle cx="140" cy="64" r="8" fill="#010204" stroke="#2a5a9a" stroke-width=".8"/>
-              <circle cx="140" cy="64" r="6" fill="none" stroke="#4a9eff" stroke-width="1.5" opacity=".8" filter="url(#glow)"/>
-              <circle cx="140" cy="64" r="4" fill="#4a9eff" opacity=".15"/>
-              <circle cx="140" cy="64" r="2.5" fill="#00d4ff" filter="url(#glow)" id="eyeR" style="animation:glowPulse 2.5s ease-in-out infinite;animation-delay:.5s"/>
-              <circle cx="140" cy="64" r="1.2" fill="white" opacity=".9"/>
-              <circle cx="142" cy="62" r=".8" fill="white" opacity=".6"/>
+              <!-- RIGHT EYE - glowing cyan assembly -->
+              <circle cx="148" cy="72" r="13" fill="#010308" stroke="#1a3a6a" stroke-width="1.2"/>
+              <circle cx="148" cy="72" r="10" fill="#010205" stroke="#2a5a9a" stroke-width=".9"/>
+              <circle cx="148" cy="72" r="7" fill="none" stroke="#4a9eff" stroke-width="2" opacity=".85" filter="url(#glow)"/>
+              <circle cx="148" cy="72" r="5" fill="#4a9eff" opacity=".12"/>
+              <circle cx="148" cy="72" r="3.2" fill="#00d4ff" filter="url(#glow2)" id="eyeR" style="animation:eyeGlow 2.5s ease-in-out infinite;animation-delay:.6s"/>
+              <circle cx="148" cy="72" r="1.6" fill="white" opacity=".9"/>
+              <circle cx="150.5" cy="69.5" r="1" fill="white" opacity=".7"/>
+              <circle cx="146" cy="74" r=".5" fill="#00d4ff" opacity=".5"/>
 
-              <!-- MOUTH / vocal grid -->
-              <rect x="94" y="73" width="52" height="9" rx="4" fill="#020610" stroke="#1a4a8a" stroke-width=".8"/>
-              <!-- Mouth LED bars -->
-              <rect x="97" y="75" width="4" height="5" rx="2" fill="#4a9eff" opacity=".4" id="mb1"/>
-              <rect x="103" y="75" width="4" height="5" rx="2" fill="#4a9eff" opacity=".4" id="mb2"/>
-              <rect x="109" y="75" width="4" height="5" rx="2" fill="#4a9eff" opacity=".4" id="mb3"/>
-              <rect x="115" y="75" width="4" height="5" rx="2" fill="#00d4ff" opacity=".5" id="mb4"/>
-              <rect x="121" y="75" width="4" height="5" rx="2" fill="#4a9eff" opacity=".4" id="mb5"/>
-              <rect x="127" y="75" width="4" height="5" rx="2" fill="#4a9eff" opacity=".4" id="mb6"/>
-              <rect x="133" y="75" width="4" height="5" rx="2" fill="#4a9eff" opacity=".4" id="mb7"/>
+              <!-- MOUTH / VOCAL GRID - LED array -->
+              <rect x="104" y="82" width="52" height="11" rx="5" fill="#01040a" stroke="#1a4a8a" stroke-width=".9"/>
+              <!-- Mouth LED bars - 7 segments -->
+              <rect x="107" y="84.5" width="4.5" height="6" rx="2.2" fill="#4a9eff" opacity=".35" id="mb1"/>
+              <rect x="113.5" y="84.5" width="4.5" height="6" rx="2.2" fill="#4a9eff" opacity=".35" id="mb2"/>
+              <rect x="120" y="84.5" width="4.5" height="6" rx="2.2" fill="#4a9eff" opacity=".35" id="mb3"/>
+              <rect x="126.5" y="84.5" width="4.5" height="6" rx="2.2" fill="#00d4ff" opacity=".45" id="mb4"/>
+              <rect x="133" y="84.5" width="4.5" height="6" rx="2.2" fill="#4a9eff" opacity=".35" id="mb5"/>
+              <rect x="139.5" y="84.5" width="4.5" height="6" rx="2.2" fill="#4a9eff" opacity=".35" id="mb6"/>
+              <rect x="146" y="84.5" width="4.5" height="6" rx="2.2" fill="#4a9eff" opacity=".35" id="mb7"/>
 
               <!-- Chin detail -->
-              <path d="M104 83 Q120 88 136 83" stroke="#1a3a6a" stroke-width="1" stroke-linecap="round" fill="none"/>
+              <path d="M112 93 Q130 98 148 93" stroke="#1a3a6a" stroke-width="1" stroke-linecap="round" fill="none" opacity=".6"/>
 
-              <!-- Chrome side panels (ear area) -->
-              <rect x="74" y="54" width="10" height="28" rx="4" fill="url(#limbGrad)" stroke="#2a5a9a" stroke-width="1"/>
-              <circle cx="79" cy="62" r="3" fill="#4a9eff" opacity=".4" filter="url(#glow)"/>
-              <rect x="76" y="68" width="6" height="2" rx="1" fill="#4a9eff" opacity=".3"/>
-              <rect x="156" y="54" width="10" height="28" rx="4" fill="url(#limbGrad)" stroke="#2a5a9a" stroke-width="1"/>
-              <circle cx="161" cy="62" r="3" fill="#4a9eff" opacity=".4" filter="url(#glow)"/>
-              <rect x="158" y="68" width="6" height="2" rx="1" fill="#4a9eff" opacity=".3"/>
+              <!-- Jaw line chrome -->
+              <path d="M100 88 Q130 96 160 88" stroke="url(#chromeH)" stroke-width=".8" fill="none" opacity=".4"/>
 
-              <!-- Top crown detail -->
-              <path d="M100 9 L120 4 L140 9" stroke="#2a5a9a" stroke-width="1" fill="none"/>
-              <circle cx="120" cy="4" r="3.5" fill="#4a9eff" opacity=".6" filter="url(#glow)"/>
-              <circle cx="108" cy="7" r="2" fill="#4a9eff" opacity=".3"/>
-              <circle cx="132" cy="7" r="2" fill="#4a9eff" opacity=".3"/>
+              <!-- Chrome side panels (ear/temple area) -->
+              <rect x="78" y="58" width="12" height="32" rx="5" fill="url(#glassLimb)" stroke="#2a5a9a" stroke-width="1"/>
+              <circle cx="84" cy="68" r="3.5" fill="#4a9eff" opacity=".45" filter="url(#glow)"/>
+              <rect x="80" y="76" width="8" height="2.5" rx="1" fill="#4a9eff" opacity=".3"/>
+              <rect x="80" y="80" width="5" height="2" rx="1" fill="#00d4ff" opacity=".2"/>
 
-              <!-- ── NECK ── -->
-              <rect x="106" y="98" width="28" height="14" rx="5" fill="url(#limbGrad)" stroke="#2a5a9a" stroke-width="1"/>
-              <rect x="108" y="101" width="24" height="3" rx="1.5" fill="#4a9eff" opacity=".15"/>
-              <rect x="108" y="106" width="24" height="3" rx="1.5" fill="#4a9eff" opacity=".15"/>
+              <rect x="170" y="58" width="12" height="32" rx="5" fill="url(#glassLimb)" stroke="#2a5a9a" stroke-width="1"/>
+              <circle cx="176" cy="68" r="3.5" fill="#4a9eff" opacity=".45" filter="url(#glow)"/>
+              <rect x="172" y="76" width="8" height="2.5" rx="1" fill="#4a9eff" opacity=".3"/>
+              <rect x="175" y="80" width="5" height="2" rx="1" fill="#00d4ff" opacity=".2"/>
 
-              <!-- ── TORSO ── -->
-              <!-- Main body shell -->
-              <path d="M62 116 Q58 122 58 136 L58 196 Q58 210 72 214 L168 214 Q182 210 182 196 L182 136 Q182 122 178 116 L154 112 Q138 108 120 108 Q102 108 86 112 Z" fill="url(#bodyGrad)" stroke="#2a5a9a" stroke-width="1.2"/>
-              <!-- Body highlight/sheen -->
-              <path d="M76 112 Q120 108 164 112 Q158 126 120 128 Q82 126 76 112 Z" fill="#4a9eff" opacity=".04"/>
-              <!-- Ribbing lines -->
-              <path d="M68 150 Q120 155 172 150" stroke="#1a3a6a" stroke-width=".8" fill="none" opacity=".6"/>
-              <path d="M66 165 Q120 170 174 165" stroke="#1a3a6a" stroke-width=".8" fill="none" opacity=".5"/>
-              <path d="M65 180 Q120 185 175 180" stroke="#1a3a6a" stroke-width=".8" fill="none" opacity=".4"/>
+              <!-- Top crown / antenna detail -->
+              <path d="M108 8 L130 2 L152 8" stroke="#2a5a9a" stroke-width="1.2" fill="none"/>
+              <circle cx="130" cy="2" r="4.5" fill="#4a9eff" opacity=".55" filter="url(#glow)"/>
+              <circle cx="116" cy="5" r="2.5" fill="#4a9eff" opacity=".3"/>
+              <circle cx="144" cy="5" r="2.5" fill="#4a9eff" opacity=".3"/>
+              <!-- Crown glow node -->
+              <circle cx="130" cy="2" r="8" fill="url(#nodeGlow)" opacity=".3"/>
 
-              <!-- Chest center panel -->
-              <rect x="88" y="124" width="64" height="68" rx="10" fill="#030810" stroke="#1a3a6a" stroke-width="1"/>
+              <!-- ══ NECK ══ -->
+              <rect x="114" y="118" width="32" height="16" rx="6" fill="url(#glassLimb)" stroke="#2a5a9a" stroke-width="1"/>
+              <rect x="116" y="122" width="28" height="3.5" rx="1.5" fill="#4a9eff" opacity=".12"/>
+              <rect x="116" y="127" width="28" height="3.5" rx="1.5" fill="#4a9eff" opacity=".1"/>
+              <!-- Neck internal nodes -->
+              <circle cx="122" cy="126" r="2" fill="#00d4ff" opacity=".35" filter="url(#glow)" style="animation:nodePulse 2s infinite"/>
+              <circle cx="138" cy="126" r="2" fill="#4a9eff" opacity=".3" filter="url(#glow)" style="animation:nodePulse 2s infinite;animation-delay:.5s"/>
 
-              <!-- Central reactor core -->
-              <circle cx="120" cy="150" r="20" fill="#020508" stroke="#1a4a8a" stroke-width="1.5"/>
-              <circle cx="120" cy="150" r="16" fill="none" stroke="#2a5a9a" stroke-width="1" stroke-dasharray="5 3" opacity=".4" style="animation:glowPulse 2s infinite"/>
-              <circle cx="120" cy="150" r="12" fill="#4a9eff" opacity=".06" id="coreOuter" style="animation:chestPulse 2s ease-in-out infinite"/>
-              <circle cx="120" cy="150" r="8" fill="#4a9eff" opacity=".12"/>
-              <circle cx="120" cy="150" r="5" fill="#00d4ff" opacity=".7" filter="url(#glow)" id="coreDot"/>
-              <circle cx="122" cy="148" r="2" fill="white" opacity=".5"/>
+              <!-- ══ TORSO ══ -->
+              <!-- Main body shell - translucent glass -->
+              <path d="M68 138 Q64 144 64 158 L64 224 Q64 240 78 244 L182 244 Q196 240 196 224 L196 158 Q196 144 192 138 L166 134 Q148 130 130 130 Q112 130 94 134 Z" fill="url(#glassBody)" stroke="#2a5a9a" stroke-width="1.3"/>
+
+              <!-- Body glass sheen highlight -->
+              <path d="M82 134 Q130 130 178 134 Q170 150 130 152 Q90 150 82 134 Z" fill="#4a9eff" opacity=".04"/>
+
+              <!-- Internal ribbing / structure lines -->
+              <path d="M72 172 Q130 178 188 172" stroke="#1a3a6a" stroke-width=".9" fill="none" opacity=".5"/>
+              <path d="M70 188 Q130 194 190 188" stroke="#1a3a6a" stroke-width=".8" fill="none" opacity=".4"/>
+              <path d="M69 204 Q130 210 191 204" stroke="#1a3a6a" stroke-width=".7" fill="none" opacity=".3"/>
+
+              <!-- Internal circuit traces visible through glass -->
+              <path d="M85 155 L85 230" stroke="#1a4a8a" stroke-width=".6" fill="none" stroke-dasharray="3 4" opacity=".3"/>
+              <path d="M175 155 L175 230" stroke="#1a4a8a" stroke-width=".6" fill="none" stroke-dasharray="3 4" opacity=".3"/>
+              <path d="M100 148 Q105 190 100 235" stroke="#2a5a9a" stroke-width=".5" fill="none" opacity=".25"/>
+              <path d="M160 148 Q155 190 160 235" stroke="#2a5a9a" stroke-width=".5" fill="none" opacity=".25"/>
+
+              <!-- Chest center panel - darker glass -->
+              <rect x="94" y="148" width="72" height="78" rx="12" fill="#02060e" stroke="#1a3a6a" stroke-width="1" opacity=".85"/>
+
+              <!-- Central reactor core - glowing heart -->
+              <circle cx="130" cy="178" r="24" fill="#010308" stroke="#1a4a8a" stroke-width="1.8"/>
+              <circle cx="130" cy="178" r="19" fill="none" stroke="#2a5a9a" stroke-width="1" stroke-dasharray="6 4" opacity=".35" style="animation:glowPulse 2.5s infinite"/>
+
+              <!-- Core outer glow -->
+              <circle cx="130" cy="178" r="22" fill="url(#coreGlow)" opacity=".15" id="coreOuter" style="animation:chestPulse 2s ease-in-out infinite"/>
+              <circle cx="130" cy="178" r="16" fill="#4a9eff" opacity=".06"/>
+              <circle cx="130" cy="178" r="11" fill="#00d4ff" opacity=".1"/>
+
+              <!-- Core center dot -->
+              <circle cx="130" cy="178" r="6" fill="#00d4ff" opacity=".75" filter="url(#glow2)" id="coreDot"/>
+              <circle cx="132" cy="176" r="2.5" fill="white" opacity=".6"/>
+
               <!-- Reactor ring segments -->
-              <circle cx="120" cy="150" r="20" fill="none" stroke="#4a9eff" stroke-width=".6" stroke-dasharray="3 6" opacity=".3"/>
+              <circle cx="130" cy="178" r="24" fill="none" stroke="#4a9eff" stroke-width=".7" stroke-dasharray="4 8" opacity=".25"/>
+              <circle cx="130" cy="178" r="28" fill="none" stroke="#00d4ff" stroke-width=".4" stroke-dasharray="2 6" opacity=".15" style="animation:jointSpin 12s linear infinite;transform-origin:130px 178px"/>
 
-              <!-- Side circuit panels -->
-              <rect x="92" y="170" width="24" height="14" rx="3" fill="#030810" stroke="#1a3a6a" stroke-width=".8"/>
-              <rect x="94" y="172" width="6" height="3" rx="1.5" fill="#4a9eff" opacity=".4"/>
-              <rect x="102" y="172" width="4" height="3" rx="1.5" fill="#00d4ff" opacity=".3"/>
-              <rect x="94" y="177" width="20" height="2" rx="1" fill="#1a3a6a"/>
-              <rect x="124" y="170" width="24" height="14" rx="3" fill="#030810" stroke="#1a3a6a" stroke-width=".8"/>
-              <rect x="126" y="172" width="6" height="3" rx="1.5" fill="#4a9eff" opacity=".4"/>
-              <rect x="134" y="172" width="4" height="3" rx="1.5" fill="#00d4ff" opacity=".3"/>
-              <rect x="126" y="177" width="20" height="2" rx="1" fill="#1a3a6a"/>
+              <!-- Side circuit panels with glowing nodes -->
+              <rect x="98" y="196" width="28" height="16" rx="4" fill="#010308" stroke="#1a3a6a" stroke-width=".8"/>
+              <rect x="100" y="198" width="7" height="3.5" rx="1.5" fill="#4a9eff" opacity=".45" filter="url(#glow)" style="animation:nodePulse 2.2s infinite"/>
+              <rect x="109" y="198" width="5" height="3.5" rx="1.5" fill="#00d4ff" opacity=".35" filter="url(#glow)" style="animation:nodePulse 2.2s infinite;animation-delay:.3s"/>
+              <rect x="100" y="204" width="24" height="2.5" rx="1" fill="#1a3a6a"/>
+              <rect x="100" y="208" width="16" height="1.5" rx=".75" fill="#4a9eff" opacity=".2"/>
 
-              <!-- ── SHOULDER JOINTS ── -->
-              <!-- LEFT shoulder - mechanical ball joint -->
-              <circle cx="58" cy="120" r="18" fill="url(#limbGrad)" stroke="#2a5a9a" stroke-width="1.5"/>
-              <circle cx="58" cy="120" r="12" fill="#030810" stroke="#1a4a8a" stroke-width="1"/>
-              <circle cx="58" cy="120" r="8" fill="none" stroke="#2a5a9a" stroke-width=".8" stroke-dasharray="3 2" opacity=".5" style="animation:jointSpin 8s linear infinite;transform-origin:58px 120px"/>
-              <circle cx="58" cy="120" r="5" fill="#4a9eff" opacity=".2"/>
-              <circle cx="58" cy="120" r="3" fill="#4a9eff" opacity=".5" filter="url(#glow)"/>
-              <circle cx="60" cy="118" r="1.2" fill="white" opacity=".5"/>
+              <rect x="134" y="196" width="28" height="16" rx="4" fill="#010308" stroke="#1a3a6a" stroke-width=".8"/>
+              <rect x="136" y="198" width="7" height="3.5" rx="1.5" fill="#4a9eff" opacity=".45" filter="url(#glow)" style="animation:nodePulse 2.2s infinite;animation-delay:.6s"/>
+              <rect x="145" y="198" width="5" height="3.5" rx="1.5" fill="#00d4ff" opacity=".35" filter="url(#glow)" style="animation:nodePulse 2.2s infinite;animation-delay:.9s"/>
+              <rect x="136" y="204" width="24" height="2.5" rx="1" fill="#1a3a6a"/>
+              <rect x="136" y="208" width="16" height="1.5" rx=".75" fill="#4a9eff" opacity=".2"/>
+
+              <!-- Additional torso internal nodes -->
+              <circle cx="85" cy="165" r="2.5" fill="#4a9eff" opacity=".3" filter="url(#glow)" style="animation:nodePulse 3s infinite"/>
+              <circle cx="175" cy="165" r="2.5" fill="#4a9eff" opacity=".3" filter="url(#glow)" style="animation:nodePulse 3s infinite;animation-delay:1s"/>
+              <circle cx="90" cy="215" r="2" fill="#00d4ff" opacity=".25" filter="url(#glow)" style="animation:nodePulse 2.5s infinite;animation-delay:.5s"/>
+              <circle cx="170" cy="215" r="2" fill="#00d4ff" opacity=".25" filter="url(#glow)" style="animation:nodePulse 2.5s infinite;animation-delay:1.5s"/>
+
+              <!-- ══ SHOULDER JOINTS ══ -->
+              <!-- LEFT shoulder - mechanical ball joint with chrome -->
+              <circle cx="62" cy="142" r="20" fill="url(#glassLimb)" stroke="#2a5a9a" stroke-width="1.6"/>
+              <circle cx="62" cy="142" r="14" fill="#010308" stroke="#1a4a8a" stroke-width="1.2"/>
+              <circle cx="62" cy="142" r="10" fill="none" stroke="#2a5a9a" stroke-width="1" stroke-dasharray="4 3" opacity=".4" style="animation:jointSpin 10s linear infinite;transform-origin:62px 142px"/>
+              <circle cx="62" cy="142" r="6" fill="#4a9eff" opacity=".18"/>
+              <circle cx="62" cy="142" r="3.5" fill="#4a9eff" opacity=".5" filter="url(#glow)"/>
+              <circle cx="64" cy="140" r="1.5" fill="white" opacity=".5"/>
+              <!-- Shoulder chrome ring -->
+              <circle cx="62" cy="142" r="18" fill="none" stroke="url(#chromeRing)" stroke-width="1.5" opacity=".6"/>
 
               <!-- RIGHT shoulder -->
-              <circle cx="182" cy="120" r="18" fill="url(#limbGrad)" stroke="#2a5a9a" stroke-width="1.5"/>
-              <circle cx="182" cy="120" r="12" fill="#030810" stroke="#1a4a8a" stroke-width="1"/>
-              <circle cx="182" cy="120" r="8" fill="none" stroke="#2a5a9a" stroke-width=".8" stroke-dasharray="3 2" opacity=".5" style="animation:jointSpin 8s linear infinite reverse;transform-origin:182px 120px"/>
-              <circle cx="182" cy="120" r="5" fill="#4a9eff" opacity=".2"/>
-              <circle cx="182" cy="120" r="3" fill="#4a9eff" opacity=".5" filter="url(#glow)"/>
-              <circle cx="184" cy="118" r="1.2" fill="white" opacity=".5"/>
+              <circle cx="198" cy="142" r="20" fill="url(#glassLimb)" stroke="#2a5a9a" stroke-width="1.6"/>
+              <circle cx="198" cy="142" r="14" fill="#010308" stroke="#1a4a8a" stroke-width="1.2"/>
+              <circle cx="198" cy="142" r="10" fill="none" stroke="#2a5a9a" stroke-width="1" stroke-dasharray="4 3" opacity=".4" style="animation:jointSpin 10s linear infinite reverse;transform-origin:198px 142px"/>
+              <circle cx="198" cy="142" r="6" fill="#4a9eff" opacity=".18"/>
+              <circle cx="198" cy="142" r="3.5" fill="#4a9eff" opacity=".5" filter="url(#glow)"/>
+              <circle cx="200" cy="140" r="1.5" fill="white" opacity=".5"/>
+              <circle cx="198" cy="142" r="18" fill="none" stroke="url(#chromeRing)" stroke-width="1.5" opacity=".6"/>
 
-              <!-- ── LEFT ARM ── -->
-              <g id="armL" style="transform-origin:58px 130px">
-                <!-- Upper arm -->
-                <path d="M44 130 Q40 136 40 148 L40 176 Q40 184 46 186 L62 186 Q68 184 68 176 L68 148 Q68 136 64 130 Z" fill="url(#limbGrad)" stroke="#2a5a9a" stroke-width="1"/>
-                <!-- Arm detail lines -->
-                <path d="M44 145 L68 145" stroke="#1a3a6a" stroke-width=".7" fill="none" opacity=".5"/>
-                <path d="M44 158 L68 158" stroke="#1a3a6a" stroke-width=".7" fill="none" opacity=".4"/>
+              <!-- ══ LEFT ARM ══ -->
+              <g id="armL" style="transform-origin:62px 154px">
+                <!-- Upper arm - glass with internal structure -->
+                <path d="M46 154 Q42 160 42 172 L42 204 Q42 214 48 216 L68 216 Q74 214 74 204 L74 172 Q74 160 70 154 Z" fill="url(#glassLimb)" stroke="#2a5a9a" stroke-width="1"/>
+                <!-- Arm internal detail lines -->
+                <path d="M46 170 L74 170" stroke="#1a3a6a" stroke-width=".8" fill="none" opacity=".45"/>
+                <path d="M46 186 L74 186" stroke="#1a3a6a" stroke-width=".7" fill="none" opacity=".35"/>
+                <path d="M46 200 L74 200" stroke="#1a3a6a" stroke-width=".6" fill="none" opacity=".25"/>
                 <!-- Arm cables -->
-                <path d="M47 134 Q44 152 44 170" stroke="#1a4a8a" stroke-width=".8" fill="none" stroke-dasharray="2 3" opacity=".4"/>
+                <path d="M49 158 Q46 178 46 198" stroke="#1a4a8a" stroke-width=".9" fill="none" stroke-dasharray="3 4" opacity=".35"/>
+                <path d="M52 158 Q50 178 50 198" stroke="#4a9eff" stroke-width=".5" fill="none" stroke-dasharray="2 5" opacity=".2"/>
+                <!-- Arm internal node -->
+                <circle cx="52" cy="180" r="2" fill="#4a9eff" opacity=".3" filter="url(#glow)" style="animation:nodePulse 2.8s infinite"/>
 
                 <!-- ELBOW JOINT -->
-                <circle cx="54" cy="186" r="12" fill="url(#limbGrad)" stroke="#2a5a9a" stroke-width="1.2"/>
-                <circle cx="54" cy="186" r="7" fill="#030810" stroke="#1a4a8a" stroke-width=".8"/>
-                <circle cx="54" cy="186" r="4.5" fill="#4a9eff" opacity=".15"/>
-                <circle cx="54" cy="186" r="2.5" fill="#4a9eff" opacity=".5" filter="url(#glow)" style="animation:glowPulse 3s infinite;animation-delay:.3s"/>
+                <circle cx="58" cy="216" r="14" fill="url(#glassLimb)" stroke="#2a5a9a" stroke-width="1.3"/>
+                <circle cx="58" cy="216" r="9" fill="#010308" stroke="#1a4a8a" stroke-width=".9"/>
+                <circle cx="58" cy="216" r="5.5" fill="#4a9eff" opacity=".12"/>
+                <circle cx="58" cy="216" r="3" fill="#4a9eff" opacity=".45" filter="url(#glow)" style="animation:nodePulse 3s infinite;animation-delay:.3s"/>
+                <circle cx="60" cy="214" r="1.3" fill="white" opacity=".4"/>
+                <!-- Elbow chrome ring -->
+                <circle cx="58" cy="216" r="12" fill="none" stroke="url(#chromeRing)" stroke-width="1" opacity=".5"/>
 
                 <!-- Forearm -->
-                <path d="M42 194 Q39 200 39 210 L39 236 Q39 244 44 246 L64 246 Q69 244 69 236 L69 210 Q69 200 66 194 Z" fill="url(#limbGrad)" stroke="#2a4a7a" stroke-width="1"/>
-                <path d="M42 208 L69 208" stroke="#1a3a6a" stroke-width=".7" fill="none" opacity=".4"/>
-                <path d="M42 222 L69 222" stroke="#1a3a6a" stroke-width=".6" fill="none" opacity=".3"/>
-                <!-- Circuit trace -->
-                <rect x="46" y="214" width="18" height="1.5" rx=".75" fill="#4a9eff" opacity=".2"/>
-                <rect x="46" y="218" width="11" height="1.5" rx=".75" fill="#4a9eff" opacity=".2"/>
+                <path d="M44 224 Q41 230 41 242 L41 272 Q41 282 46 284 L66 284 Q71 282 71 272 L71 242 Q71 230 68 224 Z" fill="url(#glassLimb)" stroke="#2a4a7a" stroke-width="1"/>
+                <path d="M44 240 L71 240" stroke="#1a3a6a" stroke-width=".7" fill="none" opacity=".35"/>
+                <path d="M44 256 L71 256" stroke="#1a3a6a" stroke-width=".6" fill="none" opacity=".25"/>
+                <path d="M44 270 L71 270" stroke="#1a3a6a" stroke-width=".5" fill="none" opacity=".2"/>
+                <!-- Forearm circuit trace -->
+                <rect x="48" y="248" width="20" height="1.8" rx=".9" fill="#4a9eff" opacity=".18"/>
+                <rect x="48" y="252" width="14" height="1.8" rx=".9" fill="#4a9eff" opacity=".15"/>
+                <rect x="52" y="262" width="10" height="1.5" rx=".75" fill="#00d4ff" opacity=".12"/>
+                <!-- Forearm node -->
+                <circle cx="55" cy="265" r="1.8" fill="#4a9eff" opacity=".35" filter="url(#glow)" style="animation:nodePulse 2.5s infinite;animation-delay:.7s"/>
 
                 <!-- WRIST JOINT -->
-                <rect x="39" y="243" width="30" height="9" rx="4" fill="url(#chromeH)" opacity=".7"/>
-                <rect x="41" y="245" width="26" height="5" rx="2.5" fill="#030810" stroke="#1a4a8a" stroke-width=".5"/>
+                <rect x="40" y="280" width="34" height="10" rx="5" fill="url(#chromeH)" opacity=".75"/>
+                <rect x="42" y="282" width="30" height="6" rx="3" fill="#010308" stroke="#1a4a8a" stroke-width=".6"/>
+                <circle cx="57" cy="285" r="2" fill="#4a9eff" opacity=".3" filter="url(#glow)"/>
 
                 <!-- HAND -->
                 <g id="handL">
-                  <rect x="36" y="250" width="32" height="20" rx="9" fill="url(#limbGrad)" stroke="#2a4a7a" stroke-width="1"/>
-                  <rect x="38" y="252" width="28" height="5" rx="2" fill="#4a9eff" opacity=".04"/>
+                  <rect x="36" y="288" width="36" height="24" rx="10" fill="url(#glassLimb)" stroke="#2a4a7a" stroke-width="1"/>
+                  <rect x="38" y="290" width="32" height="6" rx="2" fill="#4a9eff" opacity=".04"/>
+                  <!-- Hand internal structure -->
+                  <rect x="40" y="296" width="10" height="2" rx="1" fill="#1a3a6a" opacity=".3"/>
+                  <rect x="52" y="296" width="8" height="2" rx="1" fill="#1a3a6a" opacity=".25"/>
+                  <circle cx="54" cy="300" r="1.5" fill="#4a9eff" opacity=".25" filter="url(#glow)"/>
 
                   <!-- Fingers with knuckles -->
-                  <g id="fL1" style="transform-origin:40px 268px">
-                    <rect x="37" y="268" width="8" height="16" rx="4" fill="url(#limbGrad)" stroke="#2a4a7a" stroke-width=".8"/>
-                    <rect x="37" y="270" width="8" height="3" rx="1" fill="url(#chromeH)" opacity=".5"/>
-                    <rect x="37" y="279" width="8" height="2" rx="1" fill="#1a3a6a" opacity=".4"/>
+                  <g id="fL1" style="transform-origin:42px 310px">
+                    <rect x="38" y="310" width="9" height="18" rx="4.5" fill="url(#glassLimb)" stroke="#2a4a7a" stroke-width=".9"/>
+                    <rect x="38" y="312" width="9" height="3.5" rx="1.5" fill="url(#chromeH)" opacity=".45"/>
+                    <rect x="38" y="318" width="9" height="2" rx="1" fill="#1a3a6a" opacity=".35"/>
+                    <circle cx="42.5" cy="316" r="1.2" fill="#4a9eff" opacity=".3" filter="url(#glow)"/>
                   </g>
-                  <g id="fL2" style="transform-origin:50px 268px">
-                    <rect x="47" y="268" width="8" height="18" rx="4" fill="url(#limbGrad)" stroke="#2a4a7a" stroke-width=".8"/>
-                    <rect x="47" y="270" width="8" height="3" rx="1" fill="url(#chromeH)" opacity=".5"/>
-                    <rect x="47" y="280" width="8" height="2" rx="1" fill="#1a3a6a" opacity=".4"/>
+                  <g id="fL2" style="transform-origin:54px 310px">
+                    <rect x="50" y="310" width="9" height="20" rx="4.5" fill="url(#glassLimb)" stroke="#2a4a7a" stroke-width=".9"/>
+                    <rect x="50" y="312" width="9" height="3.5" rx="1.5" fill="url(#chromeH)" opacity=".45"/>
+                    <rect x="50" y="318" width="9" height="2" rx="1" fill="#1a3a6a" opacity=".35"/>
+                    <circle cx="54.5" cy="316" r="1.2" fill="#4a9eff" opacity=".3" filter="url(#glow)"/>
                   </g>
-                  <g id="fL3" style="transform-origin:59px 268px">
-                    <rect x="56" y="268" width="8" height="16" rx="4" fill="url(#limbGrad)" stroke="#2a4a7a" stroke-width=".8"/>
-                    <rect x="56" y="270" width="8" height="3" rx="1" fill="url(#chromeH)" opacity=".5"/>
-                    <rect x="56" y="278" width="8" height="2" rx="1" fill="#1a3a6a" opacity=".4"/>
+                  <g id="fL3" style="transform-origin:66px 310px">
+                    <rect x="62" y="310" width="9" height="18" rx="4.5" fill="url(#glassLimb)" stroke="#2a4a7a" stroke-width=".9"/>
+                    <rect x="62" y="312" width="9" height="3.5" rx="1.5" fill="url(#chromeH)" opacity=".45"/>
+                    <rect x="62" y="318" width="9" height="2" rx="1" fill="#1a3a6a" opacity=".35"/>
+                    <circle cx="66.5" cy="316" r="1.2" fill="#4a9eff" opacity=".3" filter="url(#glow)"/>
                   </g>
                   <!-- Thumb -->
-                  <g id="fLt" style="transform-origin:33px 258px">
-                    <rect x="28" y="253" width="8" height="14" rx="4" fill="url(#limbGrad)" stroke="#2a4a7a" stroke-width=".8" transform="rotate(-20 32 257)"/>
+                  <g id="fLt" style="transform-origin:36px 296px">
+                    <rect x="30" y="290" width="9" height="16" rx="4.5" fill="url(#glassLimb)" stroke="#2a4a7a" stroke-width=".9" transform="rotate(-22 34.5 296)"/>
+                    <rect x="30" y="292" width="9" height="3" rx="1.5" fill="url(#chromeH)" opacity=".4" transform="rotate(-22 34.5 296)"/>
                   </g>
                 </g>
               </g>
 
-              <!-- ── RIGHT ARM ── -->
-              <g id="armR" style="transform-origin:182px 130px">
-                <path d="M172 130 Q168 136 168 148 L168 176 Q168 184 174 186 L190 186 Q196 184 196 176 L196 148 Q196 136 192 130 Z" fill="url(#limbGrad)" stroke="#2a5a9a" stroke-width="1"/>
-                <path d="M168 145 L196 145" stroke="#1a3a6a" stroke-width=".7" fill="none" opacity=".5"/>
-                <path d="M168 158 L196 158" stroke="#1a3a6a" stroke-width=".7" fill="none" opacity=".4"/>
-                <path d="M192 134 Q196 152 196 170" stroke="#1a4a8a" stroke-width=".8" fill="none" stroke-dasharray="2 3" opacity=".4"/>
-                <circle cx="186" cy="186" r="12" fill="url(#limbGrad)" stroke="#2a5a9a" stroke-width="1.2"/>
-                <circle cx="186" cy="186" r="7" fill="#030810" stroke="#1a4a8a" stroke-width=".8"/>
-                <circle cx="186" cy="186" r="4.5" fill="#4a9eff" opacity=".15"/>
-                <circle cx="186" cy="186" r="2.5" fill="#4a9eff" opacity=".5" filter="url(#glow)" style="animation:glowPulse 3s infinite;animation-delay:.7s"/>
-                <path d="M171 194 Q168 200 168 210 L168 236 Q168 244 173 246 L193 246 Q198 244 198 236 L198 210 Q198 200 195 194 Z" fill="url(#limbGrad)" stroke="#2a4a7a" stroke-width="1"/>
-                <path d="M168 208 L198 208" stroke="#1a3a6a" stroke-width=".7" fill="none" opacity=".4"/>
-                <path d="M168 222 L198 222" stroke="#1a3a6a" stroke-width=".6" fill="none" opacity=".3"/>
-                <rect x="174" y="214" width="18" height="1.5" rx=".75" fill="#4a9eff" opacity=".2"/>
-                <rect x="181" y="218" width="11" height="1.5" rx=".75" fill="#4a9eff" opacity=".2"/>
-                <rect x="171" y="243" width="30" height="9" rx="4" fill="url(#chromeH)" opacity=".7"/>
-                <rect x="173" y="245" width="26" height="5" rx="2.5" fill="#030810" stroke="#1a4a8a" stroke-width=".5"/>
+              <!-- ══ RIGHT ARM ══ -->
+              <g id="armR" style="transform-origin:198px 154px">
+                <path d="M186 154 Q182 160 182 172 L182 204 Q182 214 188 216 L208 216 Q214 214 214 204 L214 172 Q214 160 210 154 Z" fill="url(#glassLimb)" stroke="#2a5a9a" stroke-width="1"/>
+                <path d="M182 170 L214 170" stroke="#1a3a6a" stroke-width=".8" fill="none" opacity=".45"/>
+                <path d="M182 186 L214 186" stroke="#1a3a6a" stroke-width=".7" fill="none" opacity=".35"/>
+                <path d="M182 200 L214 200" stroke="#1a3a6a" stroke-width=".6" fill="none" opacity=".25"/>
+                <path d="M210 158 Q214 178 214 198" stroke="#1a4a8a" stroke-width=".9" fill="none" stroke-dasharray="3 4" opacity=".35"/>
+                <path d="M207 158 Q210 178 210 198" stroke="#4a9eff" stroke-width=".5" fill="none" stroke-dasharray="2 5" opacity=".2"/>
+                <circle cx="208" cy="180" r="2" fill="#4a9eff" opacity=".3" filter="url(#glow)" style="animation:nodePulse 2.8s infinite;animation-delay:.4s"/>
+
+                <circle cx="202" cy="216" r="14" fill="url(#glassLimb)" stroke="#2a5a9a" stroke-width="1.3"/>
+                <circle cx="202" cy="216" r="9" fill="#010308" stroke="#1a4a8a" stroke-width=".9"/>
+                <circle cx="202" cy="216" r="5.5" fill="#4a9eff" opacity=".12"/>
+                <circle cx="202" cy="216" r="3" fill="#4a9eff" opacity=".45" filter="url(#glow)" style="animation:nodePulse 3s infinite;animation-delay:.7s"/>
+                <circle cx="204" cy="214" r="1.3" fill="white" opacity=".4"/>
+                <circle cx="202" cy="216" r="12" fill="none" stroke="url(#chromeRing)" stroke-width="1" opacity=".5"/>
+
+                <path d="M189 224 Q186 230 186 242 L186 272 Q186 282 191 284 L211 284 Q216 282 216 272 L216 242 Q216 230 213 224 Z" fill="url(#glassLimb)" stroke="#2a4a7a" stroke-width="1"/>
+                <path d="M186 240 L216 240" stroke="#1a3a6a" stroke-width=".7" fill="none" opacity=".35"/>
+                <path d="M186 256 L216 256" stroke="#1a3a6a" stroke-width=".6" fill="none" opacity=".25"/>
+                <path d="M186 270 L216 270" stroke="#1a3a6a" stroke-width=".5" fill="none" opacity=".2"/>
+                <rect x="192" y="248" width="20" height="1.8" rx=".9" fill="#4a9eff" opacity=".18"/>
+                <rect x="198" y="252" width="14" height="1.8" rx=".9" fill="#4a9eff" opacity=".15"/>
+                <rect x="196" y="262" width="10" height="1.5" rx=".75" fill="#00d4ff" opacity=".12"/>
+                <circle cx="205" cy="265" r="1.8" fill="#4a9eff" opacity=".35" filter="url(#glow)" style="animation:nodePulse 2.5s infinite;animation-delay:1.2s"/>
+
+                <rect x="186" y="280" width="34" height="10" rx="5" fill="url(#chromeH)" opacity=".75"/>
+                <rect x="188" y="282" width="30" height="6" rx="3" fill="#010308" stroke="#1a4a8a" stroke-width=".6"/>
+                <circle cx="203" cy="285" r="2" fill="#4a9eff" opacity=".3" filter="url(#glow)"/>
+
                 <g id="handR">
-                  <rect x="172" y="250" width="32" height="20" rx="9" fill="url(#limbGrad)" stroke="#2a4a7a" stroke-width="1"/>
-                  <rect x="174" y="252" width="28" height="5" rx="2" fill="#4a9eff" opacity=".04"/>
-                  <g id="fR1" style="transform-origin:178px 268px">
-                    <rect x="175" y="268" width="8" height="16" rx="4" fill="url(#limbGrad)" stroke="#2a4a7a" stroke-width=".8"/>
-                    <rect x="175" y="270" width="8" height="3" rx="1" fill="url(#chromeH)" opacity=".5"/>
-                    <rect x="175" y="279" width="8" height="2" rx="1" fill="#1a3a6a" opacity=".4"/>
+                  <rect x="188" y="288" width="36" height="24" rx="10" fill="url(#glassLimb)" stroke="#2a4a7a" stroke-width="1"/>
+                  <rect x="190" y="290" width="32" height="6" rx="2" fill="#4a9eff" opacity=".04"/>
+                  <rect x="192" y="296" width="10" height="2" rx="1" fill="#1a3a6a" opacity=".3"/>
+                  <rect x="204" y="296" width="8" height="2" rx="1" fill="#1a3a6a" opacity=".25"/>
+                  <circle cx="206" cy="300" r="1.5" fill="#4a9eff" opacity=".25" filter="url(#glow)"/>
+
+                  <g id="fR1" style="transform-origin:194px 310px">
+                    <rect x="190" y="310" width="9" height="18" rx="4.5" fill="url(#glassLimb)" stroke="#2a4a7a" stroke-width=".9"/>
+                    <rect x="190" y="312" width="9" height="3.5" rx="1.5" fill="url(#chromeH)" opacity=".45"/>
+                    <rect x="190" y="318" width="9" height="2" rx="1" fill="#1a3a6a" opacity=".35"/>
+                    <circle cx="194.5" cy="316" r="1.2" fill="#4a9eff" opacity=".3" filter="url(#glow)"/>
                   </g>
-                  <g id="fR2" style="transform-origin:188px 268px">
-                    <rect x="185" y="268" width="8" height="18" rx="4" fill="url(#limbGrad)" stroke="#2a4a7a" stroke-width=".8"/>
-                    <rect x="185" y="270" width="8" height="3" rx="1" fill="url(#chromeH)" opacity=".5"/>
-                    <rect x="185" y="280" width="8" height="2" rx="1" fill="#1a3a6a" opacity=".4"/>
+                  <g id="fR2" style="transform-origin:206px 310px">
+                    <rect x="202" y="310" width="9" height="20" rx="4.5" fill="url(#glassLimb)" stroke="#2a4a7a" stroke-width=".9"/>
+                    <rect x="202" y="312" width="9" height="3.5" rx="1.5" fill="url(#chromeH)" opacity=".45"/>
+                    <rect x="202" y="318" width="9" height="2" rx="1" fill="#1a3a6a" opacity=".35"/>
+                    <circle cx="206.5" cy="316" r="1.2" fill="#4a9eff" opacity=".3" filter="url(#glow)"/>
                   </g>
-                  <g id="fR3" style="transform-origin:197px 268px">
-                    <rect x="194" y="268" width="8" height="16" rx="4" fill="url(#limbGrad)" stroke="#2a4a7a" stroke-width=".8"/>
-                    <rect x="194" y="270" width="8" height="3" rx="1" fill="url(#chromeH)" opacity=".5"/>
-                    <rect x="194" y="278" width="8" height="2" rx="1" fill="#1a3a6a" opacity=".4"/>
+                  <g id="fR3" style="transform-origin:218px 310px">
+                    <rect x="214" y="310" width="9" height="18" rx="4.5" fill="url(#glassLimb)" stroke="#2a4a7a" stroke-width=".9"/>
+                    <rect x="214" y="312" width="9" height="3.5" rx="1.5" fill="url(#chromeH)" opacity=".45"/>
+                    <rect x="214" y="318" width="9" height="2" rx="1" fill="#1a3a6a" opacity=".35"/>
+                    <circle cx="218.5" cy="316" r="1.2" fill="#4a9eff" opacity=".3" filter="url(#glow)"/>
                   </g>
-                  <g id="fRt" style="transform-origin:207px 258px">
-                    <rect x="204" y="253" width="8" height="14" rx="4" fill="url(#limbGrad)" stroke="#2a4a7a" stroke-width=".8" transform="rotate(20 208 257)"/>
+                  <g id="fRt" style="transform-origin:224px 296px">
+                    <rect x="221" y="290" width="9" height="16" rx="4.5" fill="url(#glassLimb)" stroke="#2a4a7a" stroke-width=".9" transform="rotate(22 225.5 296)"/>
+                    <rect x="221" y="292" width="9" height="3" rx="1.5" fill="url(#chromeH)" opacity=".4" transform="rotate(22 225.5 296)"/>
                   </g>
                 </g>
               </g>
 
-              <!-- ── HIP ASSEMBLY ── -->
-              <path d="M70 212 Q68 222 74 224 L166 224 Q172 222 170 212 Z" fill="url(#limbGrad)" stroke="#2a4a7a" stroke-width="1"/>
-              <rect x="88" y="218" width="64" height="8" rx="4" fill="#030810" stroke="#1a3a6a" stroke-width=".8"/>
-              <!-- Hip circuit -->
-              <rect x="98" y="220" width="12" height="2" rx="1" fill="#4a9eff" opacity=".2"/>
-              <rect x="130" y="220" width="12" height="2" rx="1" fill="#4a9eff" opacity=".2"/>
+              <!-- ══ HIP ASSEMBLY ══ -->
+              <path d="M76 242 Q74 252 80 254 L180 254 Q186 252 184 242 Z" fill="url(#glassLimb)" stroke="#2a4a7a" stroke-width="1"/>
+              <rect x="96" y="248" width="68" height="9" rx="4.5" fill="#010308" stroke="#1a3a6a" stroke-width=".8"/>
+              <!-- Hip circuit nodes -->
+              <rect x="108" y="250" width="14" height="2.5" rx="1" fill="#4a9eff" opacity=".2"/>
+              <rect x="138" y="250" width="14" height="2.5" rx="1" fill="#4a9eff" opacity=".2"/>
+              <circle cx="130" cy="252" r="2" fill="#00d4ff" opacity=".25" filter="url(#glow)" style="animation:nodePulse 2.5s infinite"/>
 
-              <!-- ── LEFT LEG ── -->
-              <g id="legL" style="transform-origin:88px 224px">
+              <!-- ══ LEFT LEG ══ -->
+              <g id="legL" style="transform-origin:96px 254px">
                 <!-- Thigh -->
-                <path d="M72 224 Q69 230 69 242 L69 278 Q69 288 76 290 L100 290 Q107 288 107 278 L107 242 Q107 230 104 224 Z" fill="url(#limbGrad)" stroke="#2a4a7a" stroke-width="1"/>
-                <path d="M72 250 L107 250" stroke="#1a3a6a" stroke-width=".7" fill="none" opacity=".4"/>
-                <path d="M71 265 L107 265" stroke="#1a3a6a" stroke-width=".6" fill="none" opacity=".3"/>
+                <path d="M78 254 Q75 260 75 274 L75 314 Q75 326 82 328 L110 328 Q117 326 117 314 L117 274 Q117 260 114 254 Z" fill="url(#glassLimb)" stroke="#2a4a7a" stroke-width="1"/>
+                <path d="M78 284 L117 284" stroke="#1a3a6a" stroke-width=".7" fill="none" opacity=".35"/>
+                <path d="M77 300 L117 300" stroke="#1a3a6a" stroke-width=".6" fill="none" opacity=".25"/>
+                <path d="M77 316 L117 316" stroke="#1a3a6a" stroke-width=".5" fill="none" opacity=".2"/>
                 <!-- Thigh cable -->
-                <path d="M76 230 Q73 255 74 272" stroke="#1a4a8a" stroke-width=".8" fill="none" stroke-dasharray="2 3" opacity=".35"/>
+                <path d="M82 260 Q79 288 80 308" stroke="#1a4a8a" stroke-width=".9" fill="none" stroke-dasharray="3 4" opacity=".3"/>
+                <!-- Thigh internal node -->
+                <circle cx="86" cy="290" r="2" fill="#4a9eff" opacity=".25" filter="url(#glow)" style="animation:nodePulse 3s infinite;animation-delay:.2s"/>
 
                 <!-- KNEE JOINT -->
-                <ellipse cx="88" cy="290" rx="19" ry="14" fill="url(#limbGrad)" stroke="#2a5a9a" stroke-width="1.2"/>
-                <ellipse cx="88" cy="290" rx="13" ry="9" fill="#030810" stroke="#1a4a8a" stroke-width=".8"/>
-                <circle cx="88" cy="290" r="6" fill="#4a9eff" opacity=".08"/>
-                <circle cx="88" cy="290" r="3.5" fill="#4a9eff" opacity=".4" filter="url(#glow)" style="animation:glowPulse 3s infinite;animation-delay:.2s"/>
-                <circle cx="90" cy="288" r="1.2" fill="white" opacity=".4"/>
+                <ellipse cx="96" cy="328" rx="22" ry="16" fill="url(#glassLimb)" stroke="#2a5a9a" stroke-width="1.3"/>
+                <ellipse cx="96" cy="328" rx="15" ry="11" fill="#010308" stroke="#1a4a8a" stroke-width=".9"/>
+                <circle cx="96" cy="328" r="7" fill="#4a9eff" opacity=".08"/>
+                <circle cx="96" cy="328" r="4" fill="#4a9eff" opacity=".35" filter="url(#glow)" style="animation:nodePulse 3s infinite;animation-delay:.2s"/>
+                <circle cx="98" cy="326" r="1.5" fill="white" opacity=".4"/>
+                <!-- Knee chrome ring -->
+                <ellipse cx="96" cy="328" rx="19" ry="13" fill="none" stroke="url(#chromeRing)" stroke-width="1" opacity=".5"/>
 
                 <!-- Shin -->
-                <path d="M71 302 Q68 310 68 320 L68 338 Q68 346 74 348 L102 348 Q108 346 108 338 L108 320 Q108 310 105 302 Z" fill="url(#limbGrad)" stroke="#2a4a7a" stroke-width="1"/>
-                <path d="M70 318 L108 318" stroke="#1a3a6a" stroke-width=".7" fill="none" opacity=".35"/>
-                <rect x="75" y="326" width="26" height="1.5" rx=".75" fill="#4a9eff" opacity=".15"/>
-                <rect x="75" y="330" width="16" height="1.5" rx=".75" fill="#4a9eff" opacity=".15"/>
+                <path d="M77 340 Q74 348 74 360 L74 382 Q74 392 80 394 L112 394 Q118 392 118 382 L118 360 Q118 348 115 340 Z" fill="url(#glassLimb)" stroke="#2a4a7a" stroke-width="1"/>
+                <path d="M76 358 L118 358" stroke="#1a3a6a" stroke-width=".7" fill="none" opacity=".3"/>
+                <path d="M76 374 L118 374" stroke="#1a3a6a" stroke-width=".6" fill="none" opacity=".2"/>
+                <rect x="82" y="366" width="30" height="1.8" rx=".9" fill="#4a9eff" opacity=".12"/>
+                <rect x="82" y="370" width="20" height="1.5" rx=".75" fill="#4a9eff" opacity=".1"/>
+                <!-- Shin node -->
+                <circle cx="88" cy="372" r="1.8" fill="#00d4ff" opacity=".2" filter="url(#glow)" style="animation:nodePulse 2.5s infinite;animation-delay:.8s"/>
 
                 <!-- Ankle -->
-                <rect x="68" y="345" width="40" height="9" rx="4" fill="url(#chromeH)" opacity=".8"/>
+                <rect x="74" y="390" width="44" height="10" rx="5" fill="url(#chromeH)" opacity=".8"/>
+                <circle cx="96" cy="395" r="2" fill="#4a9eff" opacity=".3" filter="url(#glow)"/>
 
                 <!-- FOOT -->
-                <path d="M60 352 Q58 356 58 359 L114 359 L114 352 Q106 349 88 349 Q68 349 60 352 Z" fill="url(#limbGrad)" stroke="#2a4a7a" stroke-width="1"/>
-                <path d="M62 356 Q88 354 112 356" stroke="#1a3a6a" stroke-width=".6" fill="none" opacity=".4"/>
+                <path d="M64 398 Q62 402 62 406 L126 406 L126 398 Q116 395 96 395 Q72 395 64 398 Z" fill="url(#glassLimb)" stroke="#2a4a7a" stroke-width="1"/>
+                <path d="M66 402 Q96 400 122 402" stroke="#1a3a6a" stroke-width=".7" fill="none" opacity=".35"/>
                 <!-- Foot glow strip -->
-                <path d="M64 358 L110 358" stroke="#4a9eff" stroke-width="1" stroke-linecap="round" opacity=".15"/>
+                <path d="M68 404 L120 404" stroke="#4a9eff" stroke-width="1.2" stroke-linecap="round" opacity=".18"/>
+                <circle cx="78" cy="402" r="1.5" fill="#4a9eff" opacity=".2" filter="url(#glow)"/>
+                <circle cx="114" cy="402" r="1.5" fill="#4a9eff" opacity=".2" filter="url(#glow)"/>
               </g>
 
-              <!-- ── RIGHT LEG ── -->
-              <g id="legR" style="transform-origin:152px 224px">
-                <path d="M133 224 Q130 230 130 242 L130 278 Q130 288 137 290 L161 290 Q168 288 168 278 L168 242 Q168 230 165 224 Z" fill="url(#limbGrad)" stroke="#2a4a7a" stroke-width="1"/>
-                <path d="M130 250 L168 250" stroke="#1a3a6a" stroke-width=".7" fill="none" opacity=".4"/>
-                <path d="M130 265 L168 265" stroke="#1a3a6a" stroke-width=".6" fill="none" opacity=".3"/>
-                <path d="M163 230 Q166 255 165 272" stroke="#1a4a8a" stroke-width=".8" fill="none" stroke-dasharray="2 3" opacity=".35"/>
-                <ellipse cx="149" cy="290" rx="19" ry="14" fill="url(#limbGrad)" stroke="#2a5a9a" stroke-width="1.2"/>
-                <ellipse cx="149" cy="290" rx="13" ry="9" fill="#030810" stroke="#1a4a8a" stroke-width=".8"/>
-                <circle cx="149" cy="290" r="6" fill="#4a9eff" opacity=".08"/>
-                <circle cx="149" cy="290" r="3.5" fill="#4a9eff" opacity=".4" filter="url(#glow)" style="animation:glowPulse 3s infinite;animation-delay:.6s"/>
-                <circle cx="151" cy="288" r="1.2" fill="white" opacity=".4"/>
-                <path d="M132 302 Q129 310 129 320 L129 338 Q129 346 135 348 L163 348 Q169 346 169 338 L169 320 Q169 310 166 302 Z" fill="url(#limbGrad)" stroke="#2a4a7a" stroke-width="1"/>
-                <path d="M129 318 L169 318" stroke="#1a3a6a" stroke-width=".7" fill="none" opacity=".35"/>
-                <rect x="136" y="326" width="26" height="1.5" rx=".75" fill="#4a9eff" opacity=".15"/>
-                <rect x="145" y="330" width="16" height="1.5" rx=".75" fill="#4a9eff" opacity=".15"/>
-                <rect x="129" y="345" width="40" height="9" rx="4" fill="url(#chromeH)" opacity=".8"/>
-                <path d="M123 352 Q121 356 121 359 L177 359 L177 352 Q169 349 149 349 Q129 349 123 352 Z" fill="url(#limbGrad)" stroke="#2a4a7a" stroke-width="1"/>
-                <path d="M125 356 Q149 354 175 356" stroke="#1a3a6a" stroke-width=".6" fill="none" opacity=".4"/>
-                <path d="M127 358 L173 358" stroke="#4a9eff" stroke-width="1" stroke-linecap="round" opacity=".15"/>
+              <!-- ══ RIGHT LEG ══ -->
+              <g id="legR" style="transform-origin:164px 254px">
+                <path d="M146 254 Q143 260 143 274 L143 314 Q143 326 150 328 L178 328 Q185 326 185 314 L185 274 Q185 260 182 254 Z" fill="url(#glassLimb)" stroke="#2a4a7a" stroke-width="1"/>
+                <path d="M143 284 L185 284" stroke="#1a3a6a" stroke-width=".7" fill="none" opacity=".35"/>
+                <path d="M143 300 L185 300" stroke="#1a3a6a" stroke-width=".6" fill="none" opacity=".25"/>
+                <path d="M143 316 L185 316" stroke="#1a3a6a" stroke-width=".5" fill="none" opacity=".2"/>
+                <path d="M178 260 Q181 288 180 308" stroke="#1a4a8a" stroke-width=".9" fill="none" stroke-dasharray="3 4" opacity=".3"/>
+                <circle cx="174" cy="290" r="2" fill="#4a9eff" opacity=".25" filter="url(#glow)" style="animation:nodePulse 3s infinite;animation-delay:.6s"/>
+
+                <ellipse cx="164" cy="328" rx="22" ry="16" fill="url(#glassLimb)" stroke="#2a5a9a" stroke-width="1.3"/>
+                <ellipse cx="164" cy="328" rx="15" ry="11" fill="#010308" stroke="#1a4a8a" stroke-width=".9"/>
+                <circle cx="164" cy="328" r="7" fill="#4a9eff" opacity=".08"/>
+                <circle cx="164" cy="328" r="4" fill="#4a9eff" opacity=".35" filter="url(#glow)" style="animation:nodePulse 3s infinite;animation-delay:.6s"/>
+                <circle cx="166" cy="326" r="1.5" fill="white" opacity=".4"/>
+                <ellipse cx="164" cy="328" rx="19" ry="13" fill="none" stroke="url(#chromeRing)" stroke-width="1" opacity=".5"/>
+
+                <path d="M142 340 Q139 348 139 360 L139 382 Q139 392 145 394 L177 394 Q183 392 183 382 L183 360 Q183 348 180 340 Z" fill="url(#glassLimb)" stroke="#2a4a7a" stroke-width="1"/>
+                <path d="M139 358 L183 358" stroke="#1a3a6a" stroke-width=".7" fill="none" opacity=".3"/>
+                <path d="M139 374 L183 374" stroke="#1a3a6a" stroke-width=".6" fill="none" opacity=".2"/>
+                <rect x="146" y="366" width="30" height="1.8" rx=".9" fill="#4a9eff" opacity=".12"/>
+                <rect x="156" y="370" width="20" height="1.5" rx=".75" fill="#4a9eff" opacity=".1"/>
+                <circle cx="172" cy="372" r="1.8" fill="#00d4ff" opacity=".2" filter="url(#glow)" style="animation:nodePulse 2.5s infinite;animation-delay:1.2s"/>
+
+                <rect x="138" y="390" width="44" height="10" rx="5" fill="url(#chromeH)" opacity=".8"/>
+                <circle cx="164" cy="395" r="2" fill="#4a9eff" opacity=".3" filter="url(#glow)"/>
+
+                <path d="M134 398 Q132 402 132 406 L198 406 L198 398 Q188 395 164 395 Q140 395 134 398 Z" fill="url(#glassLimb)" stroke="#2a4a7a" stroke-width="1"/>
+                <path d="M136 402 Q164 400 194 402" stroke="#1a3a6a" stroke-width=".7" fill="none" opacity=".35"/>
+                <path d="M138 404 L194 404" stroke="#4a9eff" stroke-width="1.2" stroke-linecap="round" opacity=".18"/>
+                <circle cx="150" cy="402" r="1.5" fill="#4a9eff" opacity=".2" filter="url(#glow)"/>
+                <circle cx="182" cy="402" r="1.5" fill="#4a9eff" opacity=".2" filter="url(#glow)"/>
               </g>
 
             </svg>
+
+            <!-- Robot name badge -->
+            <div id="robot-name-badge" style="position:relative;z-index:10;font-family:var(--mono);font-size:10px;color:rgba(74,158,255,.5);letter-spacing:.18em;text-transform:uppercase;margin-top:4px;text-align:center;padding-bottom:8px;"></div>
           </div>
 
-          <!-- Robot name badge -->
-          <div id="robot-name-badge" style="position:relative;z-index:10;font-family:var(--mono);font-size:10px;color:rgba(74,158,255,.5);letter-spacing:.18em;text-transform:uppercase;margin-top:4px;text-align:center;padding-bottom:8px;"></div>
-        </div>
-
-        <!-- AI Input Bar -->
-        <div class="ai-input-bar">
-          <div class="ai-irow">
-            <button class="ai-ib ai-ib-mic" id="ai-mic-btn" onclick="toggleAiMic()">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></svg>
-            </button>
-            <div class="ai-iwrap">
-              <textarea class="ai-cta" id="ai-ta" placeholder="Ask anything — I will answer vocally…" rows="1" onkeydown="aiKey(event)" oninput="autoResize(this)"></textarea>
+          <!-- AI Input Bar -->
+          <div class="ai-input-bar">
+            <div class="ai-irow">
+              <button class="ai-ib ai-ib-mic" id="ai-mic-btn" onclick="toggleAiMic()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></svg>
+              </button>
+              <div class="ai-iwrap">
+                <textarea class="ai-cta" id="ai-ta" placeholder="Ask anything — I will answer vocally…" rows="1" onkeydown="aiKey(event)" oninput="autoResize(this)"></textarea>
+              </div>
+              <button class="ai-ib ai-ib-send" onclick="sendAI()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+              </button>
             </div>
-            <button class="ai-ib ai-ib-send" onclick="sendAI()">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-            </button>
           </div>
         </div>
-      </div>
 
       <!-- MESSENGER PANEL -->
       <div class="panel hidden" id="p-msg" style="flex-direction:row;">
@@ -1299,11 +1479,11 @@ input,textarea,button,select{font-family:inherit;}
 'use strict';
 
 const API = {
-  text: 'https://text.pollinations.ai/',
-  image: 'https://image.pollinations.ai/',
+  text: 'https://gen.pollinations.ai/text/',
+  image: 'https://gen.pollinations.ai/image/',
   model: 'openai',
   timeout: 20000,
-  groqKey: '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',
+  groqKey: '',
   groqUrl: 'https://api.groq.com/openai/v1/chat/completions',
   groqModel: 'meta-llama/llama-4-scout-17b-16e-instruct'
 };
@@ -1357,7 +1537,7 @@ function genTopic() { return 'nexus-' + Math.random().toString(36).slice(2,10); 
 function icon(name) { const e=document.createElement('i'); e.setAttribute('data-lucide',name); return e; }
 function setIcon(el,name){ if(!el)return; el.innerHTML=''; el.appendChild(icon(name)); lucide.createIcons({nodes:[el]}); }
 function ri(id,name){ setIcon(document.getElementById(id),name); }
-function setBtnIcon(id,name,label){ const el=document.getElementById(id); if(!el)return; el.innerHTML=''; el.appendChild(icon(name)); if(label) el.appendChild(document.createTextNode('\u00A0'+label)); lucide.createIcons({nodes:[el]}); }
+function setBtnIcon(id,name,label){ const el=document.getElementById(id); if(!el)return; el.innerHTML=''; el.appendChild(icon(name)); if(label) el.appendChild(document.createTextNode(' '+label)); lucide.createIcons({nodes:[el]}); }
 
 function initIcons(){
   ri('theme-btn','moon');
@@ -1373,8 +1553,8 @@ function initIcons(){
   setBtnIcon('tb-back-ai','arrow-left','Back');
   setBtnIcon('msg-back-btn','arrow-left','Back');
   setBtnIcon('bin-back-btn','arrow-left','Back');
-  const genBtn=document.getElementById('gen-btn'); if(genBtn){ genBtn.innerHTML=''; genBtn.appendChild(icon('sparkles')); genBtn.appendChild(document.createTextNode('\u00A0Generate')); lucide.createIcons({nodes:[genBtn]}); }
-  const fcBtn=document.getElementById('fc-confirm-btn'); if(fcBtn){ fcBtn.innerHTML=''; fcBtn.appendChild(icon('paperclip')); fcBtn.appendChild(document.createTextNode('\u00A0Attach')); lucide.createIcons({nodes:[fcBtn]}); }
+  const genBtn=document.getElementById('gen-btn'); if(genBtn){ genBtn.innerHTML=''; genBtn.appendChild(icon('sparkles')); genBtn.appendChild(document.createTextNode(' Generate')); lucide.createIcons({nodes:[genBtn]}); }
+  const fcBtn=document.getElementById('fc-confirm-btn'); if(fcBtn){ fcBtn.innerHTML=''; fcBtn.appendChild(icon('paperclip')); fcBtn.appendChild(document.createTextNode(' Attach')); lucide.createIcons({nodes:[fcBtn]}); }
   const upAllow=document.querySelector('.up-btn.allow'); if(upAllow){ const sp=upAllow.querySelector('span'); if(sp){ sp.innerHTML=''; sp.appendChild(icon('check')); lucide.createIcons({nodes:[sp]}); } }
   ri('lock-btn','lock-keyhole');
   ri('msg-voice-btn','mic');
@@ -1391,8 +1571,8 @@ function initIcons(){
   setSbItemMsg();
   [['rb-0-ico','arrow-right'],['rb-1-ico','key-round'],['rb-3-ico','camera'],['rb-4-ico','bell'],['rb-5-ico','log-in']].forEach(([id,ic])=>ri(id,ic));
 }
-function setSbItem(id,ic,label){ const el=document.getElementById(id); if(!el)return; const badge=el.querySelector('.sb-badge'); el.innerHTML=''; el.appendChild(icon(ic)); el.appendChild(document.createTextNode('\u00A0'+label)); if(badge) el.appendChild(badge); lucide.createIcons({nodes:[el]}); }
-function setSbItemMsg(){ const el=document.getElementById('sb-msg'); if(!el)return; const badge=el.querySelector('.sb-badge'); el.innerHTML=''; el.appendChild(icon('message-circle')); el.appendChild(document.createTextNode('\u00A0Messenger')); if(badge) el.appendChild(badge); lucide.createIcons({nodes:[el]}); }
+function setSbItem(id,ic,label){ const el=document.getElementById(id); if(!el)return; const badge=el.querySelector('.sb-badge'); el.innerHTML=''; el.appendChild(icon(ic)); el.appendChild(document.createTextNode(' '+label)); if(badge) el.appendChild(badge); lucide.createIcons({nodes:[el]}); }
+function setSbItemMsg(){ const el=document.getElementById('sb-msg'); if(!el)return; const badge=el.querySelector('.sb-badge'); el.innerHTML=''; el.appendChild(icon('message-circle')); el.appendChild(document.createTextNode(' Messenger')); if(badge) el.appendChild(badge); lucide.createIcons({nodes:[el]}); }
 
 function initCanvas(){
   const c=document.getElementById('lock-canvas'); if(!c)return;
@@ -1435,8 +1615,14 @@ function saveRobotName(){
   updateRobotNameDisplay();
   notif('success','Name Saved', `Your AI is now called ${robotName}`);
   inp.value = '';
-  setRobotSpeech(`My name is ${robotName}. I am your dedicated AI assistant. How may I serve you?`);
-  speakResponse(`My name is ${robotName}. I am your dedicated AI assistant. How may I serve you?`);
+  const greet = {
+    en: `My name is ${robotName}. I am your dedicated AI assistant. How may I serve you?`,
+    te: `నా పేరు ${robotName}. నేను మీ అంకితమైన AI అసిస్టెంట్. నేను మీకు ఎలా సేవ చేయగలను?`,
+    hi: `मेरा नाम ${robotName} है। मैं आपका समर्पित AI सहायक हूं। मैं आपकी कैसे सेवा कर सकता हूं?`
+  };
+  const msg = greet[langChoice] || greet.en;
+  setRobotSpeech(msg);
+  speakResponse(msg);
 }
 
 function updateRobotNameDisplay(){
@@ -1457,7 +1643,6 @@ function loadRobotPrefs(){
   const savedLang = localStorage.getItem(ROBOT_LANG_KEY);
   if(savedLang) langChoice = savedLang;
   updateRobotNameDisplay();
-  // Sync UI buttons
   document.querySelectorAll('#voiceSeg .ctrl-btn').forEach(b=>{ b.classList.toggle('active', b.textContent.toLowerCase()===voiceType); });
   document.querySelectorAll('#langSeg .ctrl-btn').forEach(b=>{ const lmap={'English':'en','Telugu':'te','Hindi':'hi'}; b.classList.toggle('active', lmap[b.textContent]===langChoice); });
   const ta = document.getElementById('ai-ta'); if(ta) ta.placeholder = langConfig[langChoice].placeholder;
@@ -1508,9 +1693,9 @@ const mBars = ()=>[1,2,3,4,5,6,7].map(i=>document.getElementById('mb'+i)).filter
 function startMouthAnim(){
   if(mouthTick) return;
   mouthTick = setInterval(()=>{
-    mBars().forEach(b=>{
+    mBars().forEach((b, idx)=>{
       const h = 2 + Math.random()*5.5;
-      const y = 75.5 - h/2;
+      const y = 84.5 - h/2;
       b.setAttribute('height', h.toFixed(1));
       b.setAttribute('y', y.toFixed(1));
       b.setAttribute('opacity', (.25 + Math.random()*.75).toFixed(2));
@@ -1519,7 +1704,7 @@ function startMouthAnim(){
 }
 function stopMouthAnim(){
   if(mouthTick){ clearInterval(mouthTick); mouthTick=null; }
-  mBars().forEach((b,i)=>{ b.setAttribute('height','5'); b.setAttribute('y','75.5'); b.setAttribute('opacity',i===3?'.5':'.4'); });
+  mBars().forEach((b,i)=>{ b.setAttribute('height','6'); b.setAttribute('y','84.5'); b.setAttribute('opacity',i===3?'.45':'.35'); });
 }
 
 const limbIds = ['armL','armR','legL','legR'];
@@ -1529,23 +1714,22 @@ function startLimbAnim(){
   gesturePhase = 0;
   limbTick = setInterval(()=>{
     gesturePhase += 0.05;
-    const la = Math.sin(gesturePhase) * 16;
-    const ra = Math.sin(gesturePhase + Math.PI) * 16;
+    const la = Math.sin(gesturePhase) * 14;
+    const ra = Math.sin(gesturePhase + Math.PI) * 14;
     const armL = document.getElementById('armL');
     const armR = document.getElementById('armR');
     const legL = document.getElementById('legL');
     const legR = document.getElementById('legR');
     if(armL) armL.style.transform = `rotate(${la}deg)`;
     if(armR) armR.style.transform = `rotate(${ra}deg)`;
-    if(legL) legL.style.transform = `rotate(${-la * .3}deg)`;
-    if(legR) legR.style.transform = `rotate(${-ra * .3}deg)`;
-    // Finger curl
+    if(legL) legL.style.transform = `rotate(${-la * .25}deg)`;
+    if(legR) legR.style.transform = `rotate(${-ra * .25}deg)`;
     fIds.forEach((id,i)=>{
       const el = document.getElementById(id);
       if(!el) return;
       const delay = i * 0.3;
       const side = id.startsWith('fR') ? -1 : 1;
-      const curl = Math.abs(Math.sin(gesturePhase * 1.8 + delay)) * 18;
+      const curl = Math.abs(Math.sin(gesturePhase * 1.8 + delay)) * 16;
       el.style.transform = `rotate(${side * curl}deg)`;
     });
   }, 28);
@@ -1564,8 +1748,8 @@ function getBestVoice(){
   let pool = voices.filter(v=>v.lang.startsWith(langBase));
   if(!pool.length) pool = voices.filter(v=>v.lang.startsWith('en'));
   if(!pool.length) pool = voices;
-  const male = ['david','james','daniel','mark','alex','aaron','thomas','oliver','luca','jorge','reed'];
-  const female = ['samantha','victoria','karen','zira','sara','alice','fiona','moira','veena','google uk english female'];
+  const male = ['david','james','daniel','mark','alex','aaron','thomas','oliver','luca','jorge','reed','onyx','fable'];
+  const female = ['samantha','victoria','karen','zira','sara','alice','fiona','moira','veena','nova','shimmer','alloy'];
   const keywords = voiceType==='male' ? male : female;
   let pick = pool.find(v=>keywords.some(k=>v.name.toLowerCase().includes(k)));
   if(!pick){ const g = pool.filter(v=>v.name.toLowerCase().includes('google')); if(g.length) pick = g[voiceType==='male'?0:g.length-1]; }
@@ -1602,7 +1786,7 @@ async function sendAI(){
   document.getElementById('voice-status').textContent = 'THINKING…';
 
   const systemPrompt = langSysPrompts[langChoice].replace(/\{NAME\}/g, robotName);
-  
+
   try{
     let reply = '';
     if(API.groqKey && API.groqKey.length > 20){
@@ -1610,7 +1794,8 @@ async function sendAI(){
     } else {
       reply = await callPollinations(text, systemPrompt);
     }
-    reply = reply.replace(/\*\*/g,'').replace(/\*/g,'').replace(/`/g,'').replace(/#{1,6}\s/g,'').replace(/\n+/g,' ').trim();
+    reply = reply.replace(/\*\*/g,'').replace(/\*/g,'').replace(/`/g,'').replace(/#{1,6}\s/g,'').replace(/
++/g,' ').trim();
     if(!reply || reply.length < 3) reply = getDefaultResponse();
     setRobotState('idle');
     setRobotSpeech(reply);
@@ -1642,9 +1827,21 @@ async function callGroq(text, systemPrompt){
 }
 
 async function callPollinations(text, systemPrompt){
-  const prompt = `System: ${systemPrompt}\n\nUser: ${text}\n\nAssistant:`;
-  const params = new URLSearchParams({ model: API.model, seed: Date.now().toString(), system: systemPrompt });
-  const res = await fetch(`${API.text}${encodeURIComponent(text)}?${params.toString()}`);
+  // Using POST method with JSON body for better reliability
+  const res = await fetch(API.text, {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({
+      messages: [
+        {role:'system',content:systemPrompt},
+        {role:'user',content:text}
+      ],
+      model: API.model,
+      seed: Date.now(),
+      jsonMode: false,
+      private: true
+    })
+  });
   if(!res.ok) throw new Error('API '+res.status);
   return await res.text();
 }
@@ -1670,7 +1867,11 @@ function clearRobotChat(){
   if(currentUtterance){ window.speechSynthesis.cancel(); }
   stopMouthAnim(); stopLimbAnim();
   setRobotState('idle');
-  const greet = { en:`Systems reset. I am ${robotName}, ready to assist.`, te:`సిస్టమ్ రీసెట్. నేను ${robotName}, సహాయానికి సిద్ధంగా ఉన్నాను.`, hi:`सिस्टम रीसेट। मैं ${robotName}, सहायता के लिए तैयार हूं।` };
+  const greet = { 
+    en: `Systems reset. I am ${robotName}, ready to assist.`, 
+    te: `సిస్టమ్ రీసెట్. నేను ${robotName}, సహాయానికి సిద్ధంగా ఉన్నాను.`, 
+    hi: `सिस्टम रीसेट। मैं ${robotName}, सहायता के लिए तैयार हूं।` 
+  };
   const msg = greet[langChoice] || greet.en;
   setRobotSpeech(msg);
   setTimeout(()=>speakResponse(msg), 300);
@@ -1792,7 +1993,6 @@ function switchPanel(n){
   if(n==='msg') renderContacts();
   if(n==='ai'){
     loadRobotPrefs();
-    // Greet on AI panel open
     setTimeout(()=>{
       const greet = {
         en: `Online. I am ${robotName}. How may I assist you today?`,
