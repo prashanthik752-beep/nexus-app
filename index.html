@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
@@ -24,8 +25,6 @@
   --shadow-sm:0 2px 8px rgba(0,0,0,.3);
   --shadow-md:0 8px 32px rgba(0,0,0,.4);
   --shadow-lg:0 24px 72px rgba(0,0,0,.5);
-  /* Robot colors */
-  --rob-body:#0a1428;--rob-armor:#1a2a4a;--rob-chrome:#8ab0d8;--rob-glow:#4a9eff;--rob-glow2:#00d4ff;--rob-joint:#2a4a7a;
 }
 [data-theme="light"]{
   --bg:#F2EDE4;--bg-alt:#FDFAF5;--bg-sec:#EDE8DE;--bg-tri:#E8E2D6;
@@ -34,9 +33,7 @@
   --accent:#2a5a9a;--acg:rgba(42,90,154,.1);
   --gold:#9A7030;--goldg:rgba(154,112,48,.14);--golds:rgba(154,112,48,.07);--goldd:#7A5520;--goldb:#C49040;
   --red:#C8362A;--green:#2A8A4A;--amber:#C47820;--blue:#2A60C8;
-  --shadow-sm:0 2px 8px rgba(0,0,0,.08);
-  --shadow-md:0 8px 32px rgba(0,0,0,.12);
-  --shadow-lg:0 24px 72px rgba(0,0,0,.16);
+  --shadow-sm:0 2px 8px rgba(0,0,0,.08);--shadow-md:0 8px 32px rgba(0,0,0,.12);--shadow-lg:0 24px 72px rgba(0,0,0,.16);
 }
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 html,body{width:100%;height:100%;overflow:hidden;font-family:var(--sans);font-size:13.5px;font-weight:400;line-height:1.6;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;transition:background .4s,color .4s;}
@@ -283,7 +280,6 @@ svg.lucide{width:1em;height:1em;stroke-width:1.75;vertical-align:middle;flex-shr
 .card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--goldd),var(--gold));transform:scaleX(0);transform-origin:left;transition:transform .4s var(--ease);}
 .card:hover{border-color:var(--text-f);transform:translateY(-3px);box-shadow:var(--shadow-md);}
 .card:hover::after{transform:scaleX(1);}
-.card:hover .card-ico svg{color:var(--gold);}
 .card-ey{font-family:var(--mono);font-size:9px;color:var(--text-f);letter-spacing:.18em;text-transform:uppercase;display:flex;align-items:center;gap:8px;}
 .card-ey::after{content:'';flex:1;height:1px;background:var(--border);}
 .card-ico{width:40px;height:40px;border-radius:var(--r2);background:var(--bg-alt);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--text-m);transition:color .3s;}
@@ -297,171 +293,72 @@ svg.lucide{width:1em;height:1em;stroke-width:1.75;vertical-align:middle;flex-shr
 .stat-l{font-family:var(--mono);font-size:9px;color:var(--text-m);letter-spacing:.18em;text-transform:uppercase;}
 
 /* ══════════════════════════════════════════════
-   AI PANEL — ROBOT INTERFACE
+   AI PANEL — CHROME HUMANOID
 ══════════════════════════════════════════════ */
-#p-ai{background:#060810;}
+#p-ai{background:#040608;}
 
 .ai-arena{
-  flex:1;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:flex-start;
-  position:relative;
-  overflow:hidden;
-  padding:0;
+  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
+  position:relative;overflow:hidden;padding:0;
 }
 
-/* Deep space background */
 .ai-bg{
-  position:absolute;
-  inset:0;
-  background: radial-gradient(ellipse at 30% 20%, rgba(30,60,120,.35) 0%, transparent 55%),
-              radial-gradient(ellipse at 70% 80%, rgba(10,30,80,.3) 0%, transparent 50%),
-              radial-gradient(ellipse at 50% 50%, rgba(5,10,25,.9) 0%, #040608 100%);
+  position:absolute;inset:0;
+  background: radial-gradient(ellipse at 30% 20%, rgba(40,80,160,.4) 0%, transparent 55%),
+              radial-gradient(ellipse at 70% 80%, rgba(10,40,100,.35) 0%, transparent 50%),
+              radial-gradient(ellipse at 50% 50%, rgba(5,10,25,.9) 0%, #020406 100%);
   z-index:0;
 }
 .ai-grid{
   position:absolute;inset:0;z-index:1;pointer-events:none;
-  background-image:
-    linear-gradient(rgba(74,158,255,.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(74,158,255,.04) 1px, transparent 1px);
+  background-image:linear-gradient(rgba(74,158,255,.03) 1px, transparent 1px),linear-gradient(90deg, rgba(74,158,255,.03) 1px, transparent 1px);
   background-size:40px 40px;
   mask-image:radial-gradient(ellipse at 50% 50%, black 30%, transparent 80%);
 }
 
-/* Robot name setup bar */
+/* name/control bars */
 .ai-name-bar{
-  position:relative;z-index:10;
-  width:100%;
-  padding:10px 24px;
-  background:rgba(6,8,16,.9);
-  border-bottom:1px solid rgba(74,158,255,.15);
-  display:flex;
-  align-items:center;
-  gap:12px;
-  flex-shrink:0;
+  position:relative;z-index:10;width:100%;padding:10px 24px;
+  background:rgba(4,6,8,.95);border-bottom:1px solid rgba(74,158,255,.12);
+  display:flex;align-items:center;gap:12px;flex-shrink:0;
 }
-.ai-name-label{
-  font-family:var(--mono);font-size:9px;color:rgba(74,158,255,.7);
-  letter-spacing:.2em;text-transform:uppercase;white-space:nowrap;
-}
-.ai-name-input{
-  flex:1;max-width:200px;
-  padding:6px 12px;
-  background:rgba(74,158,255,.06);
-  border:1px solid rgba(74,158,255,.2);
-  border-radius:var(--r2);
-  color:#a0c8f8;
-  font-family:var(--mono);font-size:12px;
-  outline:none;
-  transition:all .3s;
-}
-.ai-name-input:focus{border-color:rgba(74,158,255,.5);background:rgba(74,158,255,.1);}
-.ai-name-input::placeholder{color:rgba(74,158,255,.3);}
-.ai-name-save{
-  padding:6px 14px;
-  background:rgba(74,158,255,.15);
-  border:1px solid rgba(74,158,255,.3);
-  border-radius:var(--r2);
-  color:#7ba4d4;
-  font-family:var(--mono);font-size:10px;
-  letter-spacing:.1em;text-transform:uppercase;
-  cursor:pointer;transition:all .25s;white-space:nowrap;
-}
-.ai-name-save:hover{background:rgba(74,158,255,.25);border-color:rgba(74,158,255,.5);color:#a8d0ff;}
+.ai-name-label{font-family:var(--mono);font-size:9px;color:rgba(74,158,255,.6);letter-spacing:.2em;text-transform:uppercase;white-space:nowrap;}
+.ai-name-input{flex:1;max-width:200px;padding:6px 12px;background:rgba(74,158,255,.05);border:1px solid rgba(74,158,255,.18);border-radius:var(--r2);color:#a0c8f8;font-family:var(--mono);font-size:12px;outline:none;transition:all .3s;}
+.ai-name-input:focus{border-color:rgba(74,158,255,.45);background:rgba(74,158,255,.08);}
+.ai-name-input::placeholder{color:rgba(74,158,255,.25);}
+.ai-name-save{padding:6px 14px;background:rgba(74,158,255,.12);border:1px solid rgba(74,158,255,.25);border-radius:var(--r2);color:#7ba4d4;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .25s;white-space:nowrap;}
+.ai-name-save:hover{background:rgba(74,158,255,.22);color:#a8d0ff;}
 
-/* Voice & Language selectors */
 .ai-controls{
-  position:relative;z-index:10;
-  width:100%;
-  padding:8px 24px;
-  background:rgba(6,8,16,.8);
-  border-bottom:1px solid rgba(74,158,255,.1);
-  display:flex;
-  align-items:center;
-  gap:16px;
-  flex-shrink:0;
-  flex-wrap:wrap;
+  position:relative;z-index:10;width:100%;padding:8px 24px;
+  background:rgba(4,6,8,.85);border-bottom:1px solid rgba(74,158,255,.08);
+  display:flex;align-items:center;gap:16px;flex-shrink:0;flex-wrap:wrap;
 }
-.ctrl-label{
-  font-family:var(--mono);font-size:9px;
-  color:rgba(74,158,255,.5);
-  letter-spacing:.18em;text-transform:uppercase;
-  white-space:nowrap;
-}
-.ctrl-seg{
-  display:flex;gap:3px;
-  background:rgba(0,0,0,.4);
-  border:1px solid rgba(74,158,255,.1);
-  border-radius:var(--r2);
-  padding:2px;
-}
-.ctrl-btn{
-  padding:4px 12px;
-  border-radius:5px;border:none;
-  background:transparent;
-  color:rgba(74,158,255,.5);
-  font-family:var(--mono);font-size:10px;
-  cursor:pointer;transition:all .2s;white-space:nowrap;
-}
-.ctrl-btn.active{background:rgba(74,158,255,.2);color:#7ba4d4;border:1px solid rgba(74,158,255,.25);}
-.ctrl-btn:hover:not(.active){background:rgba(74,158,255,.08);color:rgba(74,158,255,.8);}
+.ctrl-label{font-family:var(--mono);font-size:9px;color:rgba(74,158,255,.45);letter-spacing:.18em;text-transform:uppercase;white-space:nowrap;}
+.ctrl-seg{display:flex;gap:3px;background:rgba(0,0,0,.4);border:1px solid rgba(74,158,255,.08);border-radius:var(--r2);padding:2px;}
+.ctrl-btn{padding:4px 12px;border-radius:5px;border:none;background:transparent;color:rgba(74,158,255,.4);font-family:var(--mono);font-size:10px;cursor:pointer;transition:all .2s;white-space:nowrap;}
+.ctrl-btn.active{background:rgba(74,158,255,.18);color:#7ba4d4;border:1px solid rgba(74,158,255,.22);}
+.ctrl-btn:hover:not(.active){background:rgba(74,158,255,.07);color:rgba(74,158,255,.75);}
 
-/* Robot display area */
+/* Robot stage */
 .robot-stage{
-  flex:1;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  position:relative;
-  z-index:2;
-  padding:10px 20px 0;
-  gap:0;
+  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  position:relative;z-index:2;padding:10px 20px 0;gap:0;
 }
 
 /* Speech bubble */
 .speech-orb{
-  position:relative;
-  background:rgba(8,15,35,.92);
-  border:1px solid rgba(74,158,255,.25);
-  border-radius:16px;
-  padding:14px 22px;
-  max-width:420px;
-  min-width:200px;
-  text-align:center;
-  font-family:var(--mono);
-  font-size:12.5px;
-  color:#7ab8f8;
-  line-height:1.65;
-  letter-spacing:.02em;
-  margin-bottom:12px;
-  flex-shrink:0;
+  position:relative;background:rgba(6,12,28,.94);border:1px solid rgba(74,158,255,.22);
+  border-radius:16px;padding:14px 22px;max-width:440px;min-width:220px;text-align:center;
+  font-family:var(--mono);font-size:12.5px;color:#7ab8f8;line-height:1.7;letter-spacing:.02em;
+  margin-bottom:14px;flex-shrink:0;transition:all .3s;
 }
-.speech-orb::after{
-  content:'';position:absolute;
-  bottom:-9px;left:50%;transform:translateX(-50%);
-  width:0;height:0;
-  border-left:8px solid transparent;border-right:8px solid transparent;
-  border-top:9px solid rgba(74,158,255,.25);
-}
-.speech-orb::before{
-  content:'';position:absolute;
-  bottom:-7px;left:50%;transform:translateX(-50%);
-  width:0;height:0;
-  border-left:7px solid transparent;border-right:7px solid transparent;
-  border-top:8px solid rgba(8,15,35,.92);
-  z-index:1;
-}
+.speech-orb::after{content:'';position:absolute;bottom:-9px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-top:9px solid rgba(74,158,255,.22);}
+.speech-orb::before{content:'';position:absolute;bottom:-7px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:7px solid transparent;border-right:7px solid transparent;border-top:8px solid rgba(6,12,28,.94);z-index:1;}
 .speech-orb.thinking{border-color:rgba(201,174,126,.3);color:#c9ae7e;}
 .speech-orb.speaking{border-color:rgba(0,212,255,.3);color:#00d4ff;animation:speechPulse 2s ease-in-out infinite;}
-@keyframes speechPulse{0%,100%{box-shadow:0 0 0 0 rgba(0,212,255,.05);}50%{box-shadow:0 0 20px 4px rgba(0,212,255,.08);}}
-
-.voice-waves{
-  display:none;gap:3px;align-items:center;justify-content:center;
-  height:14px;margin-top:6px;
-}
+@keyframes speechPulse{0%,100%{box-shadow:0 0 0 0 rgba(0,212,255,.05);}50%{box-shadow:0 0 20px 6px rgba(0,212,255,.08);}}
+.voice-waves{display:none;gap:3px;align-items:center;justify-content:center;height:14px;margin-top:6px;}
 .voice-waves.on{display:flex;}
 .vw{width:3px;border-radius:2px;background:#00d4ff;animation:vwave .65s ease-in-out infinite;}
 .vw:nth-child(1){animation-delay:0s}.vw:nth-child(2){animation-delay:.09s}.vw:nth-child(3){animation-delay:.18s}.vw:nth-child(4){animation-delay:.27s}.vw:nth-child(5){animation-delay:.18s}.vw:nth-child(6){animation-delay:.09s}.vw:nth-child(7){animation-delay:0s}
@@ -472,74 +369,37 @@ svg.lucide{width:1em;height:1em;stroke-width:1.75;vertical-align:middle;flex-shr
 .tdai:nth-child(2){animation-delay:.2s}.tdai:nth-child(3){animation-delay:.4s}
 @keyframes tdaAnim{0%,100%{opacity:.2;transform:scale(.8)}50%{opacity:1;transform:scale(1.2)}}
 
-/* ROBOT SVG animations */
-@keyframes robFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
-@keyframes robTalk{0%,100%{transform:translateY(0) rotate(0)}25%{transform:translateY(-4px) rotate(.4deg)}75%{transform:translateY(-2px) rotate(-.4deg)}}
-@keyframes robThink{0%,100%{transform:rotate(0) translateY(0)}33%{transform:rotate(2deg) translateY(-4px)}66%{transform:rotate(-1.5deg) translateY(-2px)}}
-@keyframes glowPulse{0%,100%{opacity:.7}50%{opacity:1}}
-@keyframes eyeGlow{0%,100%{opacity:.6;r:6}50%{opacity:1;r:7}}
-@keyframes jointSpin{to{transform:rotate(360deg)}}
-@keyframes limbSwing{0%,100%{transform:rotate(0)}50%{transform:rotate(12deg)}}
-@keyframes fingerCurl{0%,100%{transform:rotate(0)}50%{transform:rotate(15deg)}}
-@keyframes chestPulse{0%,100%{opacity:.4;transform:scale(1)}50%{opacity:.8;transform:scale(1.08)}}
+/* ═══════════════════════════════════════
+   CHROME HUMANOID ROBOT - new design
+═══════════════════════════════════════ */
+@keyframes robFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes robTalk{0%,100%{transform:translateY(0)}25%{transform:translateY(-3px) rotate(.3deg)}75%{transform:translateY(-1.5px) rotate(-.3deg)}}
+@keyframes robThink{0%,100%{transform:rotate(0) translateY(0)}33%{transform:rotate(1.5deg) translateY(-3px)}66%{transform:rotate(-1deg) translateY(-2px)}}
+@keyframes chromeShimmer{0%,100%{opacity:.7}50%{opacity:1}}
+@keyframes eyeGlow{0%,100%{opacity:.6}50%{opacity:1;filter:blur(.5px)}}
+@keyframes bodyGlow{0%,100%{opacity:.15}50%{opacity:.35}}
+@keyframes scanLine{0%{transform:translateY(-100%)}100%{transform:translateY(200%)}}
 
-.robo-root{animation:robFloat 4s ease-in-out infinite;cursor:default;}
-.robo-root.speaking{animation:robTalk .35s ease-in-out infinite;}
+.robo-root{animation:robFloat 4s ease-in-out infinite;cursor:default;filter:drop-shadow(0 20px 40px rgba(74,158,255,.15));}
+.robo-root.speaking{animation:robTalk .4s ease-in-out infinite;}
 .robo-root.thinking{animation:robThink 1.4s ease-in-out infinite;}
 
-/* Input bar for AI */
-.ai-input-bar{
-  padding:12px 20px 16px;
-  border-top:1px solid rgba(74,158,255,.12);
-  background:rgba(6,8,16,.95);
-  z-index:10;
-  flex-shrink:0;
-}
-.ai-input-bar::before{
-  content:'';display:block;height:1px;margin-bottom:10px;
-  background:linear-gradient(90deg,transparent,rgba(74,158,255,.15),transparent);
-}
+/* AI Input Bar */
+.ai-input-bar{padding:12px 20px 16px;border-top:1px solid rgba(74,158,255,.1);background:rgba(4,6,8,.97);z-index:10;flex-shrink:0;}
+.ai-input-bar::before{content:'';display:block;height:1px;margin-bottom:10px;background:linear-gradient(90deg,transparent,rgba(74,158,255,.12),transparent);}
 .ai-irow{display:flex;gap:8px;align-items:flex-end;}
-.ai-iwrap{
-  flex:1;
-  background:rgba(74,158,255,.05);
-  border:1px solid rgba(74,158,255,.18);
-  border-radius:var(--r3);
-  display:flex;align-items:center;
-  padding:5px 5px 5px 14px;
-  transition:all .25s;
-}
-.ai-iwrap:focus-within{border-color:rgba(74,158,255,.4);background:rgba(74,158,255,.08);}
-.ai-cta{
-  flex:1;background:transparent;border:none;
-  color:#a0c8f8;
-  font-family:var(--sans);font-size:13.5px;
-  padding:8px 0;outline:none;resize:none;max-height:100px;line-height:1.5;
-}
-.ai-cta::placeholder{color:rgba(74,158,255,.25);}
-.ai-ib{
-  width:40px;height:40px;border-radius:var(--r2);
-  display:flex;align-items:center;justify-content:center;
-  font-size:17px;cursor:pointer;transition:all .25s;flex-shrink:0;border:none;
-}
-.ai-ib-ghost{background:rgba(74,158,255,.06);border:1px solid rgba(74,158,255,.18)!important;color:rgba(74,158,255,.5);}
-.ai-ib-ghost:hover{border-color:rgba(74,158,255,.4)!important;color:#7ba4d4;}
-.ai-ib-send{background:rgba(74,158,255,.2);border:1px solid rgba(74,158,255,.3)!important;color:#7ba4d4;}
-.ai-ib-send:hover{background:rgba(74,158,255,.35);transform:translateY(-1px);}
-.ai-ib-mic{background:rgba(74,158,255,.06);border:1px solid rgba(74,158,255,.18)!important;color:rgba(74,158,255,.5);}
-.ai-ib-mic.on{background:rgba(232,84,84,.12);border-color:rgba(232,84,84,.4)!important;color:var(--red);animation:vPulse 2s infinite;}
-@keyframes vPulse{0%,100%{box-shadow:0 0 0 0 rgba(232,84,84,.15);}50%{box-shadow:0 0 0 8px rgba(232,84,84,0);}}
-.ai-ib-img{background:rgba(74,158,255,.06);border:1px solid rgba(74,158,255,.18)!important;color:rgba(74,158,255,.5);}
-.ai-ib-img:hover{border-color:rgba(74,158,255,.4)!important;color:#7ba4d4;}
-.ai-clear-btn{
-  display:flex;align-items:center;gap:5px;
-  padding:5px 11px;
-  background:transparent;border:1px solid rgba(74,158,255,.15);
-  border-radius:var(--r2);
-  color:rgba(74,158,255,.4);font-family:var(--mono);font-size:9px;
-  letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:all .25s;
-}
-.ai-clear-btn:hover{border-color:rgba(74,158,255,.3);color:rgba(74,158,255,.7);}
+.ai-iwrap{flex:1;background:rgba(74,158,255,.04);border:1px solid rgba(74,158,255,.15);border-radius:var(--r3);display:flex;align-items:center;padding:5px 5px 5px 14px;transition:all .25s;}
+.ai-iwrap:focus-within{border-color:rgba(74,158,255,.38);background:rgba(74,158,255,.07);}
+.ai-cta{flex:1;background:transparent;border:none;color:#a0c8f8;font-family:var(--sans);font-size:13.5px;padding:8px 0;outline:none;resize:none;max-height:100px;line-height:1.5;}
+.ai-cta::placeholder{color:rgba(74,158,255,.22);}
+.ai-ib{width:40px;height:40px;border-radius:var(--r2);display:flex;align-items:center;justify-content:center;font-size:17px;cursor:pointer;transition:all .25s;flex-shrink:0;border:none;}
+.ai-ib-ghost{background:rgba(74,158,255,.05);border:1px solid rgba(74,158,255,.15)!important;color:rgba(74,158,255,.45);}
+.ai-ib-ghost:hover{border-color:rgba(74,158,255,.38)!important;color:#7ba4d4;}
+.ai-ib-send{background:rgba(74,158,255,.18);border:1px solid rgba(74,158,255,.28)!important;color:#7ba4d4;}
+.ai-ib-send:hover{background:rgba(74,158,255,.3);transform:translateY(-1px);}
+.ai-ib-mic{background:rgba(74,158,255,.05);border:1px solid rgba(74,158,255,.15)!important;color:rgba(74,158,255,.45);}
+.ai-ib-mic.on{background:rgba(232,84,84,.1);border-color:rgba(232,84,84,.38)!important;color:var(--red);animation:vPulse 2s infinite;}
+@keyframes vPulse{0%,100%{box-shadow:0 0 0 0 rgba(232,84,84,.12);}50%{box-shadow:0 0 0 8px rgba(232,84,84,0);}}
 
 /* MESSENGER */
 #p-msg{flex-direction:row!important;}
@@ -571,16 +431,11 @@ svg.lucide{width:1em;height:1em;stroke-width:1.75;vertical-align:middle;flex-shr
 .msg.ai   .m-bub{background:var(--bg-sec);border:1px solid var(--border);color:var(--text-b);border-bottom-left-radius:3px;}
 .msg.user .m-bub{background:var(--text);color:var(--bg);border-bottom-right-radius:3px;}
 [data-theme="light"] .msg.user .m-bub{color:#FDFAF5;}
-.m-bub img.u-img{max-width:220px;max-height:180px;border-radius:var(--r2);display:block;margin-bottom:6px;object-fit:cover;border:1px solid var(--border);}
-.f-ref{display:flex;align-items:center;gap:7px;padding:8px 11px;background:var(--bg);border:1px solid var(--border);border-left:2.5px solid var(--gold);border-radius:0 var(--r2) var(--r2) 0;margin-bottom:5px;font-size:12px;color:var(--text-b);}
-.f-ref-n{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.f-ref-s{font-family:var(--mono);font-size:9px;color:var(--text-m);flex-shrink:0;}
 .ibar{padding:10px 22px 15px;border-top:1px solid var(--border);background:var(--bg-alt);z-index:2;}
 .ibar::before{content:'';display:block;height:1px;margin-bottom:10px;background:linear-gradient(90deg,transparent,var(--border),transparent);}
 .chip-row{display:flex;flex-wrap:wrap;gap:6px;padding-bottom:7px;}
-.chip{display:flex;align-items:center;gap:6px;padding:5px 9px 5px 8px;background:var(--bg-sec);border:1px solid var(--border);border-radius:var(--r2);font-size:11.5px;color:var(--text-b);max-width:200px;position:relative;overflow:hidden;animation:chipIn .22s var(--ease);}
+.chip{display:flex;align-items:center;gap:6px;padding:5px 9px 5px 8px;background:var(--bg-sec);border:1px solid var(--border);border-radius:var(--r2);font-size:11.5px;color:var(--text-b);max-width:200px;position:relative;overflow:hidden;}
 .chip::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--gold);}
-@keyframes chipIn{from{opacity:0;transform:scale(.88);}to{opacity:1;transform:none;}}
 .chip-ico{font-size:13px;color:var(--gold);flex-shrink:0;}
 .chip-n{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .chip-s{font-family:var(--mono);font-size:9px;color:var(--text-m);flex-shrink:0;}
@@ -596,7 +451,7 @@ svg.lucide{width:1em;height:1em;stroke-width:1.75;vertical-align:middle;flex-shr
 .ib-ghost:hover{border-color:var(--gold)!important;color:var(--gold);}
 .ib-send{background:var(--text);color:var(--bg);}[data-theme="light"] .ib-send{color:var(--bg-alt);}
 .ib-send:hover{opacity:.85;transform:translateY(-1px);}
-.ib-voice.on{background:rgba(232,84,84,.1);border-color:rgba(232,84,84,.5)!important;color:var(--red);animation:vPulse 2s infinite;}
+.ib-voice.on{background:rgba(232,84,84,.1);border-color:rgba(232,84,84,.5)!important;color:var(--red);}
 label.ib-ghost{cursor:pointer;display:flex;align-items:center;justify-content:center;background:var(--bg-sec);border:1px solid var(--border);border-radius:var(--r2);width:38px;height:38px;font-size:16px;color:var(--text-m);transition:all .25s;flex-shrink:0;}
 label.ib-ghost:hover{border-color:var(--gold);color:var(--gold);}
 label.ib-ghost input[type=file]{display:none;}
@@ -625,7 +480,7 @@ input,textarea,button,select{font-family:inherit;}
   <div class="modal" onclick="event.stopPropagation()">
     <div class="m-ico" id="pm-ico"></div>
     <div class="m-title">Secure Vault</div>
-    <div class="m-sub">Enter your 4-digit PIN to decrypt your messages</div>
+    <div class="m-sub">Enter your 4-digit PIN to decrypt messages</div>
     <div class="pin-dots"><div class="pdot" id="pd0"></div><div class="pdot" id="pd1"></div><div class="pdot" id="pd2"></div><div class="pdot" id="pd3"></div></div>
     <div class="numpad">
       <button class="nk" onclick="pinP('1')">1</button><button class="nk" onclick="pinP('2')">2</button><button class="nk" onclick="pinP('3')">3</button>
@@ -641,8 +496,8 @@ input,textarea,button,select{font-family:inherit;}
 <!-- IMAGE GEN MODAL -->
 <div class="overlay hidden" id="imgen-modal" onclick="closeImgen()">
   <div class="igmodal" onclick="event.stopPropagation()">
-    <div style="font-family:var(--display);font-size:18px;font-weight:600;letter-spacing:-.02em;margin-bottom:5px;color:var(--text);">AI Image Studio</div>
-    <div style="font-size:13px;color:var(--text-b);margin-bottom:18px;">Describe anything — rendered in seconds.</div>
+    <div style="font-family:var(--display);font-size:18px;font-weight:600;margin-bottom:5px;color:var(--text);">AI Image Studio</div>
+    <div style="font-size:13px;color:var(--text-b);margin-bottom:18px;">Describe anything — rendered instantly.</div>
     <div class="ig-canvas" id="ig-preview">
       <div class="ig-empty">Awaiting creative direction…</div>
       <button class="ig-dl hidden" id="ig-dl-btn" onclick="downloadImage()"><span id="dl-ico"></span> Download</button>
@@ -655,11 +510,11 @@ input,textarea,button,select{font-family:inherit;}
   </div>
 </div>
 
-<!-- FILE CONFIRM MODAL -->
+<!-- FILE CONFIRM -->
 <div id="file-confirm" class="hidden">
-  <div class="fc-card" onclick="event.stopPropagation()">
+  <div class="fc-card">
     <div class="fc-title" id="fc-title">Attach Files</div>
-    <div class="fc-sub" id="fc-sub">Review files before attaching</div>
+    <div class="fc-sub" id="fc-sub">Review before attaching</div>
     <div class="fc-files" id="fc-file-list"></div>
     <div class="fc-btns">
       <button class="fc-btn confirm" onclick="confirmUpload()" id="fc-confirm-btn"></button>
@@ -668,12 +523,12 @@ input,textarea,button,select{font-family:inherit;}
   </div>
 </div>
 
-<!-- UPLOAD PERMISSION MODAL -->
+<!-- UPLOAD PERMISSION -->
 <div id="upload-perm" class="hidden">
-  <div class="up-card" onclick="event.stopPropagation()">
+  <div class="up-card">
     <div class="up-ico" id="up-ico"></div>
     <div class="up-title">File Access Request</div>
-    <div class="up-sub">NEXUS requests permission to access your device files for AI analysis.</div>
+    <div class="up-sub">NEXUS requests permission to access your device files.</div>
     <div class="up-btns">
       <button class="up-btn allow" onclick="grantUpload()"><span id="up-allow-ico"></span> Allow Access</button>
       <button class="up-btn deny" onclick="denyUpload()">Deny</button>
@@ -681,7 +536,7 @@ input,textarea,button,select{font-family:inherit;}
   </div>
 </div>
 
-<!-- FACE VERIFY OVERLAY -->
+<!-- FACE VERIFY -->
 <div id="fv-overlay" class="hidden">
   <div class="fv-card">
     <div class="fv-title">Face Verification</div>
@@ -747,7 +602,7 @@ input,textarea,button,select{font-family:inherit;}
       <div class="rs-title">Security <em>alerts</em></div>
       <div class="rs-sub">Get photo alerts when someone tries to break in.</div>
       <div class="ntfy-box">Install <b>ntfy</b> app → subscribe to: <code id="ntfy-topic-display"></code> · <code>ntfy.sh</code></div>
-      <div class="r-label">Your Alert Topic</div>
+      <div class="r-label">Alert Topic</div>
       <input class="r-input" id="r-ntfy" type="text" readonly style="cursor:pointer;font-family:var(--mono);letter-spacing:.06em;font-size:13px;" onclick="this.select()"/>
       <div class="r-error" id="re-4"></div>
       <button class="r-btn" onclick="regNext()"><span id="rb-4-ico"></span> Finish Setup</button>
@@ -769,7 +624,7 @@ input,textarea,button,select{font-family:inherit;}
   <div class="lock-grid"><svg><defs><pattern id="g" width="60" height="60" patternUnits="userSpaceOnUse"><path d="M 60 0 L 0 0 0 60" fill="none" stroke="currentColor" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(#g)"/></svg></div>
   <div class="lock-float lf1"><div class="lf-dot green"></div><div><div class="lf-label">System</div><div class="lf-val">Online</div></div></div>
   <div class="lock-float lf2"><div class="lf-dot gold"></div><div><div class="lf-label">Encryption</div><div class="lf-val">AES-256</div></div></div>
-  <div class="lock-float lf3"><div class="lf-dot blue"></div><div><div class="lf-label">AI Model</div><div class="lf-val">GPT-4o</div></div></div>
+  <div class="lock-float lf3"><div class="lf-dot blue"></div><div><div class="lf-label">AI Model</div><div class="lf-val">Claude 3.5</div></div></div>
   <div class="lock-float lf4"><div class="lf-dot red"></div><div><div class="lf-label">Intrusion</div><div class="lf-val">Active Guard</div></div></div>
   <div class="lock-card">
     <div class="lc-brand">
@@ -777,7 +632,7 @@ input,textarea,button,select{font-family:inherit;}
       <div><div class="lc-name">NEXUS</div><div class="lc-sub">Private Terminal</div></div>
     </div>
     <div class="lc-headline">Enter <em>Safe Key</em></div>
-    <div class="lc-desc" id="lc-welcome-name">Authentication required. Enter your 6-digit key to proceed securely.</div>
+    <div class="lc-desc" id="lc-welcome-name">Authentication required. Enter your 6-digit key.</div>
     <div class="lc-flabel">6-Digit Key <div class="lc-rule"></div></div>
     <input class="lc-input" id="sk-input" type="password" inputmode="numeric" maxlength="6" placeholder="· · · · · ·" oninput="skInput()" onkeydown="skKeydown(event)"/>
     <button class="lc-cta" onclick="verifyKey()" id="unlock-btn"></button>
@@ -809,10 +664,7 @@ input,textarea,button,select{font-family:inherit;}
       <div class="sb-foot">
         <div class="sb-user">
           <div class="sb-av" id="sb-av">?</div>
-          <div style="flex:1;min-width:0;">
-            <div class="sb-uname" id="sb-pname">User</div>
-            <div class="sb-uid" id="sb-pid">@——</div>
-          </div>
+          <div style="flex:1;min-width:0;"><div class="sb-uname" id="sb-pname">User</div><div class="sb-uid" id="sb-pid">@——</div></div>
           <button class="lock-ico" onclick="lockApp()" id="lock-btn"></button>
         </div>
       </div>
@@ -838,14 +690,14 @@ input,textarea,button,select{font-family:inherit;}
               <div class="card-ey">Feature</div>
               <div class="card-ico" id="card-ai-ico"></div>
               <div class="card-title">AI Assistant</div>
-              <div class="card-desc">Humanoid robot AI with voice responses in English, Telugu &amp; Hindi. Name your assistant.</div>
+              <div class="card-desc">Chrome humanoid AI with voice responses in English, Telugu &amp; Hindi. Name your assistant.</div>
               <div class="card-arr" id="card-ai-arr"></div>
             </div>
             <div class="card" onclick="openMessenger()">
               <div class="card-ey">Feature</div>
               <div class="card-ico" id="card-msg-ico"></div>
               <div class="card-title">Messenger</div>
-              <div class="card-desc">PIN-protected secure communications with biometric guard and real-time intruder alerts.</div>
+              <div class="card-desc">PIN-protected secure communications with biometric guard and intruder alerts.</div>
               <div class="card-arr" id="card-msg-arr"></div>
             </div>
           </div>
@@ -857,19 +709,17 @@ input,textarea,button,select{font-family:inherit;}
         </div>
       </div>
 
-      <!-- ══════════════════════════════════════════
-           AI PANEL — MECHANICAL HUMANOID ROBOT
-      ══════════════════════════════════════════ -->
+      <!-- AI PANEL — CHROME HUMANOID -->
       <div class="panel hidden" id="p-ai">
-        <div class="topbar" style="background:#060810;border-bottom:1px solid rgba(74,158,255,.12);">
+        <div class="topbar" style="background:#040608;border-bottom:1px solid rgba(74,158,255,.1);">
           <div>
             <div class="t-title" id="ai-panel-title" style="color:#7ab8f8;">AI Assistant</div>
-            <div class="t-tag" style="color:rgba(74,158,255,.4);">Humanoid · Voice Only · EN · TE · HI</div>
+            <div class="t-tag" style="color:rgba(74,158,255,.35);">Chrome Humanoid · Voice · EN · TE · HI</div>
           </div>
           <div style="display:flex;gap:7px;">
-            <div class="t-btn" onclick="openImgen()" id="tb-img-btn" style="border-color:rgba(74,158,255,.2);color:rgba(74,158,255,.5);"></div>
-            <div class="t-btn" onclick="clearRobotChat()" id="tb-clear-btn" style="border-color:rgba(74,158,255,.2);color:rgba(74,158,255,.5);"></div>
-            <div class="t-btn" onclick="switchPanel('home')" id="tb-back-ai" style="border-color:rgba(74,158,255,.2);color:rgba(74,158,255,.5);"></div>
+            <div class="t-btn" onclick="openImgen()" id="tb-img-btn" style="border-color:rgba(74,158,255,.18);color:rgba(74,158,255,.45);"></div>
+            <div class="t-btn" onclick="clearRobotChat()" id="tb-clear-btn" style="border-color:rgba(74,158,255,.18);color:rgba(74,158,255,.45);"></div>
+            <div class="t-btn" onclick="switchPanel('home')" id="tb-back-ai" style="border-color:rgba(74,158,255,.18);color:rgba(74,158,255,.45);"></div>
           </div>
         </div>
 
@@ -882,7 +732,7 @@ input,textarea,button,select{font-family:inherit;}
             <span class="ai-name-label">Name your AI</span>
             <input class="ai-name-input" id="robot-name-input" type="text" placeholder="e.g. ARIA, MAX, NOVA…" maxlength="20"/>
             <button class="ai-name-save" onclick="saveRobotName()">Save Name</button>
-            <span id="robot-name-display" style="font-family:var(--mono);font-size:10px;color:rgba(74,158,255,.6);margin-left:8px;"></span>
+            <span id="robot-name-display" style="font-family:var(--mono);font-size:10px;color:rgba(74,158,255,.5);margin-left:8px;"></span>
           </div>
 
           <!-- Voice & Language Controls -->
@@ -898,325 +748,316 @@ input,textarea,button,select{font-family:inherit;}
               <button class="ctrl-btn" onclick="setLang('te',this)">Telugu</button>
               <button class="ctrl-btn" onclick="setLang('hi',this)">Hindi</button>
             </div>
-            <span id="voice-status" style="margin-left:auto;font-family:var(--mono);font-size:9px;color:rgba(74,158,255,.35);letter-spacing:.1em;text-transform:uppercase;"></span>
+            <span id="voice-status" style="margin-left:auto;font-family:var(--mono);font-size:9px;color:rgba(74,158,255,.32);letter-spacing:.1em;text-transform:uppercase;"></span>
           </div>
 
           <!-- Robot Stage -->
           <div class="robot-stage">
             <!-- Speech bubble -->
-            <div class="speech-orb" id="speechOrb">
-              Initializing systems… I am ready to assist you.
-            </div>
-            <div class="think-dots-ai" id="thinkDotsAi">
-              <div class="tdai"></div><div class="tdai"></div><div class="tdai"></div>
-            </div>
-            <div class="voice-waves" id="voiceWaves">
-              <div class="vw"></div><div class="vw"></div><div class="vw"></div>
-              <div class="vw"></div><div class="vw"></div><div class="vw"></div><div class="vw"></div>
-            </div>
+            <div class="speech-orb" id="speechOrb">Initializing systems… I am ready to assist you.</div>
+            <div class="think-dots-ai" id="thinkDotsAi"><div class="tdai"></div><div class="tdai"></div><div class="tdai"></div></div>
+            <div class="voice-waves" id="voiceWaves"><div class="vw"></div><div class="vw"></div><div class="vw"></div><div class="vw"></div><div class="vw"></div><div class="vw"></div><div class="vw"></div></div>
 
-            <!-- MECHANICAL HUMANOID ROBOT SVG -->
-            <svg class="robo-root" id="roboSvg" width="240" height="360" viewBox="0 0 240 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- CHROME HUMANOID ROBOT SVG — inspired by sleek reflective android design -->
+            <svg class="robo-root" id="roboSvg" width="220" height="370" viewBox="0 0 220 370" fill="none" xmlns="http://www.w3.org/2000/svg">
               <defs>
-                <filter id="glow"><feGaussianBlur stdDeviation="3" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-                <filter id="glow2"><feGaussianBlur stdDeviation="6" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-                <radialGradient id="headGrad" cx="40%" cy="35%"><stop offset="0%" stop-color="#2a4a7a" stop-opacity=".9"/><stop offset="100%" stop-color="#0a1428" stop-opacity="1"/></radialGradient>
-                <radialGradient id="bodyGrad" cx="50%" cy="30%"><stop offset="0%" stop-color="#1a2a4a" stop-opacity=".95"/><stop offset="100%" stop-color="#060e20" stop-opacity="1"/></radialGradient>
-                <radialGradient id="limbGrad" cx="30%" cy="20%"><stop offset="0%" stop-color="#162240" stop-opacity=".9"/><stop offset="100%" stop-color="#060e20" stop-opacity="1"/></radialGradient>
-                <linearGradient id="chromeV" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#8ab0d8" stop-opacity=".9"/><stop offset="50%" stop-color="#4a7aaa" stop-opacity=".6"/><stop offset="100%" stop-color="#1a3a6a" stop-opacity=".8"/></linearGradient>
-                <linearGradient id="chromeH" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#1a3a6a" stop-opacity=".8"/><stop offset="50%" stop-color="#8ab0d8" stop-opacity=".6"/><stop offset="100%" stop-color="#1a3a6a" stop-opacity=".8"/></linearGradient>
+                <!-- Chrome gradients - reflective metallic like in the image -->
+                <linearGradient id="chromeTorso" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stop-color="#0a1830" stop-opacity="1"/>
+                  <stop offset="20%" stop-color="#4a7aaa" stop-opacity="0.8"/>
+                  <stop offset="45%" stop-color="#c8e0ff" stop-opacity="0.9"/>
+                  <stop offset="65%" stop-color="#7ab0e0" stop-opacity="0.7"/>
+                  <stop offset="85%" stop-color="#2a4a80" stop-opacity="0.8"/>
+                  <stop offset="100%" stop-color="#050e20" stop-opacity="1"/>
+                </linearGradient>
+                <linearGradient id="chromeHead" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stop-color="#060e20"/>
+                  <stop offset="25%" stop-color="#3a6090"/>
+                  <stop offset="50%" stop-color="#b0d0f0"/>
+                  <stop offset="75%" stop-color="#3a6090"/>
+                  <stop offset="100%" stop-color="#060e20"/>
+                </linearGradient>
+                <linearGradient id="chromeLimb" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stop-color="#040c1a"/>
+                  <stop offset="30%" stop-color="#2a5080"/>
+                  <stop offset="55%" stop-color="#90c0e8"/>
+                  <stop offset="80%" stop-color="#2a4a78"/>
+                  <stop offset="100%" stop-color="#040c1a"/>
+                </linearGradient>
+                <linearGradient id="chromeLimbV" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#8ab8e0"/>
+                  <stop offset="40%" stop-color="#3060a0"/>
+                  <stop offset="100%" stop-color="#081828"/>
+                </linearGradient>
+                <linearGradient id="chromeHighlight" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9"/>
+                  <stop offset="100%" stop-color="#4a8acc" stop-opacity="0.3"/>
+                </linearGradient>
+                <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stop-color="#00d4ff" stop-opacity="0.9"/>
+                  <stop offset="60%" stop-color="#4a9eff" stop-opacity="0.4"/>
+                  <stop offset="100%" stop-color="#4a9eff" stop-opacity="0"/>
+                </radialGradient>
+                <radialGradient id="eyeGlow" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stop-color="#00e8ff" stop-opacity="1"/>
+                  <stop offset="50%" stop-color="#4ab8ff" stop-opacity="0.7"/>
+                  <stop offset="100%" stop-color="#0060a0" stop-opacity="0"/>
+                </radialGradient>
+                <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
+                  <feGaussianBlur stdDeviation="3" result="blur"/>
+                  <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                </filter>
+                <filter id="strongGlow" x="-100%" y="-100%" width="300%" height="300%">
+                  <feGaussianBlur stdDeviation="6" result="blur"/>
+                  <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                </filter>
               </defs>
 
-              <!-- floor glow -->
-              <ellipse cx="120" cy="354" rx="55" ry="6" fill="#4a9eff" opacity=".06"/>
-              <ellipse cx="120" cy="354" rx="30" ry="3" fill="#4a9eff" opacity=".1"/>
-
-              <!-- ── SPINE / NECK CABLES ── -->
-              <path d="M112 92 Q108 100 110 108" stroke="#1a3a6a" stroke-width="1.5" stroke-linecap="round" fill="none"/>
-              <path d="M128 92 Q132 100 130 108" stroke="#1a3a6a" stroke-width="1.5" stroke-linecap="round" fill="none"/>
-              <path d="M120 94 L120 110" stroke="#4a9eff" stroke-width=".8" stroke-dasharray="3 2" stroke-linecap="round" fill="none" opacity=".4"/>
-
-              <!-- ── HEAD ── -->
-              <!-- Head shell - translucent dark with chrome rim -->
-              <ellipse cx="120" cy="55" rx="44" ry="48" fill="url(#headGrad)" stroke="#2a5a9a" stroke-width="1.2"/>
-              <!-- Cranial highlight / translucent dome top -->
-              <ellipse cx="105" cy="38" rx="22" ry="14" fill="#4a9eff" opacity=".06"/>
-              <!-- Chrome head band horizontal -->
-              <rect x="76" y="52" width="88" height="10" rx="2" fill="url(#chromeH)" opacity=".7"/>
-              <!-- Inner skull circuitry suggestion -->
-              <circle cx="120" cy="48" r="18" fill="none" stroke="#1a3a6a" stroke-width=".7" stroke-dasharray="4 3" opacity=".5"/>
-              <circle cx="120" cy="48" r="12" fill="none" stroke="#4a9eff" stroke-width=".5" opacity=".2"/>
-
-              <!-- FACE VISOR - dark tinted transparent -->
-              <rect x="82" y="50" width="76" height="30" rx="8" fill="#04080f" stroke="#1a4a8a" stroke-width="1"/>
-              <rect x="84" y="52" width="72" height="8" rx="3" fill="#4a9eff" opacity=".04"/>
-
-              <!-- LEFT EYE assembly -->
-              <circle cx="100" cy="64" r="11" fill="#020508" stroke="#1a3a6a" stroke-width="1"/>
-              <circle cx="100" cy="64" r="8" fill="#010204" stroke="#2a5a9a" stroke-width=".8"/>
-              <!-- Eye iris ring -->
-              <circle cx="100" cy="64" r="6" fill="none" stroke="#4a9eff" stroke-width="1.5" opacity=".8" filter="url(#glow)"/>
-              <circle cx="100" cy="64" r="4" fill="#4a9eff" opacity=".15"/>
-              <!-- Eye pupil glow -->
-              <circle cx="100" cy="64" r="2.5" fill="#00d4ff" filter="url(#glow)" id="eyeL" style="animation:glowPulse 2.5s ease-in-out infinite"/>
-              <circle cx="100" cy="64" r="1.2" fill="white" opacity=".9"/>
-              <!-- Eye reflection -->
-              <circle cx="102" cy="62" r=".8" fill="white" opacity=".6"/>
-
-              <!-- RIGHT EYE assembly -->
-              <circle cx="140" cy="64" r="11" fill="#020508" stroke="#1a3a6a" stroke-width="1"/>
-              <circle cx="140" cy="64" r="8" fill="#010204" stroke="#2a5a9a" stroke-width=".8"/>
-              <circle cx="140" cy="64" r="6" fill="none" stroke="#4a9eff" stroke-width="1.5" opacity=".8" filter="url(#glow)"/>
-              <circle cx="140" cy="64" r="4" fill="#4a9eff" opacity=".15"/>
-              <circle cx="140" cy="64" r="2.5" fill="#00d4ff" filter="url(#glow)" id="eyeR" style="animation:glowPulse 2.5s ease-in-out infinite;animation-delay:.5s"/>
-              <circle cx="140" cy="64" r="1.2" fill="white" opacity=".9"/>
-              <circle cx="142" cy="62" r=".8" fill="white" opacity=".6"/>
-
-              <!-- MOUTH / vocal grid -->
-              <rect x="94" y="73" width="52" height="9" rx="4" fill="#020610" stroke="#1a4a8a" stroke-width=".8"/>
-              <!-- Mouth LED bars -->
-              <rect x="97" y="75" width="4" height="5" rx="2" fill="#4a9eff" opacity=".4" id="mb1"/>
-              <rect x="103" y="75" width="4" height="5" rx="2" fill="#4a9eff" opacity=".4" id="mb2"/>
-              <rect x="109" y="75" width="4" height="5" rx="2" fill="#4a9eff" opacity=".4" id="mb3"/>
-              <rect x="115" y="75" width="4" height="5" rx="2" fill="#00d4ff" opacity=".5" id="mb4"/>
-              <rect x="121" y="75" width="4" height="5" rx="2" fill="#4a9eff" opacity=".4" id="mb5"/>
-              <rect x="127" y="75" width="4" height="5" rx="2" fill="#4a9eff" opacity=".4" id="mb6"/>
-              <rect x="133" y="75" width="4" height="5" rx="2" fill="#4a9eff" opacity=".4" id="mb7"/>
-
-              <!-- Chin detail -->
-              <path d="M104 83 Q120 88 136 83" stroke="#1a3a6a" stroke-width="1" stroke-linecap="round" fill="none"/>
-
-              <!-- Chrome side panels (ear area) -->
-              <rect x="74" y="54" width="10" height="28" rx="4" fill="url(#limbGrad)" stroke="#2a5a9a" stroke-width="1"/>
-              <circle cx="79" cy="62" r="3" fill="#4a9eff" opacity=".4" filter="url(#glow)"/>
-              <rect x="76" y="68" width="6" height="2" rx="1" fill="#4a9eff" opacity=".3"/>
-              <rect x="156" y="54" width="10" height="28" rx="4" fill="url(#limbGrad)" stroke="#2a5a9a" stroke-width="1"/>
-              <circle cx="161" cy="62" r="3" fill="#4a9eff" opacity=".4" filter="url(#glow)"/>
-              <rect x="158" y="68" width="6" height="2" rx="1" fill="#4a9eff" opacity=".3"/>
-
-              <!-- Top crown detail -->
-              <path d="M100 9 L120 4 L140 9" stroke="#2a5a9a" stroke-width="1" fill="none"/>
-              <circle cx="120" cy="4" r="3.5" fill="#4a9eff" opacity=".6" filter="url(#glow)"/>
-              <circle cx="108" cy="7" r="2" fill="#4a9eff" opacity=".3"/>
-              <circle cx="132" cy="7" r="2" fill="#4a9eff" opacity=".3"/>
+              <!-- Floor reflection glow -->
+              <ellipse cx="110" cy="366" rx="60" ry="5" fill="#4a9eff" opacity="0.08"/>
+              <ellipse cx="110" cy="366" rx="30" ry="2.5" fill="#00d4ff" opacity="0.1"/>
 
               <!-- ── NECK ── -->
-              <rect x="106" y="98" width="28" height="14" rx="5" fill="url(#limbGrad)" stroke="#2a5a9a" stroke-width="1"/>
-              <rect x="108" y="101" width="24" height="3" rx="1.5" fill="#4a9eff" opacity=".15"/>
-              <rect x="108" y="106" width="24" height="3" rx="1.5" fill="#4a9eff" opacity=".15"/>
+              <rect x="96" y="100" width="28" height="18" rx="6" fill="url(#chromeLimb)"/>
+              <rect x="100" y="103" width="20" height="4" rx="2" fill="#a0c8e8" opacity="0.5"/>
+              <rect x="100" y="109" width="20" height="4" rx="2" fill="#4a80b8" opacity="0.3"/>
 
-              <!-- ── TORSO ── -->
-              <!-- Main body shell -->
-              <path d="M62 116 Q58 122 58 136 L58 196 Q58 210 72 214 L168 214 Q182 210 182 196 L182 136 Q182 122 178 116 L154 112 Q138 108 120 108 Q102 108 86 112 Z" fill="url(#bodyGrad)" stroke="#2a5a9a" stroke-width="1.2"/>
-              <!-- Body highlight/sheen -->
-              <path d="M76 112 Q120 108 164 112 Q158 126 120 128 Q82 126 76 112 Z" fill="#4a9eff" opacity=".04"/>
-              <!-- Ribbing lines -->
-              <path d="M68 150 Q120 155 172 150" stroke="#1a3a6a" stroke-width=".8" fill="none" opacity=".6"/>
-              <path d="M66 165 Q120 170 174 165" stroke="#1a3a6a" stroke-width=".8" fill="none" opacity=".5"/>
-              <path d="M65 180 Q120 185 175 180" stroke="#1a3a6a" stroke-width=".8" fill="none" opacity=".4"/>
+              <!-- ── HEAD — sleek elongated chrome skull ── -->
+              <!-- Head main shape - tall elegant form -->
+              <path d="M 74 78 Q 72 56 82 40 Q 94 24 110 22 Q 126 22 138 40 Q 148 56 146 78 L 144 102 Q 128 106 110 106 Q 92 106 76 102 Z" fill="url(#chromeHead)"/>
+              <!-- Head highlight/sheen -->
+              <path d="M 88 28 Q 100 22 112 22 Q 122 22 132 28 Q 122 38 110 40 Q 98 38 88 28 Z" fill="white" opacity="0.15"/>
+              <!-- Left face reflection panel -->
+              <path d="M 74 78 Q 72 60 80 44 Q 82 56 84 80 Z" fill="#c0daf0" opacity="0.12"/>
+              <!-- Right face reflection -->
+              <path d="M 146 78 Q 148 60 140 44 Q 138 56 136 80 Z" fill="#c0daf0" opacity="0.12"/>
 
-              <!-- Chest center panel -->
-              <rect x="88" y="124" width="64" height="68" rx="10" fill="#030810" stroke="#1a3a6a" stroke-width="1"/>
+              <!-- Visor / face plate — dark tinted -->
+              <path d="M 80 60 Q 80 48 92 45 L 128 45 Q 140 48 140 60 L 138 84 Q 136 90 124 92 L 96 92 Q 84 90 82 84 Z" fill="#020810" opacity="0.95"/>
+              <path d="M 82 62 Q 82 52 92 49 L 128 49 Q 138 52 138 62 L 136 72 Q 132 76 120 78 L 100 78 Q 88 76 84 72 Z" fill="#04101e" opacity="0.8"/>
 
-              <!-- Central reactor core -->
-              <circle cx="120" cy="150" r="20" fill="#020508" stroke="#1a4a8a" stroke-width="1.5"/>
-              <circle cx="120" cy="150" r="16" fill="none" stroke="#2a5a9a" stroke-width="1" stroke-dasharray="5 3" opacity=".4" style="animation:glowPulse 2s infinite"/>
-              <circle cx="120" cy="150" r="12" fill="#4a9eff" opacity=".06" id="coreOuter" style="animation:chestPulse 2s ease-in-out infinite"/>
-              <circle cx="120" cy="150" r="8" fill="#4a9eff" opacity=".12"/>
-              <circle cx="120" cy="150" r="5" fill="#00d4ff" opacity=".7" filter="url(#glow)" id="coreDot"/>
-              <circle cx="122" cy="148" r="2" fill="white" opacity=".5"/>
-              <!-- Reactor ring segments -->
-              <circle cx="120" cy="150" r="20" fill="none" stroke="#4a9eff" stroke-width=".6" stroke-dasharray="3 6" opacity=".3"/>
+              <!-- EYES — glowing cyan like in the image -->
+              <!-- Left eye -->
+              <ellipse cx="97" cy="66" rx="11" ry="8" fill="#030c1a"/>
+              <ellipse cx="97" cy="66" rx="8" ry="6" fill="url(#eyeGlow)" filter="url(#strongGlow)" style="animation:eyeGlow 2.5s ease-in-out infinite"/>
+              <ellipse cx="97" cy="66" rx="5" ry="3.5" fill="#00e8ff" opacity="0.95"/>
+              <ellipse cx="97" cy="66" rx="2.5" ry="1.8" fill="white" opacity="0.9"/>
+              <ellipse cx="95" cy="64" rx="1.2" ry="0.8" fill="white" opacity="0.7"/>
+              <!-- Eye socket chrome rim -->
+              <ellipse cx="97" cy="66" rx="10.5" ry="7.5" fill="none" stroke="#3070b0" stroke-width="1" opacity="0.5"/>
 
-              <!-- Side circuit panels -->
-              <rect x="92" y="170" width="24" height="14" rx="3" fill="#030810" stroke="#1a3a6a" stroke-width=".8"/>
-              <rect x="94" y="172" width="6" height="3" rx="1.5" fill="#4a9eff" opacity=".4"/>
-              <rect x="102" y="172" width="4" height="3" rx="1.5" fill="#00d4ff" opacity=".3"/>
-              <rect x="94" y="177" width="20" height="2" rx="1" fill="#1a3a6a"/>
-              <rect x="124" y="170" width="24" height="14" rx="3" fill="#030810" stroke="#1a3a6a" stroke-width=".8"/>
-              <rect x="126" y="172" width="6" height="3" rx="1.5" fill="#4a9eff" opacity=".4"/>
-              <rect x="134" y="172" width="4" height="3" rx="1.5" fill="#00d4ff" opacity=".3"/>
-              <rect x="126" y="177" width="20" height="2" rx="1" fill="#1a3a6a"/>
+              <!-- Right eye -->
+              <ellipse cx="123" cy="66" rx="11" ry="8" fill="#030c1a"/>
+              <ellipse cx="123" cy="66" rx="8" ry="6" fill="url(#eyeGlow)" filter="url(#strongGlow)" style="animation:eyeGlow 2.5s ease-in-out infinite;animation-delay:.6s"/>
+              <ellipse cx="123" cy="66" rx="5" ry="3.5" fill="#00e8ff" opacity="0.95"/>
+              <ellipse cx="123" cy="66" rx="2.5" ry="1.8" fill="white" opacity="0.9"/>
+              <ellipse cx="121" cy="64" rx="1.2" ry="0.8" fill="white" opacity="0.7"/>
+              <ellipse cx="123" cy="66" rx="10.5" ry="7.5" fill="none" stroke="#3070b0" stroke-width="1" opacity="0.5"/>
 
-              <!-- ── SHOULDER JOINTS ── -->
-              <!-- LEFT shoulder - mechanical ball joint -->
-              <circle cx="58" cy="120" r="18" fill="url(#limbGrad)" stroke="#2a5a9a" stroke-width="1.5"/>
-              <circle cx="58" cy="120" r="12" fill="#030810" stroke="#1a4a8a" stroke-width="1"/>
-              <circle cx="58" cy="120" r="8" fill="none" stroke="#2a5a9a" stroke-width=".8" stroke-dasharray="3 2" opacity=".5" style="animation:jointSpin 8s linear infinite;transform-origin:58px 120px"/>
-              <circle cx="58" cy="120" r="5" fill="#4a9eff" opacity=".2"/>
-              <circle cx="58" cy="120" r="3" fill="#4a9eff" opacity=".5" filter="url(#glow)"/>
-              <circle cx="60" cy="118" r="1.2" fill="white" opacity=".5"/>
+              <!-- Nose bridge subtle line -->
+              <line x1="110" y1="70" x2="110" y2="80" stroke="#1a4a80" stroke-width="1" opacity="0.4"/>
 
-              <!-- RIGHT shoulder -->
-              <circle cx="182" cy="120" r="18" fill="url(#limbGrad)" stroke="#2a5a9a" stroke-width="1.5"/>
-              <circle cx="182" cy="120" r="12" fill="#030810" stroke="#1a4a8a" stroke-width="1"/>
-              <circle cx="182" cy="120" r="8" fill="none" stroke="#2a5a9a" stroke-width=".8" stroke-dasharray="3 2" opacity=".5" style="animation:jointSpin 8s linear infinite reverse;transform-origin:182px 120px"/>
-              <circle cx="182" cy="120" r="5" fill="#4a9eff" opacity=".2"/>
-              <circle cx="182" cy="120" r="3" fill="#4a9eff" opacity=".5" filter="url(#glow)"/>
-              <circle cx="184" cy="118" r="1.2" fill="white" opacity=".5"/>
+              <!-- MOUTH — vocal LED grid -->
+              <rect x="92" y="82" width="36" height="8" rx="3.5" fill="#010408" stroke="#1a4a80" stroke-width="0.8"/>
+              <rect id="mb1" x="94" y="84" width="4" height="4" rx="2" fill="#00d4ff" opacity="0.5"/>
+              <rect id="mb2" x="100" y="84" width="4" height="4" rx="2" fill="#4a9eff" opacity="0.4"/>
+              <rect id="mb3" x="106" y="84" width="4" height="4" rx="2" fill="#00d4ff" opacity="0.6"/>
+              <rect id="mb4" x="112" y="84" width="4" height="4" rx="2" fill="#00e8ff" opacity="0.5"/>
+              <rect id="mb5" x="118" y="84" width="4" height="4" rx="2" fill="#4a9eff" opacity="0.4"/>
+              <rect id="mb6" x="124" y="84" width="4" height="4" rx="2" fill="#00d4ff" opacity="0.5"/>
+
+              <!-- Crown / top head detail -->
+              <path d="M 96 24 Q 110 18 124 24" stroke="#5090c8" stroke-width="1.5" fill="none" opacity="0.6"/>
+              <circle cx="110" cy="20" r="4" fill="#00d4ff" opacity="0.6" filter="url(#softGlow)"/>
+              <circle cx="96" cy="24" r="2.5" fill="#4a9eff" opacity="0.4"/>
+              <circle cx="124" cy="24" r="2.5" fill="#4a9eff" opacity="0.4"/>
+
+              <!-- Ear panels — chrome side plates -->
+              <rect x="64" y="58" width="12" height="32" rx="5" fill="url(#chromeLimb)" opacity="0.9"/>
+              <rect x="66" y="64" width="8" height="3" rx="1.5" fill="#80c0e8" opacity="0.5"/>
+              <rect x="66" y="70" width="8" height="3" rx="1.5" fill="#4a9eff" opacity="0.35"/>
+              <rect x="66" y="76" width="8" height="3" rx="1.5" fill="#80c0e8" opacity="0.25"/>
+              <rect x="144" y="58" width="12" height="32" rx="5" fill="url(#chromeLimb)" opacity="0.9"/>
+              <rect x="146" y="64" width="8" height="3" rx="1.5" fill="#80c0e8" opacity="0.5"/>
+              <rect x="146" y="70" width="8" height="3" rx="1.5" fill="#4a9eff" opacity="0.35"/>
+              <rect x="146" y="76" width="8" height="3" rx="1.5" fill="#80c0e8" opacity="0.25"/>
+
+              <!-- ── TORSO — broad chrome chest ── -->
+              <!-- Main torso shape -->
+              <path d="M 52 120 Q 48 128 48 142 L 48 218 Q 48 230 62 234 L 158 234 Q 172 230 172 218 L 172 142 Q 172 128 168 120 L 148 114 Q 130 108 110 108 Q 90 108 72 114 Z" fill="url(#chromeTorso)"/>
+              <!-- Chest highlight sweep -->
+              <path d="M 72 114 Q 110 108 148 114 Q 140 130 110 134 Q 80 130 72 114 Z" fill="white" opacity="0.06"/>
+              <!-- Side chrome panels - left -->
+              <path d="M 52 120 Q 50 140 50 165 L 58 162 L 60 125 Z" fill="#a0c8e8" opacity="0.12"/>
+              <!-- Side chrome panels - right -->
+              <path d="M 168 120 Q 170 140 170 165 L 162 162 L 160 125 Z" fill="#a0c8e8" opacity="0.12"/>
+              <!-- Torso horizontal chrome lines -->
+              <path d="M 58 156 Q 110 162 162 156" stroke="#3a6898" stroke-width="0.8" fill="none" opacity="0.5"/>
+              <path d="M 56 172 Q 110 178 164 172" stroke="#2a5080" stroke-width="0.7" fill="none" opacity="0.4"/>
+              <path d="M 55 188 Q 110 194 165 188" stroke="#2a4878" stroke-width="0.6" fill="none" opacity="0.35"/>
+              <path d="M 54 204 Q 110 210 166 204" stroke="#1a3860" stroke-width="0.5" fill="none" opacity="0.3"/>
+
+              <!-- CHEST CORE REACTOR -->
+              <circle cx="110" cy="165" r="26" fill="#010408" stroke="#2050a0" stroke-width="1"/>
+              <circle cx="110" cy="165" r="21" fill="#010c1e" stroke="#3070c0" stroke-width="0.8" stroke-dasharray="4 3" opacity="0.5" style="animation:bodyGlow 2.5s ease-in-out infinite;transform-origin:110px 165px"/>
+              <circle cx="110" cy="165" r="16" fill="url(#coreGlow)" opacity="0.2" style="animation:bodyGlow 2s ease-in-out infinite"/>
+              <circle cx="110" cy="165" r="10" fill="#00d4ff" opacity="0.12"/>
+              <circle cx="110" cy="165" r="6" fill="#00d4ff" opacity="0.5" filter="url(#softGlow)" id="coreDot" style="animation:bodyGlow 2s ease-in-out infinite"/>
+              <circle cx="112" cy="163" r="2.5" fill="white" opacity="0.7"/>
+              <!-- Reactor ring detail -->
+              <circle cx="110" cy="165" r="26" fill="none" stroke="#4a9eff" stroke-width="0.5" stroke-dasharray="3 8" opacity="0.3"/>
+
+              <!-- Chest panel lower circuits -->
+              <rect x="76" y="196" width="28" height="14" rx="4" fill="#010408" stroke="#1a3060" stroke-width="0.8"/>
+              <rect x="78" y="198" width="7" height="3" rx="1.5" fill="#4a9eff" opacity="0.5"/>
+              <rect x="87" y="198" width="5" height="3" rx="1.5" fill="#00d4ff" opacity="0.35"/>
+              <rect x="78" y="203" width="24" height="1.5" rx="0.75" fill="#1a4080" opacity="0.4"/>
+              <rect x="116" y="196" width="28" height="14" rx="4" fill="#010408" stroke="#1a3060" stroke-width="0.8"/>
+              <rect x="118" y="198" width="7" height="3" rx="1.5" fill="#4a9eff" opacity="0.5"/>
+              <rect x="127" y="198" width="5" height="3" rx="1.5" fill="#00d4ff" opacity="0.35"/>
+              <rect x="118" y="203" width="24" height="1.5" rx="0.75" fill="#1a4080" opacity="0.4"/>
+
+              <!-- ── SHOULDER JOINTS — large chrome ball joints ── -->
+              <!-- Left shoulder -->
+              <circle cx="48" cy="126" r="22" fill="url(#chromeLimb)"/>
+              <circle cx="48" cy="126" r="15" fill="#020810" stroke="#2060b0" stroke-width="1"/>
+              <circle cx="48" cy="126" r="10" fill="none" stroke="#3070b0" stroke-width="0.8" stroke-dasharray="3 3" opacity="0.4" style="animation:chromeShimmer 3s infinite;transform-origin:48px 126px"/>
+              <circle cx="48" cy="126" r="6" fill="#4a9eff" opacity="0.2"/>
+              <circle cx="48" cy="126" r="3.5" fill="#00d4ff" opacity="0.6" filter="url(#softGlow)"/>
+              <circle cx="50" cy="124" r="1.5" fill="white" opacity="0.6"/>
+
+              <!-- Right shoulder -->
+              <circle cx="172" cy="126" r="22" fill="url(#chromeLimb)"/>
+              <circle cx="172" cy="126" r="15" fill="#020810" stroke="#2060b0" stroke-width="1"/>
+              <circle cx="172" cy="126" r="10" fill="none" stroke="#3070b0" stroke-width="0.8" stroke-dasharray="3 3" opacity="0.4" style="animation:chromeShimmer 3s infinite reverse;transform-origin:172px 126px"/>
+              <circle cx="172" cy="126" r="6" fill="#4a9eff" opacity="0.2"/>
+              <circle cx="172" cy="126" r="3.5" fill="#00d4ff" opacity="0.6" filter="url(#softGlow)"/>
+              <circle cx="174" cy="124" r="1.5" fill="white" opacity="0.6"/>
 
               <!-- ── LEFT ARM ── -->
-              <g id="armL" style="transform-origin:58px 130px">
-                <!-- Upper arm -->
-                <path d="M44 130 Q40 136 40 148 L40 176 Q40 184 46 186 L62 186 Q68 184 68 176 L68 148 Q68 136 64 130 Z" fill="url(#limbGrad)" stroke="#2a5a9a" stroke-width="1"/>
-                <!-- Arm detail lines -->
-                <path d="M44 145 L68 145" stroke="#1a3a6a" stroke-width=".7" fill="none" opacity=".5"/>
-                <path d="M44 158 L68 158" stroke="#1a3a6a" stroke-width=".7" fill="none" opacity=".4"/>
-                <!-- Arm cables -->
-                <path d="M47 134 Q44 152 44 170" stroke="#1a4a8a" stroke-width=".8" fill="none" stroke-dasharray="2 3" opacity=".4"/>
+              <g id="armL" style="transform-origin:48px 140px">
+                <!-- Upper arm - organic curved chrome -->
+                <path d="M 32 138 Q 28 146 28 160 L 28 194 Q 28 204 35 206 L 55 206 Q 62 204 62 194 L 62 160 Q 62 146 58 138 Z" fill="url(#chromeLimb)"/>
+                <path d="M 32 140 L 32 200" stroke="#a0c8e8" stroke-width="0.8" fill="none" opacity="0.2"/>
+                <path d="M 58 140 L 58 200" stroke="#a0c8e8" stroke-width="0.8" fill="none" opacity="0.15"/>
+                <path d="M 32 162 L 62 162" stroke="#3060a0" stroke-width="0.7" fill="none" opacity="0.4"/>
+                <path d="M 32 178 L 62 178" stroke="#2050a0" stroke-width="0.6" fill="none" opacity="0.3"/>
+                <!-- Arm highlight -->
+                <path d="M 32 138 Q 30 162 30 188 Q 32 162 34 138 Z" fill="white" opacity="0.05"/>
 
-                <!-- ELBOW JOINT -->
-                <circle cx="54" cy="186" r="12" fill="url(#limbGrad)" stroke="#2a5a9a" stroke-width="1.2"/>
-                <circle cx="54" cy="186" r="7" fill="#030810" stroke="#1a4a8a" stroke-width=".8"/>
-                <circle cx="54" cy="186" r="4.5" fill="#4a9eff" opacity=".15"/>
-                <circle cx="54" cy="186" r="2.5" fill="#4a9eff" opacity=".5" filter="url(#glow)" style="animation:glowPulse 3s infinite;animation-delay:.3s"/>
+                <!-- Elbow joint -->
+                <circle cx="45" cy="206" r="14" fill="url(#chromeLimb)"/>
+                <circle cx="45" cy="206" r="8" fill="#020810" stroke="#2060a8" stroke-width="0.8"/>
+                <circle cx="45" cy="206" r="4.5" fill="#4a9eff" opacity="0.2"/>
+                <circle cx="45" cy="206" r="2.5" fill="#00d4ff" opacity="0.55" filter="url(#softGlow)" style="animation:bodyGlow 3.5s infinite;animation-delay:.3s"/>
 
                 <!-- Forearm -->
-                <path d="M42 194 Q39 200 39 210 L39 236 Q39 244 44 246 L64 246 Q69 244 69 236 L69 210 Q69 200 66 194 Z" fill="url(#limbGrad)" stroke="#2a4a7a" stroke-width="1"/>
-                <path d="M42 208 L69 208" stroke="#1a3a6a" stroke-width=".7" fill="none" opacity=".4"/>
-                <path d="M42 222 L69 222" stroke="#1a3a6a" stroke-width=".6" fill="none" opacity=".3"/>
-                <!-- Circuit trace -->
-                <rect x="46" y="214" width="18" height="1.5" rx=".75" fill="#4a9eff" opacity=".2"/>
-                <rect x="46" y="218" width="11" height="1.5" rx=".75" fill="#4a9eff" opacity=".2"/>
+                <path d="M 30 216 Q 26 224 26 235 L 26 262 Q 26 270 33 272 L 57 272 Q 64 270 64 262 L 64 235 Q 64 224 60 216 Z" fill="url(#chromeLimb)"/>
+                <path d="M 30 238 L 64 238" stroke="#2a5080" stroke-width="0.7" fill="none" opacity="0.4"/>
+                <path d="M 30 252 L 64 252" stroke="#2a4878" stroke-width="0.6" fill="none" opacity="0.3"/>
+                <rect x="34" y="244" width="20" height="1.5" rx="0.75" fill="#4a9eff" opacity="0.2"/>
 
-                <!-- WRIST JOINT -->
-                <rect x="39" y="243" width="30" height="9" rx="4" fill="url(#chromeH)" opacity=".7"/>
-                <rect x="41" y="245" width="26" height="5" rx="2.5" fill="#030810" stroke="#1a4a8a" stroke-width=".5"/>
+                <!-- Wrist -->
+                <rect x="26" y="269" width="38" height="10" rx="5" fill="url(#chromeLimb)" opacity="0.9"/>
+                <rect x="29" y="271" width="32" height="6" rx="3" fill="#020810" stroke="#204080" stroke-width="0.5"/>
 
                 <!-- HAND -->
                 <g id="handL">
-                  <rect x="36" y="250" width="32" height="20" rx="9" fill="url(#limbGrad)" stroke="#2a4a7a" stroke-width="1"/>
-                  <rect x="38" y="252" width="28" height="5" rx="2" fill="#4a9eff" opacity=".04"/>
-
-                  <!-- Fingers with knuckles -->
-                  <g id="fL1" style="transform-origin:40px 268px">
-                    <rect x="37" y="268" width="8" height="16" rx="4" fill="url(#limbGrad)" stroke="#2a4a7a" stroke-width=".8"/>
-                    <rect x="37" y="270" width="8" height="3" rx="1" fill="url(#chromeH)" opacity=".5"/>
-                    <rect x="37" y="279" width="8" height="2" rx="1" fill="#1a3a6a" opacity=".4"/>
-                  </g>
-                  <g id="fL2" style="transform-origin:50px 268px">
-                    <rect x="47" y="268" width="8" height="18" rx="4" fill="url(#limbGrad)" stroke="#2a4a7a" stroke-width=".8"/>
-                    <rect x="47" y="270" width="8" height="3" rx="1" fill="url(#chromeH)" opacity=".5"/>
-                    <rect x="47" y="280" width="8" height="2" rx="1" fill="#1a3a6a" opacity=".4"/>
-                  </g>
-                  <g id="fL3" style="transform-origin:59px 268px">
-                    <rect x="56" y="268" width="8" height="16" rx="4" fill="url(#limbGrad)" stroke="#2a4a7a" stroke-width=".8"/>
-                    <rect x="56" y="270" width="8" height="3" rx="1" fill="url(#chromeH)" opacity=".5"/>
-                    <rect x="56" y="278" width="8" height="2" rx="1" fill="#1a3a6a" opacity=".4"/>
-                  </g>
-                  <!-- Thumb -->
-                  <g id="fLt" style="transform-origin:33px 258px">
-                    <rect x="28" y="253" width="8" height="14" rx="4" fill="url(#limbGrad)" stroke="#2a4a7a" stroke-width=".8" transform="rotate(-20 32 257)"/>
-                  </g>
+                  <rect x="22" y="277" width="40" height="24" rx="11" fill="url(#chromeLimb)"/>
+                  <path d="M 24 282 Q 42 278 60 282" stroke="white" stroke-width="0.6" fill="none" opacity="0.1"/>
+                  <!-- Fingers -->
+                  <g id="fL1" style="transform-origin:28px 299px"><rect x="24" y="299" width="9" height="20" rx="4.5" fill="url(#chromeLimb)"/><rect x="25" y="301" width="7" height="4" rx="2" fill="white" opacity="0.15"/></g>
+                  <g id="fL2" style="transform-origin:38px 299px"><rect x="34" y="299" width="9" height="22" rx="4.5" fill="url(#chromeLimb)"/><rect x="35" y="301" width="7" height="4" rx="2" fill="white" opacity="0.15"/></g>
+                  <g id="fL3" style="transform-origin:48px 299px"><rect x="44" y="299" width="9" height="20" rx="4.5" fill="url(#chromeLimb)"/><rect x="45" y="301" width="7" height="4" rx="2" fill="white" opacity="0.15"/></g>
+                  <g id="fLt" style="transform-origin:20px 285px"><rect x="14" y="280" width="9" height="16" rx="4.5" fill="url(#chromeLimb)" transform="rotate(-18 18 285)"/></g>
                 </g>
               </g>
 
               <!-- ── RIGHT ARM ── -->
-              <g id="armR" style="transform-origin:182px 130px">
-                <path d="M172 130 Q168 136 168 148 L168 176 Q168 184 174 186 L190 186 Q196 184 196 176 L196 148 Q196 136 192 130 Z" fill="url(#limbGrad)" stroke="#2a5a9a" stroke-width="1"/>
-                <path d="M168 145 L196 145" stroke="#1a3a6a" stroke-width=".7" fill="none" opacity=".5"/>
-                <path d="M168 158 L196 158" stroke="#1a3a6a" stroke-width=".7" fill="none" opacity=".4"/>
-                <path d="M192 134 Q196 152 196 170" stroke="#1a4a8a" stroke-width=".8" fill="none" stroke-dasharray="2 3" opacity=".4"/>
-                <circle cx="186" cy="186" r="12" fill="url(#limbGrad)" stroke="#2a5a9a" stroke-width="1.2"/>
-                <circle cx="186" cy="186" r="7" fill="#030810" stroke="#1a4a8a" stroke-width=".8"/>
-                <circle cx="186" cy="186" r="4.5" fill="#4a9eff" opacity=".15"/>
-                <circle cx="186" cy="186" r="2.5" fill="#4a9eff" opacity=".5" filter="url(#glow)" style="animation:glowPulse 3s infinite;animation-delay:.7s"/>
-                <path d="M171 194 Q168 200 168 210 L168 236 Q168 244 173 246 L193 246 Q198 244 198 236 L198 210 Q198 200 195 194 Z" fill="url(#limbGrad)" stroke="#2a4a7a" stroke-width="1"/>
-                <path d="M168 208 L198 208" stroke="#1a3a6a" stroke-width=".7" fill="none" opacity=".4"/>
-                <path d="M168 222 L198 222" stroke="#1a3a6a" stroke-width=".6" fill="none" opacity=".3"/>
-                <rect x="174" y="214" width="18" height="1.5" rx=".75" fill="#4a9eff" opacity=".2"/>
-                <rect x="181" y="218" width="11" height="1.5" rx=".75" fill="#4a9eff" opacity=".2"/>
-                <rect x="171" y="243" width="30" height="9" rx="4" fill="url(#chromeH)" opacity=".7"/>
-                <rect x="173" y="245" width="26" height="5" rx="2.5" fill="#030810" stroke="#1a4a8a" stroke-width=".5"/>
+              <g id="armR" style="transform-origin:172px 140px">
+                <path d="M 158 138 Q 154 146 154 160 L 154 194 Q 154 204 161 206 L 181 206 Q 188 204 188 194 L 188 160 Q 188 146 184 138 Z" fill="url(#chromeLimb)"/>
+                <path d="M 158 140 L 158 200" stroke="#a0c8e8" stroke-width="0.8" fill="none" opacity="0.15"/>
+                <path d="M 184 140 L 184 200" stroke="#a0c8e8" stroke-width="0.8" fill="none" opacity="0.2"/>
+                <path d="M 154 162 L 188 162" stroke="#3060a0" stroke-width="0.7" fill="none" opacity="0.4"/>
+                <path d="M 154 178 L 188 178" stroke="#2050a0" stroke-width="0.6" fill="none" opacity="0.3"/>
+                <path d="M 184 138 Q 186 162 186 188 Q 184 162 182 138 Z" fill="white" opacity="0.05"/>
+                <circle cx="175" cy="206" r="14" fill="url(#chromeLimb)"/>
+                <circle cx="175" cy="206" r="8" fill="#020810" stroke="#2060a8" stroke-width="0.8"/>
+                <circle cx="175" cy="206" r="4.5" fill="#4a9eff" opacity="0.2"/>
+                <circle cx="175" cy="206" r="2.5" fill="#00d4ff" opacity="0.55" filter="url(#softGlow)" style="animation:bodyGlow 3.5s infinite;animation-delay:.7s"/>
+                <path d="M 156 216 Q 152 224 152 235 L 152 262 Q 152 270 159 272 L 183 272 Q 190 270 190 262 L 190 235 Q 190 224 186 216 Z" fill="url(#chromeLimb)"/>
+                <path d="M 152 238 L 190 238" stroke="#2a5080" stroke-width="0.7" fill="none" opacity="0.4"/>
+                <path d="M 152 252 L 190 252" stroke="#2a4878" stroke-width="0.6" fill="none" opacity="0.3"/>
+                <rect x="162" y="244" width="20" height="1.5" rx="0.75" fill="#4a9eff" opacity="0.2"/>
+                <rect x="152" y="269" width="38" height="10" rx="5" fill="url(#chromeLimb)" opacity="0.9"/>
+                <rect x="155" y="271" width="32" height="6" rx="3" fill="#020810" stroke="#204080" stroke-width="0.5"/>
                 <g id="handR">
-                  <rect x="172" y="250" width="32" height="20" rx="9" fill="url(#limbGrad)" stroke="#2a4a7a" stroke-width="1"/>
-                  <rect x="174" y="252" width="28" height="5" rx="2" fill="#4a9eff" opacity=".04"/>
-                  <g id="fR1" style="transform-origin:178px 268px">
-                    <rect x="175" y="268" width="8" height="16" rx="4" fill="url(#limbGrad)" stroke="#2a4a7a" stroke-width=".8"/>
-                    <rect x="175" y="270" width="8" height="3" rx="1" fill="url(#chromeH)" opacity=".5"/>
-                    <rect x="175" y="279" width="8" height="2" rx="1" fill="#1a3a6a" opacity=".4"/>
-                  </g>
-                  <g id="fR2" style="transform-origin:188px 268px">
-                    <rect x="185" y="268" width="8" height="18" rx="4" fill="url(#limbGrad)" stroke="#2a4a7a" stroke-width=".8"/>
-                    <rect x="185" y="270" width="8" height="3" rx="1" fill="url(#chromeH)" opacity=".5"/>
-                    <rect x="185" y="280" width="8" height="2" rx="1" fill="#1a3a6a" opacity=".4"/>
-                  </g>
-                  <g id="fR3" style="transform-origin:197px 268px">
-                    <rect x="194" y="268" width="8" height="16" rx="4" fill="url(#limbGrad)" stroke="#2a4a7a" stroke-width=".8"/>
-                    <rect x="194" y="270" width="8" height="3" rx="1" fill="url(#chromeH)" opacity=".5"/>
-                    <rect x="194" y="278" width="8" height="2" rx="1" fill="#1a3a6a" opacity=".4"/>
-                  </g>
-                  <g id="fRt" style="transform-origin:207px 258px">
-                    <rect x="204" y="253" width="8" height="14" rx="4" fill="url(#limbGrad)" stroke="#2a4a7a" stroke-width=".8" transform="rotate(20 208 257)"/>
-                  </g>
+                  <rect x="154" y="277" width="40" height="24" rx="11" fill="url(#chromeLimb)"/>
+                  <path d="M 156 282 Q 174 278 192 282" stroke="white" stroke-width="0.6" fill="none" opacity="0.1"/>
+                  <g id="fR1" style="transform-origin:162px 299px"><rect x="158" y="299" width="9" height="20" rx="4.5" fill="url(#chromeLimb)"/><rect x="159" y="301" width="7" height="4" rx="2" fill="white" opacity="0.15"/></g>
+                  <g id="fR2" style="transform-origin:172px 299px"><rect x="168" y="299" width="9" height="22" rx="4.5" fill="url(#chromeLimb)"/><rect x="169" y="301" width="7" height="4" rx="2" fill="white" opacity="0.15"/></g>
+                  <g id="fR3" style="transform-origin:182px 299px"><rect x="178" y="299" width="9" height="20" rx="4.5" fill="url(#chromeLimb)"/><rect x="179" y="301" width="7" height="4" rx="2" fill="white" opacity="0.15"/></g>
+                  <g id="fRt" style="transform-origin:196px 285px"><rect x="193" y="280" width="9" height="16" rx="4.5" fill="url(#chromeLimb)" transform="rotate(18 197 285)"/></g>
                 </g>
               </g>
 
               <!-- ── HIP ASSEMBLY ── -->
-              <path d="M70 212 Q68 222 74 224 L166 224 Q172 222 170 212 Z" fill="url(#limbGrad)" stroke="#2a4a7a" stroke-width="1"/>
-              <rect x="88" y="218" width="64" height="8" rx="4" fill="#030810" stroke="#1a3a6a" stroke-width=".8"/>
-              <!-- Hip circuit -->
-              <rect x="98" y="220" width="12" height="2" rx="1" fill="#4a9eff" opacity=".2"/>
-              <rect x="130" y="220" width="12" height="2" rx="1" fill="#4a9eff" opacity=".2"/>
+              <path d="M 60 232 Q 57 240 62 244 L 158 244 Q 163 240 160 232 Z" fill="url(#chromeTorso)"/>
+              <rect x="78" y="236" width="64" height="10" rx="5" fill="#010408" stroke="#1a3060" stroke-width="0.8"/>
+              <rect x="88" y="238" width="16" height="2" rx="1" fill="#4a9eff" opacity="0.25"/>
+              <rect x="116" y="238" width="16" height="2" rx="1" fill="#4a9eff" opacity="0.25"/>
 
               <!-- ── LEFT LEG ── -->
-              <g id="legL" style="transform-origin:88px 224px">
-                <!-- Thigh -->
-                <path d="M72 224 Q69 230 69 242 L69 278 Q69 288 76 290 L100 290 Q107 288 107 278 L107 242 Q107 230 104 224 Z" fill="url(#limbGrad)" stroke="#2a4a7a" stroke-width="1"/>
-                <path d="M72 250 L107 250" stroke="#1a3a6a" stroke-width=".7" fill="none" opacity=".4"/>
-                <path d="M71 265 L107 265" stroke="#1a3a6a" stroke-width=".6" fill="none" opacity=".3"/>
-                <!-- Thigh cable -->
-                <path d="M76 230 Q73 255 74 272" stroke="#1a4a8a" stroke-width=".8" fill="none" stroke-dasharray="2 3" opacity=".35"/>
+              <g id="legL" style="transform-origin:82px 244px">
+                <path d="M 60 244 Q 57 252 57 264 L 57 302 Q 57 314 65 316 L 95 316 Q 103 314 103 302 L 103 264 Q 103 252 100 244 Z" fill="url(#chromeLimb)"/>
+                <path d="M 60 270 L 103 270" stroke="#2a5080" stroke-width="0.7" fill="none" opacity="0.4"/>
+                <path d="M 59 286 L 103 286" stroke="#224878" stroke-width="0.6" fill="none" opacity="0.35"/>
+                <path d="M 60 244 Q 59 275 60 300" stroke="#80b8e0" stroke-width="0.8" fill="none" opacity="0.15"/>
 
-                <!-- KNEE JOINT -->
-                <ellipse cx="88" cy="290" rx="19" ry="14" fill="url(#limbGrad)" stroke="#2a5a9a" stroke-width="1.2"/>
-                <ellipse cx="88" cy="290" rx="13" ry="9" fill="#030810" stroke="#1a4a8a" stroke-width=".8"/>
-                <circle cx="88" cy="290" r="6" fill="#4a9eff" opacity=".08"/>
-                <circle cx="88" cy="290" r="3.5" fill="#4a9eff" opacity=".4" filter="url(#glow)" style="animation:glowPulse 3s infinite;animation-delay:.2s"/>
-                <circle cx="90" cy="288" r="1.2" fill="white" opacity=".4"/>
+                <!-- Knee joint -->
+                <ellipse cx="80" cy="316" rx="22" ry="16" fill="url(#chromeLimb)"/>
+                <ellipse cx="80" cy="316" rx="15" ry="10" fill="#020810" stroke="#2060a0" stroke-width="0.8"/>
+                <circle cx="80" cy="316" r="7" fill="#4a9eff" opacity="0.12"/>
+                <circle cx="80" cy="316" r="4" fill="#00d4ff" opacity="0.45" filter="url(#softGlow)" style="animation:bodyGlow 3s infinite;animation-delay:.2s"/>
+                <circle cx="82" cy="314" r="1.5" fill="white" opacity="0.4"/>
 
                 <!-- Shin -->
-                <path d="M71 302 Q68 310 68 320 L68 338 Q68 346 74 348 L102 348 Q108 346 108 338 L108 320 Q108 310 105 302 Z" fill="url(#limbGrad)" stroke="#2a4a7a" stroke-width="1"/>
-                <path d="M70 318 L108 318" stroke="#1a3a6a" stroke-width=".7" fill="none" opacity=".35"/>
-                <rect x="75" y="326" width="26" height="1.5" rx=".75" fill="#4a9eff" opacity=".15"/>
-                <rect x="75" y="330" width="16" height="1.5" rx=".75" fill="#4a9eff" opacity=".15"/>
+                <path d="M 60 330 Q 56 340 56 350 L 56 370 Q 56 378 63 380 L 97 380 Q 104 378 104 370 L 104 350 Q 104 340 100 330 Z" fill="url(#chromeLimb)"/>
+                <path d="M 58 352 L 104 352" stroke="#2a4878" stroke-width="0.6" fill="none" opacity="0.35"/>
+                <rect x="65" y="360" width="30" height="1.5" rx="0.75" fill="#4a9eff" opacity="0.18"/>
 
-                <!-- Ankle -->
-                <rect x="68" y="345" width="40" height="9" rx="4" fill="url(#chromeH)" opacity=".8"/>
-
-                <!-- FOOT -->
-                <path d="M60 352 Q58 356 58 359 L114 359 L114 352 Q106 349 88 349 Q68 349 60 352 Z" fill="url(#limbGrad)" stroke="#2a4a7a" stroke-width="1"/>
-                <path d="M62 356 Q88 354 112 356" stroke="#1a3a6a" stroke-width=".6" fill="none" opacity=".4"/>
-                <!-- Foot glow strip -->
-                <path d="M64 358 L110 358" stroke="#4a9eff" stroke-width="1" stroke-linecap="round" opacity=".15"/>
+                <!-- Ankle & Foot -->
+                <rect x="55" y="377" width="50" height="10" rx="5" fill="url(#chromeLimb)"/>
+                <path d="M 46 385 Q 44 390 44 394 L 108 394 L 108 385 Q 98 381 80 381 Q 58 381 46 385 Z" fill="url(#chromeLimb)"/>
+                <path d="M 50 390 Q 80 387 106 390" stroke="#3a6898" stroke-width="0.7" fill="none" opacity="0.4"/>
+                <path d="M 52 393 L 104 393" stroke="#4a9eff" stroke-width="0.8" stroke-linecap="round" opacity="0.12"/>
               </g>
 
               <!-- ── RIGHT LEG ── -->
-              <g id="legR" style="transform-origin:152px 224px">
-                <path d="M133 224 Q130 230 130 242 L130 278 Q130 288 137 290 L161 290 Q168 288 168 278 L168 242 Q168 230 165 224 Z" fill="url(#limbGrad)" stroke="#2a4a7a" stroke-width="1"/>
-                <path d="M130 250 L168 250" stroke="#1a3a6a" stroke-width=".7" fill="none" opacity=".4"/>
-                <path d="M130 265 L168 265" stroke="#1a3a6a" stroke-width=".6" fill="none" opacity=".3"/>
-                <path d="M163 230 Q166 255 165 272" stroke="#1a4a8a" stroke-width=".8" fill="none" stroke-dasharray="2 3" opacity=".35"/>
-                <ellipse cx="149" cy="290" rx="19" ry="14" fill="url(#limbGrad)" stroke="#2a5a9a" stroke-width="1.2"/>
-                <ellipse cx="149" cy="290" rx="13" ry="9" fill="#030810" stroke="#1a4a8a" stroke-width=".8"/>
-                <circle cx="149" cy="290" r="6" fill="#4a9eff" opacity=".08"/>
-                <circle cx="149" cy="290" r="3.5" fill="#4a9eff" opacity=".4" filter="url(#glow)" style="animation:glowPulse 3s infinite;animation-delay:.6s"/>
-                <circle cx="151" cy="288" r="1.2" fill="white" opacity=".4"/>
-                <path d="M132 302 Q129 310 129 320 L129 338 Q129 346 135 348 L163 348 Q169 346 169 338 L169 320 Q169 310 166 302 Z" fill="url(#limbGrad)" stroke="#2a4a7a" stroke-width="1"/>
-                <path d="M129 318 L169 318" stroke="#1a3a6a" stroke-width=".7" fill="none" opacity=".35"/>
-                <rect x="136" y="326" width="26" height="1.5" rx=".75" fill="#4a9eff" opacity=".15"/>
-                <rect x="145" y="330" width="16" height="1.5" rx=".75" fill="#4a9eff" opacity=".15"/>
-                <rect x="129" y="345" width="40" height="9" rx="4" fill="url(#chromeH)" opacity=".8"/>
-                <path d="M123 352 Q121 356 121 359 L177 359 L177 352 Q169 349 149 349 Q129 349 123 352 Z" fill="url(#limbGrad)" stroke="#2a4a7a" stroke-width="1"/>
-                <path d="M125 356 Q149 354 175 356" stroke="#1a3a6a" stroke-width=".6" fill="none" opacity=".4"/>
-                <path d="M127 358 L173 358" stroke="#4a9eff" stroke-width="1" stroke-linecap="round" opacity=".15"/>
+              <g id="legR" style="transform-origin:138px 244px">
+                <path d="M 117 244 Q 114 252 114 264 L 114 302 Q 114 314 122 316 L 152 316 Q 160 314 160 302 L 160 264 Q 160 252 157 244 Z" fill="url(#chromeLimb)"/>
+                <path d="M 114 270 L 160 270" stroke="#2a5080" stroke-width="0.7" fill="none" opacity="0.4"/>
+                <path d="M 114 286 L 160 286" stroke="#224878" stroke-width="0.6" fill="none" opacity="0.35"/>
+                <path d="M 157 244 Q 158 275 157 300" stroke="#80b8e0" stroke-width="0.8" fill="none" opacity="0.15"/>
+                <ellipse cx="137" cy="316" rx="22" ry="16" fill="url(#chromeLimb)"/>
+                <ellipse cx="137" cy="316" rx="15" ry="10" fill="#020810" stroke="#2060a0" stroke-width="0.8"/>
+                <circle cx="137" cy="316" r="7" fill="#4a9eff" opacity="0.12"/>
+                <circle cx="137" cy="316" r="4" fill="#00d4ff" opacity="0.45" filter="url(#softGlow)" style="animation:bodyGlow 3s infinite;animation-delay:.6s"/>
+                <circle cx="139" cy="314" r="1.5" fill="white" opacity="0.4"/>
+                <path d="M 116 330 Q 112 340 112 350 L 112 370 Q 112 378 119 380 L 153 380 Q 160 378 160 370 L 160 350 Q 160 340 156 330 Z" fill="url(#chromeLimb)"/>
+                <path d="M 112 352 L 160 352" stroke="#2a4878" stroke-width="0.6" fill="none" opacity="0.35"/>
+                <rect x="122" y="360" width="30" height="1.5" rx="0.75" fill="#4a9eff" opacity="0.18"/>
+                <rect x="111" y="377" width="50" height="10" rx="5" fill="url(#chromeLimb)"/>
+                <path d="M 108 385 Q 106 390 106 394 L 170 394 L 170 385 Q 160 381 137 381 Q 115 381 108 385 Z" fill="url(#chromeLimb)"/>
+                <path d="M 110 390 Q 137 387 168 390" stroke="#3a6898" stroke-width="0.7" fill="none" opacity="0.4"/>
+                <path d="M 112 393 L 166 393" stroke="#4a9eff" stroke-width="0.8" stroke-linecap="round" opacity="0.12"/>
               </g>
 
             </svg>
           </div>
 
           <!-- Robot name badge -->
-          <div id="robot-name-badge" style="position:relative;z-index:10;font-family:var(--mono);font-size:10px;color:rgba(74,158,255,.5);letter-spacing:.18em;text-transform:uppercase;margin-top:4px;text-align:center;padding-bottom:8px;"></div>
+          <div id="robot-name-badge" style="position:relative;z-index:10;font-family:var(--mono);font-size:10px;color:rgba(74,158,255,.45);letter-spacing:.18em;text-transform:uppercase;margin-top:4px;text-align:center;padding-bottom:8px;"></div>
         </div>
 
         <!-- AI Input Bar -->
@@ -1298,16 +1139,6 @@ input,textarea,button,select{font-family:inherit;}
 <script>
 'use strict';
 
-const API = {
-  text: 'https://text.pollinations.ai/',
-  image: 'https://image.pollinations.ai/',
-  model: 'openai',
-  timeout: 20000,
-  groqKey: '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',
-  groqUrl: 'https://api.groq.com/openai/v1/chat/completions',
-  groqModel: 'meta-llama/llama-4-scout-17b-16e-instruct'
-};
-
 // ── State
 let isDark = true, currentUser = null;
 let faceEnrollStream = null, faceVerifyStream = null;
@@ -1321,15 +1152,14 @@ let pendingFiles = { ctx:'', files:[] };
 let pendingUploadCtx = null;
 let currentGeneratedImage = null;
 let isAiProcessing = false;
-let aiAbortCtrl = null;
 
-// ── Robot AI State
+// Robot state
 let robotName = 'NEXUS';
 let voiceType = 'male';
 let langChoice = 'en';
 let currentUtterance = null;
-let mouthTick = null, limbTick = null;
-let gesturePhase = 0;
+let mouthTick = null, limbTick = null, gesturePhase = 0;
+let conversationHistory = [];
 
 const ROBOT_KEY = 'nexus_robot_name';
 const ROBOT_VOICE_KEY = 'nexus_robot_voice';
@@ -1341,19 +1171,13 @@ const langConfig = {
   hi: { code:'hi-IN', name:'Hindi', placeholder:'हिंदी में पूछें…' }
 };
 
-const langSysPrompts = {
-  en: `You are {NAME}, a sophisticated mechanical humanoid AI assistant in NEXUS terminal. Respond in 2-3 concise, professional English sentences. No markdown. Speak naturally like an intelligent expert assistant. Never mention being an AI unless asked.`,
-  te: `మీరు NEXUS టెర్మినల్‌లో {NAME}, ఒక అత్యాధునిక మెకానికల్ హ్యూమనాయిడ్ AI అసిస్టెంట్. 2-3 సంక్షిప్త వృత్తిపరమైన తెలుగు వాక్యాలలో సమాధానం ఇవ్వండి. మార్క్‌డౌన్ వాడవద్దు.`,
-  hi: `आप NEXUS टर्मिनल में {NAME}, एक परिष्कृत मैकेनिकल ह्यूमनॉइड AI सहायक हैं। 2-3 संक्षिप्त पेशेवर हिंदी वाक्यों में उत्तर दें। कोई मार्कडाउन नहीं।`
-};
-
-// ── User Store
+// User store
 const USER_KEY = 'nexus_v3_user';
 function getUser() { try { return JSON.parse(localStorage.getItem(USER_KEY)); } catch { return null; } }
 function saveUser(u) { localStorage.setItem(USER_KEY, JSON.stringify(u)); }
 function genTopic() { return 'nexus-' + Math.random().toString(36).slice(2,10); }
 
-// ── Icons
+// Icons
 function icon(name) { const e=document.createElement('i'); e.setAttribute('data-lucide',name); return e; }
 function setIcon(el,name){ if(!el)return; el.innerHTML=''; el.appendChild(icon(name)); lucide.createIcons({nodes:[el]}); }
 function ri(id,name){ setIcon(document.getElementById(id),name); }
@@ -1422,21 +1246,22 @@ function notif(type,title,body){
 }
 
 async function detectLocation(){
-  try{ const r=await fetch('https://ip-api.com/json/?fields=status,country,city,timezone'); const d=await r.json(); if(d.status==='success'){ userLoc=d; document.getElementById('loc-badge').style.display='flex'; document.getElementById('loc-text').textContent=`${d.city}, ${d.country}`; document.getElementById('home-loc').textContent=d.city; } }catch(e){}
+  try{ const r=await fetch('https://ip-api.com/json/?fields=status,country,city'); const d=await r.json(); if(d.status==='success'){ userLoc=d; document.getElementById('loc-badge').style.display='flex'; document.getElementById('loc-text').textContent=`${d.city}, ${d.country}`; document.getElementById('home-loc').textContent=d.city; } }catch(e){}
 }
 
 // ── ROBOT NAME
 function saveRobotName(){
   const inp = document.getElementById('robot-name-input');
   const name = inp.value.trim();
-  if(!name){ notif('warning','Name Required','Please enter a name for your AI assistant'); return; }
+  if(!name){ notif('warning','Name Required','Please enter a name for your AI'); return; }
   robotName = name.toUpperCase();
   localStorage.setItem(ROBOT_KEY, robotName);
   updateRobotNameDisplay();
   notif('success','Name Saved', `Your AI is now called ${robotName}`);
   inp.value = '';
-  setRobotSpeech(`My name is ${robotName}. I am your dedicated AI assistant. How may I serve you?`);
-  speakResponse(`My name is ${robotName}. I am your dedicated AI assistant. How may I serve you?`);
+  const msg = `My name is ${robotName}. I am your dedicated AI assistant. How may I serve you?`;
+  setRobotSpeech(msg);
+  speakResponse(msg);
 }
 
 function updateRobotNameDisplay(){
@@ -1446,7 +1271,8 @@ function updateRobotNameDisplay(){
   if(titleEl) titleEl.textContent = robotName;
   const inp = document.getElementById('robot-name-input');
   if(inp) inp.placeholder = `Current: ${robotName}`;
-  document.getElementById('robot-name-display').textContent = `Active: ${robotName}`;
+  const disp = document.getElementById('robot-name-display');
+  if(disp) disp.textContent = `Active: ${robotName}`;
 }
 
 function loadRobotPrefs(){
@@ -1457,7 +1283,6 @@ function loadRobotPrefs(){
   const savedLang = localStorage.getItem(ROBOT_LANG_KEY);
   if(savedLang) langChoice = savedLang;
   updateRobotNameDisplay();
-  // Sync UI buttons
   document.querySelectorAll('#voiceSeg .ctrl-btn').forEach(b=>{ b.classList.toggle('active', b.textContent.toLowerCase()===voiceType); });
   document.querySelectorAll('#langSeg .ctrl-btn').forEach(b=>{ const lmap={'English':'en','Telugu':'te','Hindi':'hi'}; b.classList.toggle('active', lmap[b.textContent]===langChoice); });
   const ta = document.getElementById('ai-ta'); if(ta) ta.placeholder = langConfig[langChoice].placeholder;
@@ -1469,7 +1294,7 @@ function setVoiceType(v, btn){
   document.querySelectorAll('#voiceSeg .ctrl-btn').forEach(b=>b.classList.remove('active'));
   if(btn) btn.classList.add('active');
   document.getElementById('voice-status').textContent = v.toUpperCase()+' VOICE';
-  notif('info','Voice Changed', v==='male'?'Deep professional male voice selected':'Clear professional female voice selected');
+  notif('info','Voice Changed', v==='male'?'Deep male voice selected':'Female voice selected');
 }
 
 function setLang(l, btn){
@@ -1479,7 +1304,7 @@ function setLang(l, btn){
   if(btn) btn.classList.add('active');
   const ta = document.getElementById('ai-ta'); if(ta) ta.placeholder = langConfig[l].placeholder;
   document.getElementById('voice-status').textContent = langConfig[l].name.toUpperCase();
-  notif('info','Language Changed', `Now responding in ${langConfig[l].name}`);
+  notif('info','Language','Now responding in '+langConfig[l].name);
 }
 
 // ── ROBOT ANIMATIONS
@@ -1489,10 +1314,8 @@ function setRobotState(state){
   svg.className = 'robo-root' + (state==='speaking'?' speaking':state==='thinking'?' thinking':'');
   const orb = document.getElementById('speechOrb');
   if(orb){ orb.className = 'speech-orb' + (state==='speaking'?' speaking':state==='thinking'?' thinking':''); }
-  const td = document.getElementById('thinkDotsAi');
-  const vw = document.getElementById('voiceWaves');
-  if(td) td.className = 'think-dots-ai' + (state==='thinking'?' on':'');
-  if(vw) vw.className = 'voice-waves' + (state==='speaking'?' on':'');
+  document.getElementById('thinkDotsAi').className = 'think-dots-ai' + (state==='thinking'?' on':'');
+  document.getElementById('voiceWaves').className = 'voice-waves' + (state==='speaking'?' on':'');
   const core = document.getElementById('coreDot');
   if(core) core.setAttribute('fill', state==='speaking'?'#00ff88':state==='thinking'?'#ffaa00':'#00d4ff');
   if(state==='speaking'){ startMouthAnim(); startLimbAnim(); }
@@ -1504,176 +1327,169 @@ function setRobotSpeech(text){
   if(orb) orb.textContent = text;
 }
 
-const mBars = ()=>[1,2,3,4,5,6,7].map(i=>document.getElementById('mb'+i)).filter(Boolean);
+const mBars = ()=>[1,2,3,4,5,6].map(i=>document.getElementById('mb'+i)).filter(Boolean);
 function startMouthAnim(){
   if(mouthTick) return;
   mouthTick = setInterval(()=>{
-    mBars().forEach(b=>{
-      const h = 2 + Math.random()*5.5;
-      const y = 75.5 - h/2;
-      b.setAttribute('height', h.toFixed(1));
-      b.setAttribute('y', y.toFixed(1));
-      b.setAttribute('opacity', (.25 + Math.random()*.75).toFixed(2));
-    });
-  }, 80);
+    mBars().forEach(b=>{ const h=1+Math.random()*5; b.setAttribute('height',h.toFixed(1)); b.setAttribute('y',(84+2.5-h/2).toFixed(1)); b.setAttribute('opacity',(.2+Math.random()*.8).toFixed(2)); });
+  }, 75);
 }
 function stopMouthAnim(){
   if(mouthTick){ clearInterval(mouthTick); mouthTick=null; }
-  mBars().forEach((b,i)=>{ b.setAttribute('height','5'); b.setAttribute('y','75.5'); b.setAttribute('opacity',i===3?'.5':'.4'); });
+  mBars().forEach(b=>{ b.setAttribute('height','4'); b.setAttribute('y','84'); b.setAttribute('opacity','.45'); });
 }
 
-const limbIds = ['armL','armR','legL','legR'];
-const fIds = ['fL1','fL2','fL3','fLt','fR1','fR2','fR3','fRt'];
 function startLimbAnim(){
-  if(limbTick) return;
-  gesturePhase = 0;
+  if(limbTick) return; gesturePhase = 0;
   limbTick = setInterval(()=>{
-    gesturePhase += 0.05;
-    const la = Math.sin(gesturePhase) * 16;
-    const ra = Math.sin(gesturePhase + Math.PI) * 16;
-    const armL = document.getElementById('armL');
-    const armR = document.getElementById('armR');
-    const legL = document.getElementById('legL');
-    const legR = document.getElementById('legR');
-    if(armL) armL.style.transform = `rotate(${la}deg)`;
-    if(armR) armR.style.transform = `rotate(${ra}deg)`;
-    if(legL) legL.style.transform = `rotate(${-la * .3}deg)`;
-    if(legR) legR.style.transform = `rotate(${-ra * .3}deg)`;
-    // Finger curl
-    fIds.forEach((id,i)=>{
-      const el = document.getElementById(id);
-      if(!el) return;
-      const delay = i * 0.3;
-      const side = id.startsWith('fR') ? -1 : 1;
-      const curl = Math.abs(Math.sin(gesturePhase * 1.8 + delay)) * 18;
-      el.style.transform = `rotate(${side * curl}deg)`;
+    gesturePhase += 0.045;
+    const la = Math.sin(gesturePhase)*14, ra = Math.sin(gesturePhase+Math.PI)*14;
+    const aL=document.getElementById('armL'),aR=document.getElementById('armR');
+    const lL=document.getElementById('legL'),lR=document.getElementById('legR');
+    if(aL) aL.style.transform=`rotate(${la}deg)`;
+    if(aR) aR.style.transform=`rotate(${ra}deg)`;
+    if(lL) lL.style.transform=`rotate(${-la*.25}deg)`;
+    if(lR) lR.style.transform=`rotate(${-ra*.25}deg)`;
+    ['fL1','fL2','fL3','fR1','fR2','fR3'].forEach((id,i)=>{
+      const el=document.getElementById(id); if(!el)return;
+      const side=id.startsWith('fR')?-1:1;
+      el.style.transform=`rotate(${side*Math.abs(Math.sin(gesturePhase*2+i*.3))*16}deg)`;
     });
   }, 28);
 }
 function stopLimbAnim(){
   if(limbTick){ clearInterval(limbTick); limbTick=null; }
-  limbIds.forEach(id=>{ const el=document.getElementById(id); if(el) el.style.transform=''; });
-  fIds.forEach(id=>{ const el=document.getElementById(id); if(el) el.style.transform=''; });
+  ['armL','armR','legL','legR','fL1','fL2','fL3','fR1','fR2','fR3'].forEach(id=>{ const el=document.getElementById(id); if(el) el.style.transform=''; });
 }
 
-// ── TTS ENGINE
+// ── TTS
 function getBestVoice(){
   const voices = window.speechSynthesis.getVoices();
-  const lc = langConfig[langChoice].code;
-  const langBase = lc.split('-')[0];
+  const lc = langConfig[langChoice].code, langBase = lc.split('-')[0];
   let pool = voices.filter(v=>v.lang.startsWith(langBase));
   if(!pool.length) pool = voices.filter(v=>v.lang.startsWith('en'));
   if(!pool.length) pool = voices;
-  const male = ['david','james','daniel','mark','alex','aaron','thomas','oliver','luca','jorge','reed'];
-  const female = ['samantha','victoria','karen','zira','sara','alice','fiona','moira','veena','google uk english female'];
-  const keywords = voiceType==='male' ? male : female;
-  let pick = pool.find(v=>keywords.some(k=>v.name.toLowerCase().includes(k)));
-  if(!pick){ const g = pool.filter(v=>v.name.toLowerCase().includes('google')); if(g.length) pick = g[voiceType==='male'?0:g.length-1]; }
+  const male = ['david','james','daniel','mark','alex','aaron','thomas','oliver','reed'];
+  const female = ['samantha','victoria','karen','zira','sara','alice','fiona','moira'];
+  const kws = voiceType==='male' ? male : female;
+  let pick = pool.find(v=>kws.some(k=>v.name.toLowerCase().includes(k)));
+  if(!pick){ const g=pool.filter(v=>v.name.toLowerCase().includes('google')); if(g.length) pick=g[voiceType==='male'?0:g.length-1]; }
   if(!pick) pick = pool[voiceType==='male'?0:Math.max(0,pool.length-1)];
-  return pick || null;
+  return pick||null;
 }
 
 function speakResponse(text){
-  if(currentUtterance){ window.speechSynthesis.cancel(); }
-  const u = new SpeechSynthesisUtterance(text);
-  u.lang = langConfig[langChoice].code;
-  const v = getBestVoice(); if(v) u.voice = v;
-  u.rate = langChoice==='te' ? 0.82 : langChoice==='hi' ? 0.88 : 0.92;
-  u.pitch = voiceType==='male' ? 0.75 : 1.2;
-  u.volume = 1;
-  u.onstart = ()=>{ setRobotState('speaking'); document.getElementById('voice-status').textContent='SPEAKING…'; };
-  u.onend = ()=>{ setRobotState('idle'); currentUtterance=null; document.getElementById('voice-status').textContent=''; };
-  u.onerror = ()=>{ setRobotState('idle'); currentUtterance=null; document.getElementById('voice-status').textContent=''; };
-  currentUtterance = u;
-  window.speechSynthesis.speak(u);
+  if(currentUtterance) window.speechSynthesis.cancel();
+  // Brief delay to let voices load
+  setTimeout(()=>{
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = langConfig[langChoice].code;
+    const v = getBestVoice(); if(v) u.voice = v;
+    u.rate = langChoice==='te'?0.82:langChoice==='hi'?0.88:0.9;
+    u.pitch = voiceType==='male'?0.75:1.2;
+    u.volume = 1;
+    u.onstart = ()=>{ setRobotState('speaking'); document.getElementById('voice-status').textContent='SPEAKING…'; };
+    u.onend = ()=>{ setRobotState('idle'); currentUtterance=null; document.getElementById('voice-status').textContent=''; };
+    u.onerror = ()=>{ setRobotState('idle'); currentUtterance=null; document.getElementById('voice-status').textContent=''; };
+    currentUtterance = u;
+    window.speechSynthesis.speak(u);
+  }, 100);
 }
 
-// ── AI ENGINE
+// ── AI ENGINE — Uses Anthropic API via artifact proxy
+async function callClaudeAPI(userMessage) {
+  const systemPrompt = buildSystemPrompt();
+  
+  // Build messages array with history
+  const messages = [
+    ...conversationHistory,
+    { role: 'user', content: userMessage }
+  ];
+
+  const response = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: 1000,
+      system: systemPrompt,
+      messages: messages
+    })
+  });
+
+  if (!response.ok) {
+    const err = await response.text();
+    throw new Error('API error: ' + response.status + ' ' + err);
+  }
+
+  const data = await response.json();
+  const reply = data.content?.[0]?.text || '';
+
+  // Add to history
+  conversationHistory.push({ role: 'user', content: userMessage });
+  conversationHistory.push({ role: 'assistant', content: reply });
+  // Keep history manageable
+  if(conversationHistory.length > 20) conversationHistory = conversationHistory.slice(-20);
+
+  return reply;
+}
+
+function buildSystemPrompt() {
+  const langInstructions = {
+    en: `You are ${robotName}, a sophisticated chrome humanoid AI assistant in the NEXUS private terminal. Respond in 2-3 concise, professional English sentences. Be helpful, intelligent, and speak naturally. No markdown formatting. Never break character.`,
+    te: `మీరు ${robotName}, NEXUS ప్రైవేట్ టెర్మినల్‌లో ఒక అత్యాధునిక క్రోమ్ హ్యూమనాయిడ్ AI అసిస్టెంట్. 2-3 సంక్షిప్త తెలుగు వాక్యాలలో సమాధానం ఇవ్వండి. మార్క్‌డౌన్ వాడవద్దు.`,
+    hi: `आप ${robotName} हैं, NEXUS प्राइवेट टर्मिनल में एक परिष्कृत क्रोम ह्यूमनॉइड AI सहायक। 2-3 संक्षिप्त हिंदी वाक्यों में उत्तर दें। कोई मार्कडाउन नहीं।`
+  };
+  return langInstructions[langChoice] || langInstructions.en;
+}
+
 async function sendAI(){
   if(isAiProcessing) return;
   const ta = document.getElementById('ai-ta');
   const text = ta.value.trim();
   if(!text) return;
   ta.value=''; ta.style.height='auto';
-  if(currentUtterance){ window.speechSynthesis.cancel(); }
+  if(currentUtterance) window.speechSynthesis.cancel();
+  
   isAiProcessing = true;
   setRobotState('thinking');
   setRobotSpeech('Processing your request…');
   document.getElementById('voice-status').textContent = 'THINKING…';
 
-  const systemPrompt = langSysPrompts[langChoice].replace(/\{NAME\}/g, robotName);
-  
-  try{
-    let reply = '';
-    if(API.groqKey && API.groqKey.length > 20){
-      reply = await callGroq(text, systemPrompt);
-    } else {
-      reply = await callPollinations(text, systemPrompt);
-    }
+  try {
+    let reply = await callClaudeAPI(text);
+    // Clean up any markdown
     reply = reply.replace(/\*\*/g,'').replace(/\*/g,'').replace(/`/g,'').replace(/#{1,6}\s/g,'').replace(/\n+/g,' ').trim();
-    if(!reply || reply.length < 3) reply = getDefaultResponse();
+    if(!reply || reply.length < 2) reply = getDefaultResponse();
     setRobotState('idle');
     setRobotSpeech(reply);
-    setTimeout(()=>speakResponse(reply), 100);
-  } catch(e){
+    setTimeout(()=>speakResponse(reply), 150);
+  } catch(e) {
+    console.error('AI error:', e);
     setRobotState('idle');
-    const errMsg = getErrorResponse();
+    const errMsg = `I encountered a connection issue. Please check the setup and try again.`;
     setRobotSpeech(errMsg);
-    setTimeout(()=>speakResponse(errMsg), 100);
+    setTimeout(()=>speakResponse(errMsg), 150);
+    notif('warning','AI Error', e.message.slice(0,60));
   } finally {
     isAiProcessing = false;
   }
 }
 
-async function callGroq(text, systemPrompt){
-  const res = await fetch(API.groqUrl, {
-    method:'POST',
-    headers:{'Content-Type':'application/json','Authorization':'Bearer '+API.groqKey},
-    body: JSON.stringify({
-      model: API.groqModel,
-      messages:[{role:'system',content:systemPrompt},{role:'user',content:text}],
-      max_tokens: 200,
-      temperature: 0.7
-    })
-  });
-  if(!res.ok) throw new Error('Groq '+res.status);
-  const d = await res.json();
-  return d.choices?.[0]?.message?.content || '';
-}
-
-async function callPollinations(text, systemPrompt){
-  const prompt = `System: ${systemPrompt}\n\nUser: ${text}\n\nAssistant:`;
-  const params = new URLSearchParams({ model: API.model, seed: Date.now().toString(), system: systemPrompt });
-  const res = await fetch(`${API.text}${encodeURIComponent(text)}?${params.toString()}`);
-  if(!res.ok) throw new Error('API '+res.status);
-  return await res.text();
-}
-
 function getDefaultResponse(){
-  const r = {
-    en: "I am ready to assist you. Please go ahead with your question.",
-    te: "నేను మీకు సహాయం చేయడానికి సిద్ధంగా ఉన్నాను.",
-    hi: "मैं आपकी सहायता के लिए तैयार हूं।"
-  };
-  return r[langChoice] || r.en;
-}
-function getErrorResponse(){
-  const r = {
-    en: "I am experiencing a temporary connection issue. Please try again.",
-    te: "నాకు తాత్కాలిక కనెక్షన్ సమస్య ఉంది. దయచేసి మళ్ళీ ప్రయత్నించండి.",
-    hi: "मुझे अस्थायी कनेक्शन समस्या हो रही है। कृपया पुनः प्रयास करें।"
-  };
-  return r[langChoice] || r.en;
+  const r={en:`I am ready to assist you, ${robotName} at your service.`,te:`నేను సహాయానికి సిద్ధంగా ఉన్నాను.`,hi:`मैं सहायता के लिए तैयार हूं।`};
+  return r[langChoice]||r.en;
 }
 
 function clearRobotChat(){
-  if(currentUtterance){ window.speechSynthesis.cancel(); }
+  if(currentUtterance) window.speechSynthesis.cancel();
   stopMouthAnim(); stopLimbAnim();
+  conversationHistory = [];
   setRobotState('idle');
-  const greet = { en:`Systems reset. I am ${robotName}, ready to assist.`, te:`సిస్టమ్ రీసెట్. నేను ${robotName}, సహాయానికి సిద్ధంగా ఉన్నాను.`, hi:`सिस्टम रीसेट। मैं ${robotName}, सहायता के लिए तैयार हूं।` };
-  const msg = greet[langChoice] || greet.en;
+  const greet={en:`Systems reset. I am ${robotName}, ready to assist.`,te:`సిస్టమ్ రీసెట్. నేను ${robotName}, సిద్ధంగా ఉన్నాను.`,hi:`सिस्टम रीसेट। मैं ${robotName}, तैयार हूं।`};
+  const msg=greet[langChoice]||greet.en;
   setRobotSpeech(msg);
-  setTimeout(()=>speakResponse(msg), 300);
+  setTimeout(()=>speakResponse(msg),300);
   notif('info','Reset','AI assistant reinitialized');
 }
 
@@ -1681,24 +1497,23 @@ function aiKey(e){ if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendAI();
 function autoResize(el){ el.style.height='auto'; el.style.height=Math.min(el.scrollHeight,100)+'px'; }
 
 function toggleAiMic(){
-  const btn = document.getElementById('ai-mic-btn');
+  const btn=document.getElementById('ai-mic-btn');
   if(!('webkitSpeechRecognition'in window||'SpeechRecognition'in window)){
-    setRobotSpeech("Voice input is not supported in this browser. Please use Chrome or Edge.");
-    speakResponse("Voice input is not supported in this browser. Please use Chrome or Edge.");
-    return;
+    const m='Voice input not supported. Please use Chrome or Edge.';
+    setRobotSpeech(m); speakResponse(m); return;
   }
   if(isListening){ recognition?.stop(); isListening=false; btn.classList.remove('on'); return; }
-  const SR = window.SpeechRecognition||window.webkitSpeechRecognition;
-  recognition = new SR();
-  recognition.lang = langConfig[langChoice].code;
-  recognition.continuous = false; recognition.interimResults = false;
-  recognition.onresult = e=>{ document.getElementById('ai-ta').value=e.results[0][0].transcript; isListening=false; btn.classList.remove('on'); sendAI(); };
-  recognition.onend = ()=>{ isListening=false; btn.classList.remove('on'); };
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  recognition=new SR();
+  recognition.lang=langConfig[langChoice].code;
+  recognition.continuous=false; recognition.interimResults=false;
+  recognition.onresult=e=>{ document.getElementById('ai-ta').value=e.results[0][0].transcript; isListening=false; btn.classList.remove('on'); sendAI(); };
+  recognition.onend=()=>{ isListening=false; btn.classList.remove('on'); };
   recognition.start(); isListening=true; btn.classList.add('on');
-  document.getElementById('voice-status').textContent = 'LISTENING…';
+  document.getElementById('voice-status').textContent='LISTENING…';
 }
 
-// ── IMAGE GEN
+// Image gen
 function openImgen(pre=''){
   document.getElementById('imgen-modal').classList.remove('hidden');
   document.getElementById('ig-prompt').value=pre||'';
@@ -1710,19 +1525,18 @@ function generateImage(){
   const p=document.getElementById('ig-prompt').value.trim(); if(!p) return;
   const el=document.getElementById('ig-preview');
   el.innerHTML='<div class="ig-empty" style="opacity:.4;">Generating…</div>';
-  const params=new URLSearchParams({width:'1024',height:'1024',nologo:'true',seed:Date.now().toString(),model:'flux'});
-  const url=`${API.image}${encodeURIComponent(p)}?${params.toString()}`;
+  const url=`https://image.pollinations.ai/${encodeURIComponent(p)}?width=1024&height=1024&nologo=true&seed=${Date.now()}&model=flux`;
   currentGeneratedImage=url;
   const img=new Image();
-  img.onload=()=>{ el.innerHTML=''; el.appendChild(img); img.style.cssText='width:100%;height:100%;object-fit:cover;'; const dlBtn=document.createElement('button'); dlBtn.className='ig-dl'; dlBtn.style.opacity='1'; dlBtn.style.transform='none'; dlBtn.innerHTML='<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg> Download'; dlBtn.onclick=downloadImage; el.appendChild(dlBtn); };
+  img.onload=()=>{ el.innerHTML=''; el.appendChild(img); img.style.cssText='width:100%;height:100%;object-fit:cover;'; const dlBtn=document.createElement('button'); dlBtn.className='ig-dl'; dlBtn.style.cssText='opacity:1;transform:none;'; dlBtn.innerHTML='↓ Download'; dlBtn.onclick=downloadImage; el.appendChild(dlBtn); };
   img.src=url;
 }
 async function downloadImage(){
-  if(!currentGeneratedImage) return;
-  try{ notif('info','Downloading','Fetching image…'); const response=await fetch(currentGeneratedImage); const blob=await response.blob(); const blobUrl=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=blobUrl; a.download='nexus-ai-'+Date.now()+'.png'; document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(blobUrl); notif('success','Saved','Image downloaded'); } catch(e){ window.open(currentGeneratedImage,'_blank'); notif('warning','Info','Image opened in new tab'); }
+  if(!currentGeneratedImage)return;
+  try{ const res=await fetch(currentGeneratedImage); const blob=await res.blob(); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='nexus-ai-'+Date.now()+'.png'; document.body.appendChild(a); a.click(); document.body.removeChild(a); notif('success','Saved','Image downloaded'); }catch(e){ window.open(currentGeneratedImage,'_blank'); }
 }
 
-// ── REGISTRATION
+// Registration
 let regData={};
 function goRegister(){ regStep=0; regData={}; const t=genTopic(); regData.ntfyTopic=t; document.getElementById('r-ntfy').value=t; document.getElementById('ntfy-topic-display').textContent=t; showRegStep(0); goPage('register'); }
 function showRegStep(n){ document.querySelectorAll('.rs').forEach((el,i)=>el.classList.toggle('active',i===n)); document.querySelectorAll('.rp-step').forEach((el,i)=>{ el.classList.toggle('done',i<n); el.classList.toggle('active',i===n); }); regStep=n; }
@@ -1737,18 +1551,18 @@ function regPinDel(){ regPinBuf=regPinBuf.slice(0,-1); updateRegPinDots(); }
 function updateRegPinDots(){ for(let i=0;i<4;i++) document.getElementById('rpd'+i).classList[i<regPinBuf.length?'add':'remove']('on'); }
 async function feAction(){
   if(feState==='idle'){ feState='started'; document.getElementById('fe-btn-lbl').textContent='Loading…'; ri('rb-3-ico','loader'); try{ await loadFaceApiModels(); const s=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user',width:320,height:240}}); faceEnrollStream=s; const v=document.getElementById('fe-video'); v.srcObject=s; await new Promise(r=>{v.onloadeddata=r;}); document.getElementById('fe-status').textContent='Center your face and click Capture'; document.getElementById('fe-btn-lbl').textContent='Capture Face'; ri('rb-3-ico','camera'); feState='ready'; }catch(e){ document.getElementById('fe-status').textContent='Camera unavailable'; ri('rb-3-ico','camera-off'); document.getElementById('fe-btn-lbl').textContent='Retry'; feState='idle'; } }
-  else if(feState==='ready'){ feState='capturing'; document.getElementById('fe-status').textContent='Processing…'; ri('rb-3-ico','loader'); try{ const desc=await captureDescriptor('fe-video'); if(!desc) throw new Error('No face'); faceEnrollStream?.getTracks().forEach(t=>t.stop()); faceEnrollStream=null; feState='done'; document.getElementById('fe-status').innerHTML='<span class="fe-success">✓ Face enrolled</span>'; document.getElementById('fe-btn-lbl').textContent='Continue'; ri('rb-3-ico','arrow-right'); regData.faceDescriptor=Array.from(desc); }catch(e){ document.getElementById('fe-status').textContent='No face detected — try again'; ri('rb-3-ico','camera'); document.getElementById('fe-btn-lbl').textContent='Try Again'; feState='ready'; } }
+  else if(feState==='ready'){ feState='capturing'; try{ const desc=await captureDescriptor('fe-video'); if(!desc) throw new Error('No face'); faceEnrollStream?.getTracks().forEach(t=>t.stop()); faceEnrollStream=null; feState='done'; document.getElementById('fe-status').innerHTML='<span class="fe-success">✓ Face enrolled</span>'; document.getElementById('fe-btn-lbl').textContent='Continue'; ri('rb-3-ico','arrow-right'); regData.faceDescriptor=Array.from(desc); }catch(e){ document.getElementById('fe-status').textContent='No face detected — try again'; ri('rb-3-ico','camera'); document.getElementById('fe-btn-lbl').textContent='Try Again'; feState='ready'; } }
   else if(feState==='done'){ showRegStep(4); }
 }
 function skipFace(){ faceEnrollStream?.getTracks().forEach(t=>t.stop()); faceEnrollStream=null; regData.faceDescriptor=null; showRegStep(4); }
 function regComplete(){ saveUser({name:regData.name,username:regData.username,key:regData.key,pin:regData.pin||'1234',faceDescriptor:regData.faceDescriptor||null,ntfyTopic:regData.ntfyTopic||'',createdAt:Date.now()}); doLogin(); }
 
-// ── FACE API
-async function loadFaceApiModels(){ if(faceModelsLoaded) return; if(!faceapi){ const m=await import('https://cdn.jsdelivr.net/npm/@vladmandic/face-api@1.7.12/dist/face-api.esm.js'); faceapi=m; window.faceapi=m; } const U='https://cdn.jsdelivr.net/npm/@vladmandic/face-api@1.7.12/model'; await Promise.all([faceapi.nets.tinyFaceDetector.loadFromUri(U),faceapi.nets.faceLandmark68Net.loadFromUri(U),faceapi.nets.faceRecognitionNet.loadFromUri(U)]); faceModelsLoaded=true; }
+// Face API
+async function loadFaceApiModels(){ if(faceModelsLoaded)return; if(!faceapi){ const m=await import('https://cdn.jsdelivr.net/npm/@vladmandic/face-api@1.7.12/dist/face-api.esm.js'); faceapi=m; window.faceapi=m; } const U='https://cdn.jsdelivr.net/npm/@vladmandic/face-api@1.7.12/model'; await Promise.all([faceapi.nets.tinyFaceDetector.loadFromUri(U),faceapi.nets.faceLandmark68Net.loadFromUri(U),faceapi.nets.faceRecognitionNet.loadFromUri(U)]); faceModelsLoaded=true; }
 async function captureDescriptor(vid){ const v=document.getElementById(vid); let tries=0; while(tries<22){ const d=await faceapi.detectSingleFace(v,new faceapi.TinyFaceDetectorOptions({scoreThreshold:.4})).withFaceLandmarks().withFaceDescriptor(); if(d) return d.descriptor; await new Promise(r=>setTimeout(r,300)); tries++; } return null; }
 function euclidDist(a,b){ let s=0; for(let i=0;i<a.length;i++) s+=(a[i]-b[i])**2; return Math.sqrt(s); }
 
-// ── AUTH
+// Auth
 function skInput(){ if(document.getElementById('sk-input').value.length===6) setTimeout(verifyKey,80); }
 function skKeydown(e){ if(e.key==='Enter') verifyKey(); }
 async function verifyKey(){
@@ -1760,15 +1574,15 @@ async function verifyKey(){
   if(user.faceDescriptor){ err.textContent=''; await startFaceVerify(); } else doLogin();
 }
 async function startFaceVerify(){ document.getElementById('fv-overlay').classList.remove('hidden'); document.getElementById('fv-status').textContent='Loading models…'; try{ await loadFaceApiModels(); const s=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user',width:320,height:240}}); faceVerifyStream=s; const v=document.getElementById('fv-video'); v.srcObject=s; await new Promise(r=>{v.onloadeddata=r;}); document.getElementById('fv-status').textContent='Look at the camera…'; verifyFaceLoop(); }catch(e){ document.getElementById('fv-status').textContent='Camera error — logging in…'; setTimeout(()=>{ cleanupVerify(); doLogin(); },1500); } }
-async function verifyFaceLoop(){ const user=getUser(); if(!user?.faceDescriptor){ cleanupVerify(); doLogin(); return; } document.getElementById('fv-status').textContent='Scanning…'; try{ const desc=await captureDescriptor('fv-video'); if(!desc){ document.getElementById('fv-status').textContent='No face — retrying…'; setTimeout(verifyFaceLoop,800); return; } const dist=euclidDist(desc,new Float32Array(user.faceDescriptor)); if(dist<0.55){ document.getElementById('fv-status').textContent='✓ Identity confirmed'; setTimeout(()=>{ cleanupVerify(); doLogin(); },600); } else{ document.getElementById('fv-status').textContent='✗ Mismatch — capturing…'; await captureAndAlertIntruder('Face mismatch on login'); setTimeout(()=>{ cleanupVerify(); const err=document.getElementById('sk-error'); err.textContent='Biometric mismatch — denied'; err.classList.add('shake'); setTimeout(()=>err.classList.remove('shake'),450); document.getElementById('sk-input').value=''; },1000); } }catch(e){ document.getElementById('fv-status').textContent='Error — retrying…'; setTimeout(verifyFaceLoop,600); } }
+async function verifyFaceLoop(){ const user=getUser(); if(!user?.faceDescriptor){ cleanupVerify(); doLogin(); return; } try{ const desc=await captureDescriptor('fv-video'); if(!desc){ document.getElementById('fv-status').textContent='No face — retrying…'; setTimeout(verifyFaceLoop,800); return; } const dist=euclidDist(desc,new Float32Array(user.faceDescriptor)); if(dist<0.55){ document.getElementById('fv-status').textContent='✓ Identity confirmed'; setTimeout(()=>{ cleanupVerify(); doLogin(); },600); } else{ await captureAndAlertIntruder('Face mismatch'); setTimeout(()=>{ cleanupVerify(); const err=document.getElementById('sk-error'); err.textContent='Biometric mismatch — denied'; err.classList.add('shake'); document.getElementById('sk-input').value=''; },1000); } }catch(e){ setTimeout(verifyFaceLoop,600); } }
 function cancelFaceVerify(){ cleanupVerify(); document.getElementById('sk-input').value=''; }
 function cleanupVerify(){ faceVerifyStream?.getTracks().forEach(t=>t.stop()); faceVerifyStream=null; document.getElementById('fv-overlay').classList.add('hidden'); }
 
-async function captureAndAlertIntruder(reason){ const user=getUser(); try{ const video=document.getElementById('fv-video'); const canvas=document.createElement('canvas'); canvas.width=320; canvas.height=240; canvas.getContext('2d').drawImage(video,0,0); const dataUrl=canvas.toDataURL('image/jpeg',.8); if(user?.ntfyTopic){ const ts=new Date().toLocaleString(); fetch(`https://ntfy.sh/${user.ntfyTopic}`,{method:'POST',headers:{'Title':'🚨 NEXUS Security Alert','Priority':'urgent','Tags':'rotating_light','Content-Type':'text/plain'},body:`Unauthorized login attempt at ${ts}. Reason: ${reason}.`}); const blob=await(await fetch(dataUrl)).blob(); fetch(`https://ntfy.sh/${user.ntfyTopic}`,{method:'POST',headers:{'Title':'📸 Intruder Photo','Filename':'intruder.jpg','Content-Type':'image/jpeg'},body:blob}); } notif('danger','Security Alert','Intruder detected · Alert sent'); }catch(e){ notif('danger','Security Alert','Unauthorized attempt detected'); } }
-async function fireIntruderAlert(reason){ const user=getUser(); if(!user?.ntfyTopic) return; try{ const s=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user'}}); const v=document.createElement('video'); v.srcObject=s; v.play(); await new Promise(r=>setTimeout(r,800)); const c=document.createElement('canvas'); c.width=320; c.height=240; c.getContext('2d').drawImage(v,0,0); s.getTracks().forEach(t=>t.stop()); const blob=await new Promise(r=>c.toBlob(r,'image/jpeg',.8)); const ts=new Date().toLocaleString(); fetch(`https://ntfy.sh/${user.ntfyTopic}`,{method:'POST',headers:{'Title':'🚨 Wrong Key Attempt','Priority':'urgent','Content-Type':'text/plain'},body:`Wrong safe key at ${ts}. Reason: ${reason}.`}); fetch(`https://ntfy.sh/${user.ntfyTopic}`,{method:'POST',headers:{'Title':'📸 Intruder Photo','Filename':'intruder.jpg','Content-Type':'image/jpeg'},body:blob}); }catch(e){} }
+async function captureAndAlertIntruder(reason){ const user=getUser(); try{ const video=document.getElementById('fv-video'); const canvas=document.createElement('canvas'); canvas.width=320; canvas.height=240; canvas.getContext('2d').drawImage(video,0,0); if(user?.ntfyTopic){ const ts=new Date().toLocaleString(); fetch(`https://ntfy.sh/${user.ntfyTopic}`,{method:'POST',headers:{'Title':'🚨 NEXUS Security Alert','Priority':'urgent','Content-Type':'text/plain'},body:`Unauthorized access at ${ts}. Reason: ${reason}.`}); } notif('danger','Security Alert','Intruder detected'); }catch(e){} }
+async function fireIntruderAlert(reason){ const user=getUser(); if(!user?.ntfyTopic) return; try{ const s=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user'}}); const v=document.createElement('video'); v.srcObject=s; v.play(); await new Promise(r=>setTimeout(r,800)); const c=document.createElement('canvas'); c.width=320; c.height=240; c.getContext('2d').drawImage(v,0,0); s.getTracks().forEach(t=>t.stop()); const blob=await new Promise(r=>c.toBlob(r,'image/jpeg',.8)); const ts=new Date().toLocaleString(); fetch(`https://ntfy.sh/${user.ntfyTopic}`,{method:'POST',headers:{'Title':'🚨 Wrong Key','Priority':'urgent','Content-Type':'text/plain'},body:`Wrong safe key at ${ts}. Reason: ${reason}.`}); fetch(`https://ntfy.sh/${user.ntfyTopic}`,{method:'POST',headers:{'Title':'📸 Intruder','Filename':'intruder.jpg','Content-Type':'image/jpeg'},body:blob}); }catch(e){} }
 
 function doLogin(){
-  currentUser=getUser(); if(!currentUser) return;
+  currentUser=getUser(); if(!currentUser)return;
   const ini=currentUser.name.charAt(0).toUpperCase();
   document.getElementById('sb-pname').textContent=currentUser.name;
   document.getElementById('wb-name').textContent=currentUser.name;
@@ -1783,7 +1597,7 @@ function doLogin(){
 }
 function goPage(n){ document.querySelectorAll('.page').forEach(p=>p.classList.add('out')); document.getElementById('page-'+n)?.classList.remove('out'); }
 function lockApp(){ document.getElementById('sk-input').value=''; document.getElementById('sk-error').textContent=''; msgUnlocked=false; cleanupVerify(); if(currentUtterance)window.speechSynthesis.cancel(); goPage('safekey'); notif('info','Locked','Terminal secured'); }
-function resetAccount(){ if(confirm('Delete your account and start over? This is permanent.')) { localStorage.removeItem(USER_KEY); goRegister(); } }
+function resetAccount(){ if(confirm('Delete account and start over? This is permanent.')) { localStorage.removeItem(USER_KEY); goRegister(); } }
 function switchPanel(n){
   document.querySelectorAll('.panel').forEach(p=>p.classList.add('hidden'));
   document.getElementById('p-'+n)?.classList.remove('hidden');
@@ -1792,17 +1606,12 @@ function switchPanel(n){
   if(n==='msg') renderContacts();
   if(n==='ai'){
     loadRobotPrefs();
-    // Greet on AI panel open
     setTimeout(()=>{
-      const greet = {
-        en: `Online. I am ${robotName}. How may I assist you today?`,
-        te: `ఆన్‌లైన్. నేను ${robotName}. నేను మీకు ఈ రోజు ఎలా సహాయం చేయగలను?`,
-        hi: `ऑनलाइन। मैं ${robotName} हूं। आज मैं आपकी कैसे सहायता कर सकता हूं?`
-      };
-      const msg = greet[langChoice] || greet.en;
+      const greet={en:`Online. I am ${robotName}. How may I assist you?`,te:`ఆన్‌లైన్. నేను ${robotName}. మీకు ఎలా సహాయం చేయగలను?`,hi:`ऑनलाइन। मैं ${robotName} हूं। आज मैं आपकी कैसे सहायता कर सकता हूं?`};
+      const msg=greet[langChoice]||greet.en;
       setRobotSpeech(msg);
       speakResponse(msg);
-    }, 500);
+    },500);
   }
 }
 function openMessenger(){ if(msgUnlocked){ switchPanel('msg'); return; } pinBuf=''; updatePinDots(); document.getElementById('pin-modal').classList.remove('hidden'); }
@@ -1812,52 +1621,48 @@ function pinDel(){ pinBuf=pinBuf.slice(0,-1); updatePinDots(); }
 function updatePinDots(){ for(let i=0;i<4;i++) document.getElementById('pd'+i).classList[i<pinBuf.length?'add':'remove']('on'); }
 function checkPin(){ const u=getUser(); if(pinBuf===(u?.pin||'1234')){ msgUnlocked=true; closePinModal(); switchPanel('msg'); notif('success','Vault opened','Messenger decrypted'); } else{ pinBuf=''; updatePinDots(); notif('danger','Wrong PIN','Access denied'); fireIntruderAlert('Wrong messenger PIN'); } }
 
-// ── UPLOAD
+// Upload
 function requestUpload(ctx){ pendingUploadCtx=ctx; document.getElementById('upload-perm').classList.remove('hidden'); }
 function grantUpload(){ document.getElementById('upload-perm').classList.add('hidden'); if(pendingUploadCtx){ document.getElementById(pendingUploadCtx+'-file').click(); pendingUploadCtx=null; } }
-function denyUpload(){ document.getElementById('upload-perm').classList.add('hidden'); pendingUploadCtx=null; notif('info','Denied','File upload declined'); }
-function fmtSize(b){ if(b<1024) return b+'B'; if(b<1048576) return (b/1024).toFixed(1)+'KB'; return (b/1048576).toFixed(1)+'MB'; }
-function fileIconName(f){ const t=f.type,n=f.name.toLowerCase(); if(t.startsWith('image/')) return 'image'; if(n.endsWith('.pdf')) return 'file-text'; if(n.endsWith('.doc')||n.endsWith('.docx')) return 'file-type-2'; if(n.endsWith('.csv')) return 'table-2'; if(n.endsWith('.json')) return 'braces'; if(n.endsWith('.md')) return 'file-code-2'; return 'file'; }
-function handleFileSelect(ctx,input){ const files=[...input.files]; if(!files.length) return; const ok=files.filter(f=>{ if(f.size>20*1024*1024){ notif('warning','Too large',f.name+' > 20MB'); return false; } return true; }); if(!ok.length) return; input.value=''; pendingFiles={ctx,files:ok}; showFileConfirm(ok); }
-async function showFileConfirm(files){ const list=document.getElementById('fc-file-list'); list.innerHTML=''; document.getElementById('fc-title').textContent=`Attach ${files.length} file${files.length>1?'s':''}`; document.getElementById('fc-sub').textContent='Review before sending'; for(const f of files){ const row=document.createElement('div'); row.className='fc-file'; const fIco=document.createElement('span'); fIco.className='fc-ficon'; fIco.appendChild(icon(fileIconName(f))); const nm=document.createElement('span'); nm.className='fc-fname'; nm.textContent=f.name; const sz=document.createElement('span'); sz.className='fc-fsize'; sz.textContent=fmtSize(f.size); row.appendChild(fIco); row.appendChild(nm); row.appendChild(sz); if(f.type.startsWith('image/')){ const img=document.createElement('img'); img.className='fc-img-preview'; img.src=URL.createObjectURL(f); img.alt=f.name; row.style.flexDirection='column'; row.style.alignItems='flex-start'; const top=document.createElement('div'); top.style.cssText='display:flex;align-items:center;gap:10px;width:100%;'; top.appendChild(fIco); top.appendChild(nm); top.appendChild(sz); row.appendChild(top); row.appendChild(img); } list.appendChild(row); } lucide.createIcons({nodes:[list]}); document.getElementById('file-confirm').classList.remove('hidden'); }
-function confirmUpload(){ document.getElementById('file-confirm').classList.add('hidden'); const {ctx,files}=pendingFiles; files.forEach(f=>uploads[ctx].push(f)); renderChips(ctx); notif('info','Attached',files.length===1?files[0].name:files.length+' files ready'); pendingFiles={ctx:'',files:[]}; }
+function denyUpload(){ document.getElementById('upload-perm').classList.add('hidden'); pendingUploadCtx=null; }
+function fmtSize(b){ if(b<1024)return b+'B'; if(b<1048576)return (b/1024).toFixed(1)+'KB'; return (b/1048576).toFixed(1)+'MB'; }
+function fileIconName(f){ const t=f.type,n=f.name.toLowerCase(); if(t.startsWith('image/'))return 'image'; if(n.endsWith('.pdf'))return 'file-text'; return 'file'; }
+function handleFileSelect(ctx,input){ const files=[...input.files]; if(!files.length)return; const ok=files.filter(f=>f.size<=20*1024*1024); if(!ok.length)return; input.value=''; pendingFiles={ctx,files:ok}; showFileConfirm(ok); }
+async function showFileConfirm(files){ const list=document.getElementById('fc-file-list'); list.innerHTML=''; document.getElementById('fc-title').textContent=`Attach ${files.length} file${files.length>1?'s':''}`; for(const f of files){ const row=document.createElement('div'); row.className='fc-file'; const fIco=document.createElement('span'); fIco.className='fc-ficon'; fIco.appendChild(icon(fileIconName(f))); const nm=document.createElement('span'); nm.className='fc-fname'; nm.textContent=f.name; const sz=document.createElement('span'); sz.className='fc-fsize'; sz.textContent=fmtSize(f.size); row.appendChild(fIco);row.appendChild(nm);row.appendChild(sz); list.appendChild(row); } lucide.createIcons({nodes:[list]}); document.getElementById('file-confirm').classList.remove('hidden'); }
+function confirmUpload(){ document.getElementById('file-confirm').classList.add('hidden'); const {ctx,files}=pendingFiles; files.forEach(f=>uploads[ctx].push(f)); renderChips(ctx); notif('info','Attached',files.length+' file(s) ready'); pendingFiles={ctx:'',files:[]}; }
 function cancelUpload(){ document.getElementById('file-confirm').classList.add('hidden'); pendingFiles={ctx:'',files:[]}; }
-function renderChips(ctx){ const row=document.getElementById(ctx+'-chips'); if(!row) return; row.innerHTML=''; uploads[ctx].forEach((f,i)=>{ const chip=document.createElement('div'); chip.className='chip'; const ico=document.createElement('span'); ico.className='chip-ico'; ico.appendChild(icon(fileIconName(f))); const nm=document.createElement('span'); nm.className='chip-n'; nm.textContent=f.name; const sz=document.createElement('span'); sz.className='chip-s'; sz.textContent=fmtSize(f.size); const del=document.createElement('span'); del.className='chip-x'; del.appendChild(icon('x')); del.onclick=()=>removeFile(ctx,i); chip.appendChild(ico);chip.appendChild(nm);chip.appendChild(sz);chip.appendChild(del); row.appendChild(chip); }); lucide.createIcons({nodes:[row]}); }
-function removeFile(ctx,idx){ uploads[ctx].splice(idx,1); renderChips(ctx); }
+function renderChips(ctx){ const row=document.getElementById(ctx+'-chips'); if(!row)return; row.innerHTML=''; uploads[ctx].forEach((f,i)=>{ const chip=document.createElement('div'); chip.className='chip'; const ico=document.createElement('span'); ico.className='chip-ico'; ico.appendChild(icon(fileIconName(f))); const nm=document.createElement('span'); nm.className='chip-n'; nm.textContent=f.name; const del=document.createElement('span'); del.className='chip-x'; del.appendChild(icon('x')); del.onclick=()=>{ uploads[ctx].splice(i,1); renderChips(ctx); }; chip.appendChild(ico);chip.appendChild(nm);chip.appendChild(del); row.appendChild(chip); }); lucide.createIcons({nodes:[row]}); }
 
-// ── VOICE (Messenger)
-function toggleVoice(){ if(!('webkitSpeechRecognition'in window||'SpeechRecognition'in window)){ notif('warning','Not supported','Use Chrome or Edge'); return; } if(isListening){ recognition?.stop(); return; } const SR=window.SpeechRecognition||window.webkitSpeechRecognition; recognition=new SR(); recognition.lang='en-US'; recognition.continuous=false; recognition.interimResults=false; recognition.onresult=e=>{ const txt=e.results[0][0].transcript; document.getElementById('msg-ta').value=txt; stopMsgVoice(); }; recognition.onend=stopMsgVoice; recognition.start(); isListening=true; document.getElementById('msg-voice-btn')?.classList.add('on'); notif('info','Listening','Speak now…'); }
-function stopMsgVoice(){ isListening=false; document.getElementById('msg-voice-btn')?.classList.remove('on'); }
+// Voice (messenger)
+function toggleVoice(){ if(!('webkitSpeechRecognition'in window||'SpeechRecognition'in window)){ notif('warning','Not supported','Use Chrome or Edge'); return; } if(isListening){ recognition?.stop(); return; } const SR=window.SpeechRecognition||window.webkitSpeechRecognition; recognition=new SR(); recognition.lang='en-US'; recognition.continuous=false; recognition.interimResults=false; recognition.onresult=e=>{ document.getElementById('msg-ta').value=e.results[0][0].transcript; isListening=false; document.getElementById('msg-voice-btn')?.classList.remove('on'); }; recognition.onend=()=>{ isListening=false; document.getElementById('msg-voice-btn')?.classList.remove('on'); }; recognition.start(); isListening=true; document.getElementById('msg-voice-btn')?.classList.add('on'); notif('info','Listening','Speak now…'); }
 
-// ── MESSENGER
+// Messenger
 let contacts=[
   {id:1,name:'Alice Chen',init:'AC',online:true,preview:'Are we still on for the meeting?',time:'2m',unread:1,msgs:[{from:'them',text:'Hello! How are you?'},{from:'them',text:'Are we still on for the meeting?'}]},
-  {id:2,name:'Bob Miller',init:'BM',online:false,preview:'Check this report I found',time:'1h',unread:0,msgs:[]},
+  {id:2,name:'Bob Miller',init:'BM',online:false,preview:'Check this report',time:'1h',unread:0,msgs:[]},
   {id:3,name:'Sarah Voss',init:'SV',online:true,preview:'The quarterly numbers look great',time:'3h',unread:2,msgs:[{from:'them',text:'Hey!'},{from:'them',text:'The quarterly numbers look great!'}]},
   {id:4,name:'James Wright',init:'JW',online:false,preview:'Pushing the update tonight',time:'1d',unread:0,msgs:[]}
 ];
 let activeContact=null;
 function renderContacts(f=''){ const l=document.getElementById('clist'); const data=f?contacts.filter(c=>c.name.toLowerCase().includes(f.toLowerCase())):contacts; l.innerHTML=data.map(c=>`<div class="ci ${activeContact?.id===c.id?'active':''}" onclick="selContact(${c.id})"><div class="ci-av">${c.init}</div><div style="flex:1;min-width:0;"><div class="ci-name">${c.name}</div><div class="ci-prev">${c.preview}</div></div><div style="text-align:right;flex-shrink:0;"><div class="ci-time">${c.time}</div>${c.unread?`<div class="ci-un">${c.unread}</div>`:''}</div></div>`).join(''); }
 function filterC(v){ renderContacts(v); }
-function selContact(id){ activeContact=contacts.find(c=>c.id===id); activeContact.unread=0; document.getElementById('cz-name').textContent=activeContact.name; document.getElementById('cz-status').textContent=activeContact.online?'● Online':'○ Offline'; document.getElementById('cz-status').style.color=activeContact.online?'var(--green)':'var(--text-f)'; const av=document.getElementById('cz-av'); av.innerHTML=''; av.appendChild(icon('user')); lucide.createIcons({nodes:[av]}); renderContacts(); renderMsgs(); }
-function renderMsgs(){ if(!activeContact) return; const b=document.getElementById('msg-body'); if(!activeContact.msgs.length){ b.innerHTML=`<div class="empty-state"><div class="empty-title">No messages yet</div><div class="empty-sub">Start the conversation</div></div>`; return; } b.innerHTML=''; activeContact.msgs.forEach(m=>{ const d=document.createElement('div'); d.className='msg '+(m.from==='me'?'user':'ai'); const av=document.createElement('div'); av.className='m-av'; av.appendChild(icon('user')); const bub=document.createElement('div'); bub.className='m-bub'; bub.textContent=m.text; if(m.from==='me'){d.appendChild(bub);d.appendChild(av);}else{d.appendChild(av);d.appendChild(bub);} b.appendChild(d); lucide.createIcons({nodes:[d]}); }); b.scrollTop=b.scrollHeight; }
-function appendMsg(bid,role,text){ const b=document.getElementById(bid), d=document.createElement('div'); d.className='msg '+role; const av=document.createElement('div'); av.className='m-av'; av.appendChild(icon('user')); const bub=document.createElement('div'); bub.className='m-bub'; bub.textContent=text; if(role==='me'||role==='user'){d.appendChild(bub);d.appendChild(av);}else{d.appendChild(av);d.appendChild(bub);} b.appendChild(d); b.scrollTop=b.scrollHeight; lucide.createIcons({nodes:[d]}); }
-function sendMsg(){ const ta=document.getElementById('msg-ta'),text=ta.value.trim(); const hasFiles=uploads.msg.length>0; if((!text&&!hasFiles)||!activeContact) return; ta.value=''; if(text){ activeContact.msgs.push({from:'me',text}); appendMsg('msg-body','user',text); } msgCount++; updateStats(); const rs=['Got it! 👍','Understood.','Thanks!','Noted!','Will do.','On it ✓','Received.']; setTimeout(()=>{ const r=rs[Math.floor(Math.random()*rs.length)]; activeContact.msgs.push({from:'them',text:r}); appendMsg('msg-body','ai',r); },700+Math.random()*500); }
+function selContact(id){ activeContact=contacts.find(c=>c.id===id); activeContact.unread=0; document.getElementById('cz-name').textContent=activeContact.name; document.getElementById('cz-status').textContent=activeContact.online?'● Online':'○ Offline'; document.getElementById('cz-status').style.color=activeContact.online?'var(--green)':'var(--text-f)'; renderContacts(); renderMsgs(); }
+function renderMsgs(){ if(!activeContact)return; const b=document.getElementById('msg-body'); if(!activeContact.msgs.length){ b.innerHTML=`<div class="empty-state"><div class="empty-title">No messages yet</div></div>`; return; } b.innerHTML=''; activeContact.msgs.forEach(m=>{ const d=document.createElement('div'); d.className='msg '+(m.from==='me'?'user':'ai'); const av=document.createElement('div'); av.className='m-av'; av.appendChild(icon('user')); const bub=document.createElement('div'); bub.className='m-bub'; bub.textContent=m.text; if(m.from==='me'){d.appendChild(bub);d.appendChild(av);}else{d.appendChild(av);d.appendChild(bub);} b.appendChild(d); }); lucide.createIcons({nodes:[b]}); b.scrollTop=b.scrollHeight; }
+function sendMsg(){ const ta=document.getElementById('msg-ta'),text=ta.value.trim(); if(!text||!activeContact)return; ta.value=''; activeContact.msgs.push({from:'me',text}); const d=document.createElement('div'); d.className='msg user'; const av=document.createElement('div'); av.className='m-av'; av.appendChild(icon('user')); const bub=document.createElement('div'); bub.className='m-bub'; bub.textContent=text; d.appendChild(bub); d.appendChild(av); document.getElementById('msg-body').appendChild(d); document.getElementById('msg-body').scrollTop=99999; lucide.createIcons({nodes:[d]}); msgCount++; updateStats(); const rs=['Got it! 👍','Understood.','Thanks!','Noted!','Will do.','On it ✓']; setTimeout(()=>{ const r=rs[Math.floor(Math.random()*rs.length)]; activeContact.msgs.push({from:'them',text:r}); const d2=document.createElement('div'); d2.className='msg ai'; const av2=document.createElement('div'); av2.className='m-av'; av2.appendChild(icon('user')); const bub2=document.createElement('div'); bub2.className='m-bub'; bub2.textContent=r; d2.appendChild(av2); d2.appendChild(bub2); document.getElementById('msg-body').appendChild(d2); document.getElementById('msg-body').scrollTop=99999; lucide.createIcons({nodes:[d2]}); },700+Math.random()*500); }
 function msgKey(e){ if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg();} }
 
-// ── STATS
+// Stats
 function updateStats(){ document.getElementById('stat-msgs').textContent=msgCount; const m=Math.floor((Date.now()-sessionStart)/60000); document.getElementById('stat-session').textContent=m<60?m+'m':Math.floor(m/60)+'h'; }
 setInterval(()=>{ document.getElementById('wb-time').textContent=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}); updateStats(); },1000);
-document.addEventListener('DOMContentLoaded',()=>{
-  const el=document.getElementById('msg-ta'); if(el) el.addEventListener('input',function(){ this.style.height='auto'; this.style.height=Math.min(this.scrollHeight,110)+'px'; });
-});
 
-// ── BOOT
+// Boot
 window.addEventListener('DOMContentLoaded',()=>{
   initIcons();
   initCanvas();
   loadRobotPrefs();
-  window.speechSynthesis.onvoiceschanged = ()=>{};
+  // Preload voices
+  window.speechSynthesis.getVoices();
+  window.speechSynthesis.onvoiceschanged=()=>{ window.speechSynthesis.getVoices(); };
   const user=getUser();
   if(!user){ goRegister(); }
   else{ document.getElementById('lc-welcome-name').textContent=`Welcome back, ${user.name}. Enter your 6-digit key.`; document.getElementById('sk-input').focus(); }
