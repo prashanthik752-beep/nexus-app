@@ -11,7 +11,6 @@ body {
   margin:0;
 }
 
-/* LOGIN */
 #login {
   display:flex;
   flex-direction:column;
@@ -20,13 +19,11 @@ body {
   height:100vh;
 }
 
-/* APP */
 #app {
   display:none;
   padding:20px;
 }
 
-/* AI PANEL */
 #ai {
   margin-top:20px;
   padding:20px;
@@ -43,24 +40,20 @@ input,button {
 </head>
 <body>
 
-<!-- LOGIN -->
 <div id="login">
   <h2>Enter PIN</h2>
   <input id="pin" type="password" placeholder="1234">
   <button onclick="login()">Login</button>
 </div>
 
-<!-- APP -->
 <div id="app">
 
   <h2>Welcome to NEXUS</h2>
 
-  <!-- AI PANEL -->
   <div id="ai">
 
     <h3>AI Assistant</h3>
 
-    <!-- NAME -->
     <input id="ai-name-input" placeholder="Name your AI">
     <button onclick="saveAIName()">Save</button>
 
@@ -68,12 +61,10 @@ input,button {
       NEXUS
     </div>
 
-    <!-- ROBOT -->
     <div id="robot" style="font-size:80px;margin-top:20px;">🤖</div>
 
     <div id="status" style="color:gray;">Idle</div>
 
-    <!-- INPUT -->
     <input id="ai-input" placeholder="Ask something...">
     <button onclick="ask()">Send</button>
 
@@ -92,6 +83,13 @@ function login(){
     alert("Wrong PIN");
   }
 }
+
+// ENTER KEY SUPPORT
+document.getElementById("ai-input").addEventListener("keydown", function(e){
+  if(e.key === "Enter"){
+    ask();
+  }
+});
 
 // AI NAME
 let aiName = localStorage.getItem("aiName") || "NEXUS";
@@ -112,7 +110,7 @@ function saveAIName(){
   speak("My name is " + aiName);
 }
 
-// ASK AI
+// ASK AI (FIXED)
 async function ask(){
   let q = document.getElementById("ai-input").value;
   if(!q) return;
@@ -120,19 +118,19 @@ async function ask(){
   setState("Thinking...", "🤔");
 
   try{
-    let res = await fetch("https://gen.pollinations.ai/text",{
-      method:"POST",
-      headers:{ "Content-Type":"application/json" },
-      body: JSON.stringify({ prompt:q })
-    });
+    // ✅ FIXED API (more reliable)
+    let res = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent("https://api.affiliateplus.xyz/api/chatbot?message="+q+"&owner=You&botname="+aiName)}`);
 
-    let txt = await res.text();
+    let data = await res.json();
+
+    let txt = data.message || "Sorry, I couldn't respond.";
 
     setState("Speaking...", "🗣️");
 
     speak(txt);
 
   }catch(e){
+    console.error(e);
     alert("AI failed");
     setState("Idle", "🤖");
   }
