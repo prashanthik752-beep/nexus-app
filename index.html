@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>NEXUS - Fixed</title>
+<title>NEXUS AI (Working)</title>
+
 <style>
-body{
-  font-family: Arial;
-  background:#111;
+body {
+  background:#0d0c0a;
   color:white;
+  font-family:Arial;
   margin:0;
 }
 
 /* LOGIN */
-#login{
+#login {
   display:flex;
   flex-direction:column;
   align-items:center;
@@ -19,32 +20,33 @@ body{
   height:100vh;
 }
 
-input,button{
-  padding:10px;
-  margin:5px;
-}
-
 /* APP */
-#app{
+#app {
   display:none;
   padding:20px;
 }
 
 /* AI PANEL */
-#p-ai{
+#ai {
   margin-top:20px;
   padding:20px;
   border:1px solid #444;
+  text-align:center;
+}
+
+input,button {
+  padding:10px;
+  margin:5px;
 }
 </style>
-</head>
 
+</head>
 <body>
 
 <!-- LOGIN -->
 <div id="login">
   <h2>Enter PIN</h2>
-  <input id="pin" type="password" placeholder="1234"/>
+  <input id="pin" type="password" placeholder="1234">
   <button onclick="login()">Login</button>
 </div>
 
@@ -54,19 +56,26 @@ input,button{
   <h2>Welcome to NEXUS</h2>
 
   <!-- AI PANEL -->
-  <div id="p-ai">
+  <div id="ai">
 
     <h3>AI Assistant</h3>
 
-    <!-- Name Feature -->
-    <input id="ai-name-input" placeholder="Name your AI"/>
+    <!-- NAME -->
+    <input id="ai-name-input" placeholder="Name your AI">
     <button onclick="saveAIName()">Save</button>
 
-    <!-- Robot -->
-    <div style="text-align:center; margin-top:20px;">
-      <div style="font-size:80px;">🤖</div>
-      <div id="ai-display-name">NEXUS</div>
+    <div id="ai-display-name" style="font-size:18px;margin-top:10px;">
+      NEXUS
     </div>
+
+    <!-- ROBOT -->
+    <div id="robot" style="font-size:80px;margin-top:20px;">🤖</div>
+
+    <div id="status" style="color:gray;">Idle</div>
+
+    <!-- INPUT -->
+    <input id="ai-input" placeholder="Ask something...">
+    <button onclick="ask()">Send</button>
 
   </div>
 
@@ -74,39 +83,76 @@ input,button{
 
 <script>
 
-// ================= LOGIN =================
+// LOGIN
 function login(){
-  const pin = document.getElementById("pin").value;
-
-  if(pin === "1234"){
+  if(document.getElementById("pin").value === "1234"){
     document.getElementById("login").style.display="none";
     document.getElementById("app").style.display="block";
-  }else{
+  } else {
     alert("Wrong PIN");
   }
 }
 
-// ================= AI NAME =================
+// AI NAME
 let aiName = localStorage.getItem("aiName") || "NEXUS";
 
-window.onload = function(){
+window.onload = () => {
   document.getElementById("ai-display-name").innerText = aiName;
 };
 
 function saveAIName(){
-  const input = document.getElementById("ai-name-input").value;
+  let val = document.getElementById("ai-name-input").value;
+  if(!val) return alert("Enter name");
 
-  if(input.trim() === ""){
-    alert("Enter name");
-    return;
-  }
-
-  aiName = input;
+  aiName = val;
   localStorage.setItem("aiName", aiName);
 
   document.getElementById("ai-display-name").innerText = aiName;
 
-  alert("Saved: " + aiName);
+  speak("My name is " + aiName);
+}
+
+// ASK AI
+async function ask(){
+  let q = document.getElementById("ai-input").value;
+  if(!q) return;
+
+  setState("Thinking...", "🤔");
+
+  try{
+    let res = await fetch("https://gen.pollinations.ai/text",{
+      method:"POST",
+      headers:{ "Content-Type":"application/json" },
+      body: JSON.stringify({ prompt:q })
+    });
+
+    let txt = await res.text();
+
+    setState("Speaking...", "🗣️");
+
+    speak(txt);
+
+  }catch(e){
+    alert("AI failed");
+    setState("Idle", "🤖");
+  }
+}
+
+// SPEAK
+function speak(text){
+  let s = new SpeechSynthesisUtterance(text);
+
+  s.onend = () => {
+    setState("Idle", "🤖");
+  };
+
+  speechSynthesis.speak(s);
+}
+
+// STATE
+function setState(t,emoji){
+  document.getElementById("status").innerText = t;
+  document.getElementById("robot").innerText = emoji;
 }
 
 </script>
