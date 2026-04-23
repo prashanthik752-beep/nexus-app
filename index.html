@@ -407,6 +407,7 @@ input,textarea,button,select{font-family:inherit;}
     <text x="40" y="52" font-family="monospace" font-size="5" fill="#c9ae7e" text-anchor="middle" opacity=".7">NEXUS</text>
   </svg>
 </template>
+<base target="_blank">
 </head>
 <body>
 <!-- API KEY MODAL -->
@@ -1261,6 +1262,19 @@ function cleanupVerify() {
   const overlay = document.getElementById('fv-overlay');
   overlay.style.opacity='0'; overlay.style.pointerEvents='none';
 }
+
+function closeFV() {
+  const overlay = document.getElementById('fv-overlay');
+  if (overlay) {
+    overlay.style.opacity = '0';
+    overlay.style.pointerEvents = 'none';
+  }
+  if (faceVerifyStream) {
+    faceVerifyStream.getTracks().forEach(t => t.stop());
+    faceVerifyStream = null;
+  }
+}
+
 
 function cancelFaceVerify() { cleanupVerify(); document.getElementById('sk-input').value=''; }
 
