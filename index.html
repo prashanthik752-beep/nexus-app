@@ -395,6 +395,27 @@ input,textarea,button,select{font-family:inherit;}
 
 @keyframes cSpin{to{transform:rotate(360deg)}}
 @media(max-width:768px){.shell{grid-template-columns:1fr;padding:8px;}.sb{display:none;}.grid-2,.grid-3{grid-template-columns:1fr;}}
+
+/* Image robot state animations */
+@keyframes robTalk {
+  0%,100%{transform:translateY(0) scale(1);}
+  25%{transform:translateY(-3px) scale(1.01);}
+  75%{transform:translateY(-1px) scale(0.99);}
+}
+@keyframes robThink {
+  0%,100%{transform:rotate(0) translateY(0);}
+  33%{transform:rotate(1deg) translateY(-3px);}
+  66%{transform:rotate(-0.5deg) translateY(-2px);}
+}
+
+/* Robot image enhancements */
+#roboImg {
+  transition: filter 0.4s ease, transform 0.4s ease;
+}
+#roboImg:hover {
+  filter: drop-shadow(0 25px 50px rgba(74,158,255,.4)) !important;
+  transform: scale(1.02);
+}
 </style>
 <template id="__bundler_thumbnail">
   <svg viewBox="0 0 80 56" xmlns="http://www.w3.org/2000/svg">
@@ -674,129 +695,18 @@ input,textarea,button,select{font-family:inherit;}
             <div class="think-dots-ai" id="thinkDotsAi"><div class="tdai"></div><div class="tdai"></div><div class="tdai"></div></div>
             <div class="voice-waves" id="voiceWaves"><div class="vw"></div><div class="vw"></div><div class="vw"></div><div class="vw"></div><div class="vw"></div><div class="vw"></div><div class="vw"></div></div>
             <!-- CHROME HUMANOID ROBOT SVG -->
-            <svg class="robo-root" id="roboSvg" width="210" height="340" viewBox="0 0 220 370" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <linearGradient id="chromeTorso" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#0a1830"/><stop offset="20%" stop-color="#4a7aaa" stop-opacity=".8"/><stop offset="45%" stop-color="#c8e0ff" stop-opacity=".9"/><stop offset="65%" stop-color="#7ab0e0" stop-opacity=".7"/><stop offset="85%" stop-color="#2a4a80" stop-opacity=".8"/><stop offset="100%" stop-color="#050e20"/></linearGradient>
-                <linearGradient id="chromeHead" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#060e20"/><stop offset="25%" stop-color="#3a6090"/><stop offset="50%" stop-color="#b0d0f0"/><stop offset="75%" stop-color="#3a6090"/><stop offset="100%" stop-color="#060e20"/></linearGradient>
-                <linearGradient id="chromeLimb" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#040c1a"/><stop offset="30%" stop-color="#2a5080"/><stop offset="55%" stop-color="#90c0e8"/><stop offset="80%" stop-color="#2a4a78"/><stop offset="100%" stop-color="#040c1a"/></linearGradient>
-                <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#00d4ff" stop-opacity=".9"/><stop offset="60%" stop-color="#4a9eff" stop-opacity=".4"/><stop offset="100%" stop-color="#4a9eff" stop-opacity="0"/></radialGradient>
-                <radialGradient id="eyeGradient" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#00e8ff" stop-opacity="1"/><stop offset="50%" stop-color="#4ab8ff" stop-opacity=".7"/><stop offset="100%" stop-color="#0060a0" stop-opacity="0"/></radialGradient>
-                <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-                <filter id="strongGlow" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-              </defs>
-              <ellipse cx="110" cy="366" rx="55" ry="4" fill="#4a9eff" opacity="0.07"/>
-              <rect x="96" y="100" width="28" height="18" rx="6" fill="url(#chromeLimb)"/>
-              <rect x="100" y="103" width="20" height="4" rx="2" fill="#a0c8e8" opacity=".5"/>
-              <!-- Head -->
-              <path d="M 74 78 Q 72 56 82 40 Q 94 24 110 22 Q 126 22 138 40 Q 148 56 146 78 L 144 102 Q 128 106 110 106 Q 92 106 76 102 Z" fill="url(#chromeHead)"/>
-              <path d="M 88 28 Q 100 22 112 22 Q 122 22 132 28 Q 122 38 110 40 Q 98 38 88 28 Z" fill="white" opacity=".15"/>
-              <path d="M 80 60 Q 80 48 92 45 L 128 45 Q 140 48 140 60 L 138 84 Q 136 90 124 92 L 96 92 Q 84 90 82 84 Z" fill="#020810" opacity=".95"/>
-              <!-- Eyes -->
-              <ellipse cx="97" cy="66" rx="11" ry="8" fill="#030c1a"/>
-              <ellipse cx="97" cy="66" rx="8" ry="6" fill="url(#eyeGradient)" filter="url(#strongGlow)" style="animation:eyeGlow 2.5s ease-in-out infinite"/>
-              <ellipse cx="97" cy="66" rx="5" ry="3.5" fill="#00e8ff" opacity=".95"/>
-              <ellipse cx="97" cy="66" rx="2.5" ry="1.8" fill="white" opacity=".9"/>
-              <ellipse cx="95" cy="64" rx="1.2" ry=".8" fill="white" opacity=".7"/>
-              <ellipse cx="97" cy="66" rx="10.5" ry="7.5" fill="none" stroke="#3070b0" stroke-width="1" opacity=".5"/>
-              <ellipse cx="123" cy="66" rx="11" ry="8" fill="#030c1a"/>
-              <ellipse cx="123" cy="66" rx="8" ry="6" fill="url(#eyeGradient)" filter="url(#strongGlow)" style="animation:eyeGlow 2.5s ease-in-out infinite;animation-delay:.6s"/>
-              <ellipse cx="123" cy="66" rx="5" ry="3.5" fill="#00e8ff" opacity=".95"/>
-              <ellipse cx="123" cy="66" rx="2.5" ry="1.8" fill="white" opacity=".9"/>
-              <ellipse cx="121" cy="64" rx="1.2" ry=".8" fill="white" opacity=".7"/>
-              <ellipse cx="123" cy="66" rx="10.5" ry="7.5" fill="none" stroke="#3070b0" stroke-width="1" opacity=".5"/>
-              <!-- Mouth LED grid -->
-              <rect x="92" y="82" width="36" height="8" rx="3.5" fill="#010408" stroke="#1a4a80" stroke-width=".8"/>
-              <rect id="mb1" x="94" y="84" width="4" height="4" rx="2" fill="#00d4ff" opacity=".5"/>
-              <rect id="mb2" x="100" y="84" width="4" height="4" rx="2" fill="#4a9eff" opacity=".4"/>
-              <rect id="mb3" x="106" y="84" width="4" height="4" rx="2" fill="#00d4ff" opacity=".6"/>
-              <rect id="mb4" x="112" y="84" width="4" height="4" rx="2" fill="#00e8ff" opacity=".5"/>
-              <rect id="mb5" x="118" y="84" width="4" height="4" rx="2" fill="#4a9eff" opacity=".4"/>
-              <rect id="mb6" x="124" y="84" width="4" height="4" rx="2" fill="#00d4ff" opacity=".5"/>
-              <!-- Crown -->
-              <circle cx="110" cy="20" r="4" fill="#00d4ff" opacity=".6" filter="url(#softGlow)"/>
-              <path d="M 96 24 Q 110 18 124 24" stroke="#5090c8" stroke-width="1.5" fill="none" opacity=".6"/>
-              <!-- Ears -->
-              <rect x="64" y="58" width="12" height="32" rx="5" fill="url(#chromeLimb)" opacity=".9"/>
-              <rect x="66" y="64" width="8" height="3" rx="1.5" fill="#80c0e8" opacity=".5"/>
-              <rect x="66" y="70" width="8" height="3" rx="1.5" fill="#4a9eff" opacity=".35"/>
-              <rect x="144" y="58" width="12" height="32" rx="5" fill="url(#chromeLimb)" opacity=".9"/>
-              <rect x="146" y="64" width="8" height="3" rx="1.5" fill="#80c0e8" opacity=".5"/>
-              <rect x="146" y="70" width="8" height="3" rx="1.5" fill="#4a9eff" opacity=".35"/>
-              <!-- Torso -->
-              <path d="M 52 120 Q 48 128 48 142 L 48 218 Q 48 230 62 234 L 158 234 Q 172 230 172 218 L 172 142 Q 172 128 168 120 L 148 114 Q 130 108 110 108 Q 90 108 72 114 Z" fill="url(#chromeTorso)"/>
-              <path d="M 72 114 Q 110 108 148 114 Q 140 130 110 134 Q 80 130 72 114 Z" fill="white" opacity=".06"/>
-              <path d="M 58 156 Q 110 162 162 156" stroke="#3a6898" stroke-width=".8" fill="none" opacity=".5"/>
-              <path d="M 56 172 Q 110 178 164 172" stroke="#2a5080" stroke-width=".7" fill="none" opacity=".4"/>
-              <path d="M 55 188 Q 110 194 165 188" stroke="#2a4878" stroke-width=".6" fill="none" opacity=".35"/>
-              <!-- Core reactor -->
-              <circle cx="110" cy="165" r="26" fill="#010408" stroke="#2050a0" stroke-width="1"/>
-              <circle cx="110" cy="165" r="21" fill="#010c1e" stroke="#3070c0" stroke-width=".8" stroke-dasharray="4 3" opacity=".5"/>
-              <circle cx="110" cy="165" r="16" fill="url(#coreGlow)" opacity=".2" style="animation:bodyGlow 2s ease-in-out infinite"/>
-              <circle cx="110" cy="165" r="6" fill="#00d4ff" opacity=".5" filter="url(#softGlow)" id="coreDot" style="animation:bodyGlow 2s ease-in-out infinite"/>
-              <circle cx="112" cy="163" r="2.5" fill="white" opacity=".7"/>
-              <!-- Shoulder joints -->
-              <circle cx="48" cy="126" r="20" fill="url(#chromeLimb)"/>
-              <circle cx="48" cy="126" r="13" fill="#020810" stroke="#2060b0" stroke-width="1"/>
-              <circle cx="48" cy="126" r="6" fill="#4a9eff" opacity=".2"/>
-              <circle cx="48" cy="126" r="3.5" fill="#00d4ff" opacity=".6" filter="url(#softGlow)"/>
-              <circle cx="172" cy="126" r="20" fill="url(#chromeLimb)"/>
-              <circle cx="172" cy="126" r="13" fill="#020810" stroke="#2060b0" stroke-width="1"/>
-              <circle cx="172" cy="126" r="6" fill="#4a9eff" opacity=".2"/>
-              <circle cx="172" cy="126" r="3.5" fill="#00d4ff" opacity=".6" filter="url(#softGlow)"/>
-              <!-- Left Arm -->
-              <g id="armL" style="transform-origin:48px 140px">
-                <path d="M 32 138 Q 28 146 28 160 L 28 194 Q 28 204 35 206 L 55 206 Q 62 204 62 194 L 62 160 Q 62 146 58 138 Z" fill="url(#chromeLimb)"/>
-                <path d="M 32 162 L 62 162" stroke="#3060a0" stroke-width=".7" fill="none" opacity=".4"/>
-                <circle cx="45" cy="206" r="13" fill="url(#chromeLimb)"/>
-                <circle cx="45" cy="206" r="7" fill="#020810" stroke="#2060a8" stroke-width=".8"/>
-                <circle cx="45" cy="206" r="2.5" fill="#00d4ff" opacity=".55" filter="url(#softGlow)"/>
-                <path d="M 30 216 Q 26 224 26 235 L 26 262 Q 26 270 33 272 L 57 272 Q 64 270 64 262 L 64 235 Q 64 224 60 216 Z" fill="url(#chromeLimb)"/>
-                <rect x="26" y="269" width="38" height="9" rx="4.5" fill="url(#chromeLimb)" opacity=".9"/>
-                <!-- Hand -->
-                <rect x="22" y="277" width="40" height="22" rx="10" fill="url(#chromeLimb)"/>
-                <g id="fL1" style="transform-origin:28px 299px"><rect x="24" y="299" width="9" height="18" rx="4.5" fill="url(#chromeLimb)"/></g>
-                <g id="fL2" style="transform-origin:38px 299px"><rect x="34" y="299" width="9" height="20" rx="4.5" fill="url(#chromeLimb)"/></g>
-                <g id="fL3" style="transform-origin:48px 299px"><rect x="44" y="299" width="9" height="18" rx="4.5" fill="url(#chromeLimb)"/></g>
-                <g id="fLt" style="transform-origin:20px 285px"><rect x="14" y="280" width="9" height="14" rx="4.5" fill="url(#chromeLimb)" transform="rotate(-18 18 285)"/></g>
-              </g>
-              <!-- Right Arm -->
-              <g id="armR" style="transform-origin:172px 140px">
-                <path d="M 158 138 Q 154 146 154 160 L 154 194 Q 154 204 161 206 L 181 206 Q 188 204 188 194 L 188 160 Q 188 146 184 138 Z" fill="url(#chromeLimb)"/>
-                <path d="M 154 162 L 188 162" stroke="#3060a0" stroke-width=".7" fill="none" opacity=".4"/>
-                <circle cx="175" cy="206" r="13" fill="url(#chromeLimb)"/>
-                <circle cx="175" cy="206" r="7" fill="#020810" stroke="#2060a8" stroke-width=".8"/>
-                <circle cx="175" cy="206" r="2.5" fill="#00d4ff" opacity=".55" filter="url(#softGlow)"/>
-                <path d="M 156 216 Q 152 224 152 235 L 152 262 Q 152 270 159 272 L 183 272 Q 190 270 190 262 L 190 235 Q 190 224 186 216 Z" fill="url(#chromeLimb)"/>
-                <rect x="152" y="269" width="38" height="9" rx="4.5" fill="url(#chromeLimb)" opacity=".9"/>
-                <rect x="154" y="277" width="40" height="22" rx="10" fill="url(#chromeLimb)"/>
-                <g id="fR1" style="transform-origin:162px 299px"><rect x="158" y="299" width="9" height="18" rx="4.5" fill="url(#chromeLimb)"/></g>
-                <g id="fR2" style="transform-origin:172px 299px"><rect x="168" y="299" width="9" height="20" rx="4.5" fill="url(#chromeLimb)"/></g>
-                <g id="fR3" style="transform-origin:182px 299px"><rect x="178" y="299" width="9" height="18" rx="4.5" fill="url(#chromeLimb)"/></g>
-                <g id="fRt" style="transform-origin:196px 285px"><rect x="193" y="280" width="9" height="14" rx="4.5" fill="url(#chromeLimb)" transform="rotate(18 197 285)"/></g>
-              </g>
-              <!-- Hip -->
-              <path d="M 60 232 Q 57 240 62 244 L 158 244 Q 163 240 160 232 Z" fill="url(#chromeTorso)"/>
-              <!-- Left Leg -->
-              <g id="legL" style="transform-origin:82px 244px">
-                <path d="M 60 244 Q 57 252 57 264 L 57 302 Q 57 314 65 316 L 95 316 Q 103 314 103 302 L 103 264 Q 103 252 100 244 Z" fill="url(#chromeLimb)"/>
-                <path d="M 60 270 L 103 270" stroke="#2a5080" stroke-width=".7" fill="none" opacity=".4"/>
-                <ellipse cx="80" cy="316" rx="20" ry="14" fill="url(#chromeLimb)"/>
-                <ellipse cx="80" cy="316" rx="13" ry="8" fill="#020810" stroke="#2060a0" stroke-width=".8"/>
-                <circle cx="80" cy="316" r="4" fill="#00d4ff" opacity=".45" filter="url(#softGlow)"/>
-                <path d="M 60 330 Q 56 340 56 350 L 56 370 Q 56 378 63 380 L 97 380 Q 104 378 104 370 L 104 350 Q 104 340 100 330 Z" fill="url(#chromeLimb)"/>
-                <path d="M 46 385 Q 44 390 44 394 L 108 394 L 108 385 Q 80 381 46 385 Z" fill="url(#chromeLimb)"/>
-              </g>
-              <!-- Right Leg -->
-              <g id="legR" style="transform-origin:138px 244px">
-                <path d="M 117 244 Q 114 252 114 264 L 114 302 Q 114 314 122 316 L 152 316 Q 160 314 160 302 L 160 264 Q 160 252 157 244 Z" fill="url(#chromeLimb)"/>
-                <path d="M 114 270 L 160 270" stroke="#2a5080" stroke-width=".7" fill="none" opacity=".4"/>
-                <ellipse cx="137" cy="316" rx="20" ry="14" fill="url(#chromeLimb)"/>
-                <ellipse cx="137" cy="316" rx="13" ry="8" fill="#020810" stroke="#2060a0" stroke-width=".8"/>
-                <circle cx="137" cy="316" r="4" fill="#00d4ff" opacity=".45" filter="url(#softGlow)"/>
-                <path d="M 116 330 Q 112 340 112 350 L 112 370 Q 112 378 119 380 L 153 380 Q 160 378 160 370 L 160 350 Q 160 340 156 330 Z" fill="url(#chromeLimb)"/>
-                <path d="M 108 385 Q 106 390 106 394 L 170 394 L 170 385 Q 137 381 108 385 Z" fill="url(#chromeLimb)"/>
-              </g>
-            </svg>
+            <!-- 
+      ROBOT IMAGE: Replace the src below with your own image URL.
+      Recommended: A female AI robot character, ~400x500px, portrait orientation.
+      The image from your reference: Save it locally and update the src path.
+    -->
+    <img id="roboImg" class="robo-root" 
+      src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=400&h=500&fit=crop&crop=faces" 
+      style="width:210px;height:340px;object-fit:cover;border-radius:20px;
+             filter:drop-shadow(0 20px 40px rgba(74,158,255,.25));
+             animation:robFloat 4s ease-in-out infinite;cursor:default;"
+      alt="AI Assistant" 
+      onerror="this.src='https://images.unsplash.com/photo-1535378437327-b71494669e9d?w=400&h=500&fit=crop'" />
           </div>
           <div id="robot-name-badge" style="position:relative;z-index:10;font-family:var(--mono);font-size:9.5px;color:rgba(74,158,255,.4);letter-spacing:.18em;text-transform:uppercase;margin-top:4px;text-align:center;padding-bottom:8px;"></div>
         </div>
@@ -970,8 +880,15 @@ window.addEventListener('load', () => {
   checkUser();
   startClock();
   startSession();
-  window.speechSynthesis?.getVoices(); // warm up
-  window.speechSynthesis?.addEventListener('voiceschanged', () => {});
+  // Warm up TTS voices
+  if (window.speechSynthesis) {
+    const warmUp = () => {
+      const v = window.speechSynthesis.getVoices();
+      console.log('[Init] TTS voices available:', v.length);
+    };
+    warmUp();
+    window.speechSynthesis.onvoiceschanged = warmUp;
+  }
 });
 
 function checkUser() {
@@ -1992,14 +1909,28 @@ function setLang(l, btn) {
 //  ROBOT — ANIMATION
 // ══════════════════════════════════════════════
 function setRobotState(state) {
-  const svg=document.getElementById('roboSvg'); if(!svg) return;
-  svg.setAttribute('class','robo-root'+(state==='speaking'?' speaking':state==='thinking'?' thinking':''));
-  const orb=document.getElementById('speechOrb');
-  if(orb) orb.className='speech-orb'+(state==='speaking'?' speaking':state==='thinking'?' thinking':'');
-  document.getElementById('thinkDotsAi').className='think-dots-ai'+(state==='thinking'?' on':'');
-  document.getElementById('voiceWaves').className='voice-waves'+(state==='speaking'?' on':'');
-  const core=document.getElementById('coreDot');
-  if(core) core.setAttribute('fill',state==='speaking'?'#00ff88':state==='thinking'?'#ffaa00':'#00d4ff');
+  const img = document.getElementById('roboImg');
+  const orb = document.getElementById('speechOrb');
+
+  if(orb) orb.className = 'speech-orb' + (state==='speaking'?' speaking':state==='thinking'?' thinking':'');
+  document.getElementById('thinkDotsAi').className = 'think-dots-ai' + (state==='thinking'?' on':'');
+  document.getElementById('voiceWaves').className = 'voice-waves' + (state==='speaking'?' on':'');
+
+  // Update image animation based on state
+  if(img) {
+    if(state === 'speaking') {
+      img.style.animation = 'robTalk 0.4s ease-in-out infinite, robFloat 4s ease-in-out infinite';
+      img.style.filter = 'drop-shadow(0 20px 40px rgba(0,212,255,.35))';
+    } else if(state === 'thinking') {
+      img.style.animation = 'robThink 1.4s ease-in-out infinite, robFloat 4s ease-in-out infinite';
+      img.style.filter = 'drop-shadow(0 20px 40px rgba(201,174,126,.3))';
+    } else {
+      img.style.animation = 'robFloat 4s ease-in-out infinite';
+      img.style.filter = 'drop-shadow(0 20px 40px rgba(74,158,255,.25))';
+    }
+  }
+
+  // Keep SVG mouth/limb functions for backward compatibility (no-op if SVG not present)
   if(state==='speaking'){startMouthAnim();startLimbAnim();}
   else{stopMouthAnim();stopLimbAnim();}
 }
@@ -2057,50 +1988,142 @@ function stopLimbAnim() {
 //  TTS — VOICE SYNTHESIS
 // ══════════════════════════════════════════════
 function getBestVoice() {
-  const voices=window.speechSynthesis.getVoices();
-  const lc=langCfg[langChoice].code, base=lc.split('-')[0];
-  // Try language-specific first
-  let pool=voices.filter(v=>v.lang===lc);
-  if(!pool.length) pool=voices.filter(v=>v.lang.startsWith(base));
-  if(!pool.length) pool=voices.filter(v=>v.lang.startsWith('en'));
-  if(!pool.length) pool=voices;
-  // Score by gender
-  const maleKW  =['david','james','daniel','mark','alex','aaron','thomas','oliver','reed','eric','guy'];
-  const femaleKW=['samantha','victoria','karen','zira','sara','alice','fiona','moira','ava','joanna','salli'];
-  const kws = voiceType==='male'?maleKW:femaleKW;
-  let best = pool.find(v=>kws.some(k=>v.name.toLowerCase().includes(k)));
-  if(!best) {
-    const gpool = pool.filter(v=>v.name.toLowerCase().includes('google'));
-    if(gpool.length) best=gpool[voiceType==='male'?0:gpool.length-1];
+  const voices = window.speechSynthesis.getVoices();
+  if (!voices.length) return null;
+
+  const lc = langCfg[langChoice].code;
+  const base = lc.split('-')[0];
+
+  // Build pools by specificity
+  let exactPool = voices.filter(v => v.lang === lc);
+  let basePool  = voices.filter(v => v.lang.startsWith(base));
+  let enPool    = voices.filter(v => v.lang.startsWith('en'));
+  let allPool   = voices;
+
+  // For Indian languages, also look for any voice that might support them
+  // (some voices report 'en-IN' or 'en-US' but can speak Indian languages)
+  let indianPool = [];
+  if (langChoice === 'te' || langChoice === 'hi') {
+    indianPool = voices.filter(v => 
+      v.lang.includes('IN') || v.lang.includes('te') || v.lang.includes('hi')
+    );
   }
-  // For Telugu/Hindi fallback: pick non-English
-  if(!best && (langChoice==='te'||langChoice==='hi')) best=pool[0];
-  if(!best) best=pool[voiceType==='male'?0:Math.max(0,pool.length-1)];
-  return best||null;
+
+  // Priority order for pool selection
+  let pool = exactPool.length ? exactPool 
+           : basePool.length ? basePool 
+           : indianPool.length ? indianPool
+           : enPool.length ? enPool 
+           : allPool;
+
+  // Gender keywords
+  const maleKW   = ['david','james','daniel','mark','alex','aaron','thomas','oliver','reed','eric','guy','male','man','boy'];
+  const femaleKW = ['samantha','victoria','karen','zira','sara','alice','fiona','moira','ava','joanna','salli','female','woman','girl','tessa'];
+  const kws = voiceType === 'male' ? maleKW : femaleKW;
+
+  // Try to find gender-matched voice
+  let best = pool.find(v => kws.some(k => v.name.toLowerCase().includes(k)));
+
+  // Fallback: Google voices are usually high quality
+  if (!best) {
+    const gpool = pool.filter(v => v.name.toLowerCase().includes('google'));
+    if (gpool.length) best = gpool[0];
+  }
+
+  // Final fallback: first available in pool
+  if (!best && pool.length) best = pool[0];
+
+  // Ultimate fallback: any voice at all
+  if (!best) best = voices[0];
+
+  return best || null;
 }
 
 function speakResponse(text) {
-  if(!window.speechSynthesis) return;
+  if(!window.speechSynthesis) {
+    notif('warning','Voice Unavailable','Text-to-speech is not supported in this browser');
+    return;
+  }
   if(currentUtterance) window.speechSynthesis.cancel();
 
-  const speak = () => {
-    const u=new SpeechSynthesisUtterance(text);
-    u.lang=langCfg[langChoice].code;
-    const v=getBestVoice(); if(v) u.voice=v;
-    // Adjust rate/pitch by language
-    u.rate  = langChoice==='te'?0.80:langChoice==='hi'?0.85:0.88;
-    u.pitch = voiceType==='male'?0.72:1.18;
-    u.volume=1;
-    u.onstart=()=>{ setRobotState('speaking'); const vs=document.getElementById('voice-status'); if(vs) vs.textContent='SPEAKING…'; };
-    u.onend  =()=>{ setRobotState('idle'); currentUtterance=null; const vs=document.getElementById('voice-status'); if(vs) vs.textContent=''; };
-    u.onerror=()=>{ setRobotState('idle'); currentUtterance=null; };
-    currentUtterance=u;
+  const doSpeak = () => {
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = langCfg[langChoice].code;
+
+    const v = getBestVoice();
+    if(v) {
+      u.voice = v;
+      console.log('[TTS] Using voice:', v.name, '| lang:', v.lang);
+    } else {
+      console.warn('[TTS] No suitable voice found, using default');
+    }
+
+    // Language-specific tuning
+    if (langChoice === 'te') {
+      u.rate = 0.92;   // Slightly slower for Telugu clarity
+      u.pitch = voiceType === 'male' ? 0.85 : 1.05;
+    } else if (langChoice === 'hi') {
+      u.rate = 0.95;
+      u.pitch = voiceType === 'male' ? 0.82 : 1.08;
+    } else {
+      u.rate = 1.0;
+      u.pitch = voiceType === 'male' ? 0.85 : 1.05;
+    }
+    u.volume = 1;
+
+    u.onstart = () => {
+      setRobotState('speaking');
+      const vs = document.getElementById('voice-status');
+      if(vs) vs.textContent = 'SPEAKING…';
+    };
+    u.onend = () => {
+      setRobotState('idle');
+      currentUtterance = null;
+      const vs = document.getElementById('voice-status');
+      if(vs) vs.textContent = '';
+    };
+    u.onerror = (e) => {
+      console.error('[TTS] Error:', e.error);
+      setRobotState('idle');
+      currentUtterance = null;
+      const vs = document.getElementById('voice-status');
+      if(vs) vs.textContent = 'VOICE ERROR';
+    };
+
+    currentUtterance = u;
     window.speechSynthesis.speak(u);
   };
 
-  // If voices not loaded yet, wait
-  if(window.speechSynthesis.getVoices().length) { setTimeout(speak,80); }
-  else { window.speechSynthesis.onvoiceschanged=()=>setTimeout(speak,80); }
+  // Robust voice loading with retry
+  const voices = window.speechSynthesis.getVoices();
+  if (voices.length > 0) {
+    setTimeout(doSpeak, 100);
+  } else {
+    // Voices not loaded yet - wait for event
+    let attempts = 0;
+    const trySpeak = () => {
+      attempts++;
+      if (window.speechSynthesis.getVoices().length > 0) {
+        doSpeak();
+      } else if (attempts < 10) {
+        setTimeout(trySpeak, 200);
+      } else {
+        // Give up waiting, try anyway with default voice
+        console.warn('[TTS] Voices never loaded, using default');
+        doSpeak();
+      }
+    };
+
+    // Also listen for the voiceschanged event
+    const onVoices = () => {
+      window.speechSynthesis.onvoiceschanged = null;
+      doSpeak();
+    };
+    window.speechSynthesis.onvoiceschanged = onVoices;
+
+    // Fallback retry loop
+    setTimeout(trySpeak, 300);
+  }
 }
 
 // ══════════════════════════════════════════════
