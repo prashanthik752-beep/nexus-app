@@ -213,8 +213,8 @@ input,textarea,button,select{font-family:inherit;}
 .ctrl-btn{padding:4px 10px;border-radius:4px;border:none;background:transparent;color:rgba(74,158,255,.4);font-family:var(--mono);font-size:10px;cursor:pointer;transition:all .2s;white-space:nowrap;}
 .ctrl-btn.active{background:rgba(74,158,255,.18);color:#7ba4d4;border:1px solid rgba(74,158,255,.22);}
 .ctrl-btn:hover:not(.active){background:rgba(74,158,255,.07);color:rgba(74,158,255,.75);}
-.robot-stage{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;z-index:2;padding:8px 20px 0;gap:0;}
-.speech-orb{position:relative;background:rgba(6,12,28,.94);border:1px solid rgba(74,158,255,.22);border-radius:16px;padding:12px 20px;max-width:420px;min-width:200px;text-align:center;font-family:var(--mono);font-size:12px;color:#7ab8f8;line-height:1.7;letter-spacing:.02em;margin-bottom:12px;flex-shrink:0;transition:all .3s;}
+.robot-stage{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;position:relative;z-index:2;padding:10px 20px 20px;gap:10px;}
+.speech-orb{position:relative;background:rgba(6,12,28,.94);border:1px solid rgba(74,158,255,.22);border-radius:16px;padding:12px 20px;max-width:420px;min-width:200px;text-align:center;font-family:var(--mono);font-size:12px;color:#7ab8f8;line-height:1.7;letter-spacing:.02em;margin-bottom:16px;flex-shrink:0;transition:all .3s;}
 .speech-orb::after{content:'';position:absolute;bottom:-9px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-top:9px solid rgba(74,158,255,.22);}
 .speech-orb::before{content:'';position:absolute;bottom:-7px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:7px solid transparent;border-right:7px solid transparent;border-top:8px solid rgba(6,12,28,.94);z-index:1;}
 .speech-orb.thinking{border-color:rgba(201,174,126,.3);color:#c9ae7e;}
@@ -396,25 +396,44 @@ input,textarea,button,select{font-family:inherit;}
 @keyframes cSpin{to{transform:rotate(360deg)}}
 @media(max-width:768px){.shell{grid-template-columns:1fr;padding:8px;}.sb{display:none;}.grid-2,.grid-3{grid-template-columns:1fr;}}
 
-/* Image robot state animations */
+/* SVG Robot animations */
 @keyframes robTalk {
   0%,100%{transform:translateY(0) scale(1);}
-  25%{transform:translateY(-3px) scale(1.01);}
-  75%{transform:translateY(-1px) scale(0.99);}
+  25%{transform:translateY(-4px) scale(1.02);}
+  75%{transform:translateY(-2px) scale(0.99);}
 }
 @keyframes robThink {
   0%,100%{transform:rotate(0) translateY(0);}
-  33%{transform:rotate(1deg) translateY(-3px);}
-  66%{transform:rotate(-0.5deg) translateY(-2px);}
+  33%{transform:rotate(1.5deg) translateY(-4px);}
+  66%{transform:rotate(-1deg) translateY(-2px);}
 }
 
-/* Robot image enhancements */
-#roboImg {
+/* Robot hover effects */
+#roboRoot {
   transition: filter 0.4s ease, transform 0.4s ease;
 }
-#roboImg:hover {
-  filter: drop-shadow(0 25px 50px rgba(74,158,255,.4)) !important;
-  transform: scale(1.02);
+#roboRoot:hover {
+  filter: drop-shadow(0 30px 60px rgba(74,158,255,.5)) !important;
+  transform: scale(1.03);
+}
+
+/* Eye animations */
+@keyframes eyeBlink {
+  0%,90%,100%{opacity:0;}
+  95%{opacity:1;}
+}
+@keyframes eyeScan {
+  0%,100%{transform:translateX(0);}
+  25%{transform:translateX(-3px);}
+  75%{transform:translateX(3px);}
+}
+@keyframes pulseGlow {
+  0%,100%{opacity:.6;}
+  50%{opacity:1;}
+}
+@keyframes chestPulse {
+  0%,100%{opacity:.3;}
+  50%{opacity:.8;}
 }
 </style>
 <template id="__bundler_thumbnail">
@@ -428,6 +447,7 @@ input,textarea,button,select{font-family:inherit;}
     <text x="40" y="52" font-family="monospace" font-size="5" fill="#c9ae7e" text-anchor="middle" opacity=".7">NEXUS</text>
   </svg>
 </template>
+<base target="_blank">
 <base target="_blank">
 </head>
 <body>
@@ -1909,31 +1929,123 @@ function setLang(l, btn) {
 //  ROBOT — ANIMATION
 // ══════════════════════════════════════════════
 function setRobotState(state) {
-  const img = document.getElementById('roboImg');
+  const root = document.getElementById('roboRoot');
   const orb = document.getElementById('speechOrb');
 
   if(orb) orb.className = 'speech-orb' + (state==='speaking'?' speaking':state==='thinking'?' thinking':'');
   document.getElementById('thinkDotsAi').className = 'think-dots-ai' + (state==='thinking'?' on':'');
   document.getElementById('voiceWaves').className = 'voice-waves' + (state==='speaking'?' on':'');
 
-  // Update image animation based on state
-  if(img) {
+  // Animate the SVG robot based on state
+  if(root) {
     if(state === 'speaking') {
-      img.style.animation = 'robTalk 0.4s ease-in-out infinite, robFloat 4s ease-in-out infinite';
-      img.style.filter = 'drop-shadow(0 20px 40px rgba(0,212,255,.35))';
+      root.style.animation = 'robTalk 0.4s ease-in-out infinite, robFloat 4s ease-in-out infinite';
+      root.style.filter = 'drop-shadow(0 20px 50px rgba(0,212,255,.5))';
+      startMouthAnim();
+      startLimbAnim();
+      setEyeGlow('bright');
+      setChestPulse(true);
     } else if(state === 'thinking') {
-      img.style.animation = 'robThink 1.4s ease-in-out infinite, robFloat 4s ease-in-out infinite';
-      img.style.filter = 'drop-shadow(0 20px 40px rgba(201,174,126,.3))';
+      root.style.animation = 'robThink 1.4s ease-in-out infinite, robFloat 4s ease-in-out infinite';
+      root.style.filter = 'drop-shadow(0 20px 50px rgba(201,174,126,.4))';
+      stopMouthAnim();
+      stopLimbAnim();
+      setEyeGlow('dim');
+      setChestPulse(false);
     } else {
-      img.style.animation = 'robFloat 4s ease-in-out infinite';
-      img.style.filter = 'drop-shadow(0 20px 40px rgba(74,158,255,.25))';
+      root.style.animation = 'robFloat 4s ease-in-out infinite';
+      root.style.filter = 'drop-shadow(0 20px 50px rgba(74,158,255,.35))';
+      stopMouthAnim();
+      stopLimbAnim();
+      setEyeGlow('normal');
+      setChestPulse(false);
     }
   }
-
-  // Keep SVG mouth/limb functions for backward compatibility (no-op if SVG not present)
-  if(state==='speaking'){startMouthAnim();startLimbAnim();}
-  else{stopMouthAnim();stopLimbAnim();}
 }
+
+// SVG Eye glow control
+function setEyeGlow(mode) {
+  const leftGlow = document.getElementById('eyeLeftGlow');
+  const rightGlow = document.getElementById('eyeRightGlow');
+  const leftCore = document.getElementById('eyeLeftCore');
+  const rightCore = document.getElementById('eyeRightCore');
+  const antL = document.getElementById('antLightL');
+  const antR = document.getElementById('antLightR');
+
+  if(!leftGlow || !rightGlow) return;
+
+  if(mode === 'bright') {
+    leftGlow.setAttribute('fill', 'url(#eyeGlow)');
+    rightGlow.setAttribute('fill', 'url(#eyeGlow)');
+    leftCore.setAttribute('opacity', '1');
+    rightCore.setAttribute('opacity', '1');
+    antL.setAttribute('fill', 'url(#eyeGlow)');
+    antR.setAttribute('fill', 'url(#eyeGlow)');
+  } else if(mode === 'dim') {
+    leftGlow.setAttribute('fill', 'url(#eyeGlowDim)');
+    rightGlow.setAttribute('fill', 'url(#eyeGlowDim)');
+    leftCore.setAttribute('opacity', '.4');
+    rightCore.setAttribute('opacity', '.4');
+    antL.setAttribute('fill', '#4a9eff');
+    antR.setAttribute('fill', '#4a9eff');
+  } else {
+    leftGlow.setAttribute('fill', 'url(#eyeGlow)');
+    rightGlow.setAttribute('fill', 'url(#eyeGlow)');
+    leftCore.setAttribute('opacity', '.9');
+    rightCore.setAttribute('opacity', '.9');
+    antL.setAttribute('fill', 'url(#eyeGlow)');
+    antR.setAttribute('fill', 'url(#eyeGlow)');
+  }
+}
+
+// Chest light pulse
+let chestInterval = null;
+function setChestPulse(active) {
+  const bar1 = document.getElementById('chestBar1');
+  const bar2 = document.getElementById('chestBar2');
+  const bar3 = document.getElementById('chestBar3');
+  const heart = document.getElementById('heartLight');
+  if(!bar1) return;
+
+  if(chestInterval) { clearInterval(chestInterval); chestInterval = null; }
+
+  if(active) {
+    chestInterval = setInterval(() => {
+      const op = .3 + Math.random() * .6;
+      bar1.setAttribute('opacity', op.toFixed(2));
+      bar2.setAttribute('opacity', (op * .8).toFixed(2));
+      bar3.setAttribute('opacity', (op * .6).toFixed(2));
+      if(heart) heart.setAttribute('opacity', (op * 1.2).toFixed(2));
+    }, 200);
+  } else {
+    bar1.setAttribute('opacity', '.4');
+    bar2.setAttribute('opacity', '.4');
+    bar3.setAttribute('opacity', '.4');
+    if(heart) heart.setAttribute('opacity', '.6');
+  }
+}
+
+// Blink animation
+let blinkInterval = null;
+function startBlinking() {
+  if(blinkInterval) return;
+  const eyelidL = document.getElementById('eyelidL');
+  const eyelidR = document.getElementById('eyelidR');
+  if(!eyelidL || !eyelidR) return;
+
+  blinkInterval = setInterval(() => {
+    // Blink closed
+    eyelidL.setAttribute('opacity', '1');
+    eyelidR.setAttribute('opacity', '1');
+    setTimeout(() => {
+      eyelidL.setAttribute('opacity', '0');
+      eyelidR.setAttribute('opacity', '0');
+    }, 150);
+  }, 3500 + Math.random() * 2000);
+}
+
+// Start blinking on load
+setTimeout(startBlinking, 2000);
 
 function setRobotSpeech(text) {
   const orb=document.getElementById('speechOrb'); if(orb) orb.textContent=text;
