@@ -512,6 +512,7 @@ input,textarea,button,select{font-family:inherit;}
 .unblock-btn:hover{background:var(--gold);color:var(--bg);}
 .enc-lock{font-size:9px;color:rgba(63,200,122,.4);margin-left:4px;}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@vladmandic/face-api@1.7.12/dist/face-api.js" crossorigin="anonymous" onerror="console.warn('face-api CDN failed — Face ID will use password fallback')"></script>
 </head>
 <body>
 <button id="theme-btn" onclick="toggleTheme()">🌙</button>
@@ -624,8 +625,10 @@ input,textarea,button,select{font-family:inherit;}
     <div class="fid-status" id="fid-status">Ready to verify — tap Start</div>
     <div class="fid-err" id="fid-err"></div>
     <button class="fid-btn" id="fid-btn" onclick="startFaceID()">🔓 Start Face ID</button>
+    <div style="text-align:center;margin-top:10px;">
+      <button onclick="goToSafeKey()" style="width:100%;padding:11px;background:transparent;border:1px solid var(--border);border-radius:var(--r3);color:var(--text-m);font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .3s;" onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--text)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text-m)'">🔑 Use Password Instead</button>
+    </div>
     <div class="fid-links">
-      <span class="fid-link" onclick="goToSafeKey()">Use Password Instead</span>
       <span class="fid-link" onclick="goRegister()">New Account</span>
       <span class="fid-link" onclick="resetAccount()">Reset</span>
     </div>
@@ -1201,24 +1204,38 @@ window.addEventListener('load', () => {
 
 function checkUser() {
   const u = getUser();
-  if (!u) { goPage('faceid'); return; }
-  currentUser = u;
-  if(u.faceDescriptor) {
-    // Has face enrolled — go to face id
+  if (!u) {
+    // New user — show Face ID screen (has "New Account" link)
     goPage('faceid');
+    setFidStatus('New here? Click "New Account" below');
+    return;
+  }
+  currentUser = u;
+  if(u.faceDescriptor && !IS_FILE && IS_SECURE) {
+    // Has face enrolled AND we're on a secure origin — try Face ID
+    goPage('faceid');
+    setFidStatus('Ready to verify — tap Start');
+  } else if(u.faceDescriptor && IS_FILE) {
+    // Has face but on file:// — can't use camera, go to password
+    goPage('safekey');
+    const sk = document.getElementById('sk-welcome');
+    if(sk) sk.textContent = `Welcome back, ${u.name.split(' ')[0]}. Enter your 6-digit key. (Face ID requires localhost/HTTPS)`;
   } else {
-    // No face — go to safe key
+    // No face enrolled — skip straight to password
+    goPage('safekey');
     const sk = document.getElementById('sk-welcome');
     if(sk) sk.textContent = `Welcome back, ${u.name.split(' ')[0]}. Enter your 6-digit key.`;
-    goPage('safekey');
   }
 }
 
 function getUser()  { try { return JSON.parse(localStorage.getItem(USER_KEY)); } catch { return null; } }
 function saveUser(u){ localStorage.setItem(USER_KEY, JSON.stringify(u)); }
 
+function buildUserRegistry() { /* stub — messenger init handles this */ }
+
 function doLogin() {
   currentUser = getUser();
+  if(!currentUser) { goPage('faceid'); return; }
   stopFidCamera();
   populateProfiles();
   goPage('profiles');
@@ -1285,13 +1302,24 @@ function notif(type, title, body) {
 }
 
 // ══════════════════════════════════════════════
-//  FACE ID — HIGH ACCURACY ENGINE
+//  FACE ID ENGINE — works on file://, GitHub Pages, localhost
+//  Uses face-api.js loaded via <script> tag (not dynamic import)
+//  Falls back gracefully to password if camera/models unavailable
 // ══════════════════════════════════════════════
+
+// Detect environment
+const IS_SECURE = location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+const IS_FILE   = location.protocol === 'file:';
+
+function euclidDist(a, b) {
+  let s=0; for(let i=0;i<a.length;i++) s+=(a[i]-b[i])**2; return Math.sqrt(s);
+}
+
 async function loadFaceModels() {
   if(faceModelsLoaded) return;
-  if(!faceapi) {
-    const m = await import('https://cdn.jsdelivr.net/npm/@vladmandic/face-api@1.7.12/dist/face-api.esm.js');
-    faceapi = m; window.faceapi = m;
+  // faceapi is loaded via <script> tag — check it's ready
+  if(typeof faceapi === 'undefined' || !window.faceapi) {
+    throw new Error('face-api not loaded');
   }
   const U = 'https://cdn.jsdelivr.net/npm/@vladmandic/face-api@1.7.12/model';
   await Promise.all([
@@ -1302,23 +1330,13 @@ async function loadFaceModels() {
   faceModelsLoaded = true;
 }
 
-function euclidDist(a, b) {
-  let s=0; for(let i=0;i<a.length;i++) s+=(a[i]-b[i])**2; return Math.sqrt(s);
-}
-
-// Average multiple descriptors for better accuracy
 async function captureMultipleDescriptors(videoEl, count=5) {
-  const descriptors = [];
   const opts = new faceapi.TinyFaceDetectorOptions({ scoreThreshold:0.5, inputSize:416 });
+  const descriptors = [];
   for(let attempt=0; attempt<40 && descriptors.length<count; attempt++) {
     try {
-      const det = await faceapi
-        .detectSingleFace(videoEl, opts)
-        .withFaceLandmarks()
-        .withFaceDescriptor();
-      if(det && det.descriptor) {
-        descriptors.push(Array.from(det.descriptor));
-      }
+      const det = await faceapi.detectSingleFace(videoEl, opts).withFaceLandmarks().withFaceDescriptor();
+      if(det?.descriptor) descriptors.push(Array.from(det.descriptor));
     } catch(e){}
     await new Promise(r=>setTimeout(r,180));
   }
@@ -1338,14 +1356,11 @@ function setFidStatus(msg, cls='') {
   const el=document.getElementById('fid-status');
   if(el) { el.textContent=msg; el.className='fid-status'+(cls?' '+cls:''); }
 }
-
 function setFidErr(msg) {
   const el=document.getElementById('fid-err'); if(el) el.textContent=msg;
 }
-
 function updateConfidence(pct) {
-  const meter=document.getElementById('conf-meter');
-  const fill=document.getElementById('conf-fill');
+  const meter=document.getElementById('conf-meter'), fill=document.getElementById('conf-fill');
   if(!meter||!fill) return;
   meter.classList.add('on');
   fill.style.width=Math.min(100,Math.max(0,pct))+'%';
@@ -1355,121 +1370,169 @@ async function startFaceID() {
   const btn = document.getElementById('fid-btn');
   btn.disabled = true;
   setFidErr('');
-  setFidStatus('Loading face recognition models…');
 
+  const user = getUser();
+
+  // ── CASE 1: No account → show register link
+  if(!user) {
+    setFidStatus('No account found — create one', 'warn');
+    setFidErr('Click "New Account" below to get started');
+    btn.disabled = false;
+    return;
+  }
+
+  // ── CASE 2: No face enrolled → skip straight to password
+  if(!user.faceDescriptor) {
+    setFidStatus('No Face ID enrolled — use password', 'warn');
+    stopFidCamera();
+    goToSafeKey();
+    return;
+  }
+
+  // ── CASE 3: file:// protocol → camera blocked, use password
+  if(IS_FILE) {
+    setFidStatus('Camera unavailable on local files', 'warn');
+    setFidErr('Open via localhost or GitHub Pages for Face ID. Use password for now.');
+    btn.disabled = false;
+    setTimeout(()=>goToSafeKey(), 2000);
+    return;
+  }
+
+  // ── CASE 4: face-api.js not loaded yet
+  if(typeof faceapi === 'undefined' || !window.faceapi) {
+    setFidStatus('Loading face recognition…');
+    // Try to load it
+    try {
+      await loadFaceApiScript();
+    } catch(e) {
+      setFidStatus('Face recognition unavailable', 'warn');
+      setFidErr('Could not load models. Use password instead.');
+      btn.disabled = false;
+      return;
+    }
+  }
+
+  // ── CASE 5: Normal flow — camera + face-api
+  setFidStatus('Loading face recognition models…');
   try {
     await loadFaceModels();
-    setFidStatus('Starting camera…');
+  } catch(e) {
+    setFidStatus('Models failed to load', 'warn');
+    setFidErr('Network issue. Use password instead.');
+    btn.disabled = false;
+    return;
+  }
 
+  setFidStatus('Starting camera…');
+  try {
     const stream = await navigator.mediaDevices.getUserMedia({
       video:{ facingMode:'user', width:{ ideal:1280 }, height:{ ideal:720 } }
     });
     fidStream = stream;
-
     const video = document.getElementById('fid-video');
     video.srcObject = stream;
     await new Promise(r=>{ video.onloadeddata=r; });
 
-    // Show camera UI
     document.getElementById('cam-idle').style.display='none';
     document.getElementById('cam-video-wrap').style.display='block';
     document.getElementById('cam-spinner').style.display='block';
     document.getElementById('cam-scan').style.display='block';
     document.getElementById('cam-mesh').classList.add('on');
+    document.getElementById('conf-meter').classList.add('on');
 
-    const user = getUser();
-    if(!user) { setFidStatus('No account found', 'error'); btn.disabled=false; return; }
-
-    if(!user.faceDescriptor) {
-      // No face enrolled — use safe key fallback
-      setFidStatus('No face enrolled — use password', 'warn');
-      stopFidCamera();
-      const sk = document.getElementById('sk-welcome');
-      if(sk) sk.textContent = `Welcome back, ${user.name.split(' ')[0]}. Enter your 6-digit key.`;
-      goPage('safekey');
-      return;
-    }
-
-    // Scan loop with rolling window
     setFidStatus('Scanning… look at the camera', 'scanning');
     const enrolledDesc = new Float32Array(user.faceDescriptor);
     const recentDists = [];
     const opts = new faceapi.TinyFaceDetectorOptions({ scoreThreshold:0.45, inputSize:416 });
     let scanAttempts = 0;
-    const maxAttempts = 50;
 
     const scan = async () => {
-      if(scanAttempts >= maxAttempts) {
-        setFidStatus('Could not verify — try password', 'warn');
-        setFidErr('Face not recognized after 10 seconds');
-        stopFidCamera();
-        btn.disabled = false;
+      if(scanAttempts >= 55) {
+        setFidStatus('Could not verify — use password', 'warn');
+        setFidErr('Face not recognized. Try password below.');
+        stopFidCamera(); btn.disabled = false;
         return;
       }
       scanAttempts++;
-
       try {
-        const det = await faceapi
-          .detectSingleFace(video, opts)
-          .withFaceLandmarks()
-          .withFaceDescriptor();
-
-        if(det && det.descriptor) {
+        const det = await faceapi.detectSingleFace(video, opts).withFaceLandmarks().withFaceDescriptor();
+        if(det?.descriptor) {
           const dist = euclidDist(det.descriptor, enrolledDesc);
           recentDists.push(dist);
           if(recentDists.length > 5) recentDists.shift();
-
-          // Convert distance to confidence (0.4=100%, 0.7=0%)
           const conf = Math.max(0, Math.min(100, (1-(dist-0.35)/0.4)*100));
           updateConfidence(conf);
-
           const avgDist = recentDists.reduce((a,b)=>a+b,0)/recentDists.length;
-
           if(recentDists.length >= 3 && avgDist < 0.52) {
-            // ✅ VERIFIED
             setFidStatus('✓ Identity confirmed', 'success');
             updateConfidence(100);
             document.getElementById('cam-spinner').style.display='none';
             stopFidCamera();
             setTimeout(doLogin, 700);
             return;
-          } else if(dist > 0.62) {
-            setFidStatus('Face not recognized…', 'warn');
+          } else if(recentDists.length >= 4 && avgDist > 0.66) {
+            setFidStatus('Face not recognized', 'warn');
+            await captureIntruder();
+            stopFidCamera(); btn.disabled = false;
+            setFidErr('Wrong face detected. Photo saved. Use password.');
+            return;
           } else {
-            setFidStatus(`Analyzing… (${recentDists.length}/3 samples)`, 'scanning');
+            setFidStatus(`Analyzing… ${recentDists.length}/3 readings`, 'scanning');
           }
         } else {
           setFidStatus('No face detected — center your face', 'scanning');
           updateConfidence(0);
         }
-      } catch(e) { /* continue */ }
-
+      } catch(e) { /* retry */ }
       setTimeout(scan, 200);
     };
     scan();
 
   } catch(err) {
-    console.error('FaceID error:', err);
     if(err.name === 'NotAllowedError') {
-      setFidStatus('Camera access denied', 'error');
-      setFidErr('Please allow camera access and refresh');
+      setFidStatus('Camera permission denied', 'error');
+      setFidErr('Allow camera access in browser settings, or use password.');
+    } else if(err.name === 'NotFoundError') {
+      setFidStatus('No camera found', 'warn');
+      setFidErr('No camera detected. Use password instead.');
+      setTimeout(()=>goToSafeKey(), 1500);
     } else {
-      setFidStatus('Camera error — use password', 'error');
+      setFidStatus('Camera unavailable — use password', 'warn');
+      setFidErr(err.message||'Camera error');
+      setTimeout(()=>goToSafeKey(), 1500);
     }
     btn.disabled = false;
     stopFidCamera();
   }
 }
 
+// Dynamically load face-api script if not already present
+function loadFaceApiScript() {
+  return new Promise((resolve, reject) => {
+    if(window.faceapi) { resolve(); return; }
+    const s = document.createElement('script');
+    s.src = 'https://cdn.jsdelivr.net/npm/@vladmandic/face-api@1.7.12/dist/face-api.js';
+    s.onload = () => { resolve(); };
+    s.onerror = () => reject(new Error('Script load failed'));
+    document.head.appendChild(s);
+    setTimeout(()=>reject(new Error('Timeout')), 15000);
+  });
+}
+
 function stopFidCamera() {
   if(fidStream) { fidStream.getTracks().forEach(t=>t.stop()); fidStream=null; }
   const v=document.getElementById('fid-video'); if(v) v.srcObject=null;
-  document.getElementById('cam-idle').style.display='flex';
-  document.getElementById('cam-video-wrap').style.display='none';
-  document.getElementById('cam-spinner').style.display='none';
-  document.getElementById('cam-scan').style.display='none';
-  document.getElementById('cam-mesh').classList.remove('on');
-  document.getElementById('conf-meter').classList.remove('on');
+  const idle=document.getElementById('cam-idle');
+  const wrap=document.getElementById('cam-video-wrap');
+  const spin=document.getElementById('cam-spinner');
+  const scan=document.getElementById('cam-scan');
+  const mesh=document.getElementById('cam-mesh');
+  if(idle) idle.style.display='flex';
+  if(wrap) wrap.style.display='none';
+  if(spin) spin.style.display='none';
+  if(scan) scan.style.display='none';
+  if(mesh) mesh.classList.remove('on');
+  const m=document.getElementById('conf-meter'); if(m) m.classList.remove('on');
   const btn=document.getElementById('fid-btn'); if(btn) btn.disabled=false;
 }
 
@@ -1948,6 +2011,17 @@ async function startMsgReVerify(){
   const btn=document.getElementById('mrv-btn');
   btn.disabled=true; btn.textContent='⏳ Loading…';
   document.getElementById('mrv-status').textContent='LOADING MODELS…';
+  // If file:// or no camera support, skip straight to opening chat
+  if(IS_FILE || !navigator.mediaDevices) {
+    stopMrvCamera(); closeMsgModal('msg-reverify-modal');
+    openMsgChatDirect(pendingGhostContact);
+    btn.disabled=false; btn.textContent='📷 Start Scan'; return;
+  }
+  // Load face-api if not present
+  if(!window.faceapi || !faceModelsLoaded) {
+    try { await loadFaceApiScript(); await loadFaceModels(); }
+    catch(e) { stopMrvCamera(); closeMsgModal('msg-reverify-modal'); openMsgChatDirect(pendingGhostContact); btn.disabled=false; btn.textContent='📷 Start Scan'; return; }
+  }
   try{
     await loadFaceModels();
     const s=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user',width:{ideal:1280},height:{ideal:720}}});
