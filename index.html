@@ -396,7 +396,7 @@ input,textarea,button,select{font-family:inherit;}
 @keyframes cSpin{to{transform:rotate(360deg)}}
 @media(max-width:768px){.shell{grid-template-columns:1fr;padding:8px;}.sb{display:none;}.grid-2,.grid-3{grid-template-columns:1fr;}}
 
-/* SVG Robot animations */
+/* SVG Robot state animations */
 @keyframes robTalk {
   0%,100%{transform:translateY(0) scale(1);}
   25%{transform:translateY(-4px) scale(1.02);}
@@ -714,19 +714,130 @@ input,textarea,button,select{font-family:inherit;}
             <div class="speech-orb" id="speechOrb">Initializing… I am ready to assist you.</div>
             <div class="think-dots-ai" id="thinkDotsAi"><div class="tdai"></div><div class="tdai"></div><div class="tdai"></div></div>
             <div class="voice-waves" id="voiceWaves"><div class="vw"></div><div class="vw"></div><div class="vw"></div><div class="vw"></div><div class="vw"></div><div class="vw"></div><div class="vw"></div></div>
-            <!-- CHROME HUMANOID ROBOT SVG -->
-            <!-- 
-      ROBOT IMAGE: Replace the src below with your own image URL.
-      Recommended: A female AI robot character, ~400x500px, portrait orientation.
-      The image from your reference: Save it locally and update the src path.
-    -->
-    <img id="roboImg" class="robo-root" 
-      src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=400&h=500&fit=crop&crop=faces" 
-      style="width:210px;height:340px;object-fit:cover;border-radius:20px;
-             filter:drop-shadow(0 20px 40px rgba(74,158,255,.25));
-             animation:robFloat 4s ease-in-out infinite;cursor:default;"
-      alt="AI Assistant" 
-      onerror="this.src='https://images.unsplash.com/photo-1535378437327-b71494669e9d?w=400&h=500&fit=crop'" />
+            <!-- REALISTIC AI ROBOT -->
+            <div id="roboRoot" class="robo-root" style="position:relative;width:260px;height:360px;filter:drop-shadow(0 20px 50px rgba(74,158,255,.35));animation:robFloat 4s ease-in-out infinite;">
+              <svg id="roboSvg" viewBox="0 0 260 360" width="260" height="360" style="overflow:visible;">
+                <defs>
+                  <linearGradient id="bodyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#4a9eff;stop-opacity:1" />
+                    <stop offset="50%" style="stop-color:#2a6fc7;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#1a4a8a;stop-opacity:1" />
+                  </linearGradient>
+                  <linearGradient id="headGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#5ab0ff;stop-opacity:1" />
+                    <stop offset="50%" style="stop-color:#3a8ae0;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#1e5aa0;stop-opacity:1" />
+                  </linearGradient>
+                  <radialGradient id="eyeGlow" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" style="stop-color:#00e8ff;stop-opacity:1" />
+                    <stop offset="70%" style="stop-color:#00a8cc;stop-opacity:.8" />
+                    <stop offset="100%" style="stop-color:#006688;stop-opacity:.4" />
+                  </radialGradient>
+                  <radialGradient id="eyeGlowDim" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" style="stop-color:#00e8ff;stop-opacity:.3" />
+                    <stop offset="100%" style="stop-color:#006688;stop-opacity:.1" />
+                  </radialGradient>
+                  <filter id="glow">
+                    <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                    <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                  </filter>
+                  <filter id="strongGlow">
+                    <feGaussianBlur stdDeviation="6" result="coloredBlur"/>
+                    <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                  </filter>
+                </defs>
+
+                <!-- Antennae -->
+                <g id="antennaLeft" transform="translate(75,45)">
+                  <line x1="0" y1="0" x2="-12" y2="-35" stroke="#4a9eff" stroke-width="2.5" stroke-linecap="round"/>
+                  <circle cx="-12" cy="-35" r="6" fill="url(#eyeGlow)" filter="url(#glow)" id="antLightL"/>
+                </g>
+                <g id="antennaRight" transform="translate(185,45)">
+                  <line x1="0" y1="0" x2="12" y2="-35" stroke="#4a9eff" stroke-width="2.5" stroke-linecap="round"/>
+                  <circle cx="12" cy="-35" r="6" fill="url(#eyeGlow)" filter="url(#glow)" id="antLightR"/>
+                </g>
+
+                <!-- Head -->
+                <ellipse cx="130" cy="95" rx="75" ry="65" fill="url(#headGrad)" stroke="#6ab8ff" stroke-width="2"/>
+                <ellipse cx="130" cy="75" rx="50" ry="25" fill="rgba(255,255,255,.08)"/>
+
+                <!-- Left Eye -->
+                <g id="eyeLeftGroup" transform="translate(95,90)">
+                  <circle cx="0" cy="0" r="22" fill="#0a1628" stroke="#2a8ae0" stroke-width="2"/>
+                  <circle cx="0" cy="0" r="18" fill="url(#eyeGlow)" id="eyeLeftGlow" filter="url(#glow)"/>
+                  <circle cx="0" cy="0" r="14" fill="#00e8ff" id="eyeLeftCore" opacity=".9"/>
+                  <circle cx="5" cy="-5" r="4" fill="#fff" opacity=".6"/>
+                  <path id="eyelidL" d="M -22,0 A 22,22 0 0,0 22,0" fill="#1e5aa0" opacity="0"/>
+                </g>
+
+                <!-- Right Eye -->
+                <g id="eyeRightGroup" transform="translate(165,90)">
+                  <circle cx="0" cy="0" r="22" fill="#0a1628" stroke="#2a8ae0" stroke-width="2"/>
+                  <circle cx="0" cy="0" r="18" fill="url(#eyeGlow)" id="eyeRightGlow" filter="url(#glow)"/>
+                  <circle cx="0" cy="0" r="14" fill="#00e8ff" id="eyeRightCore" opacity=".9"/>
+                  <circle cx="5" cy="-5" r="4" fill="#fff" opacity=".6"/>
+                  <path id="eyelidR" d="M -22,0 A 22,22 0 0,0 22,0" fill="#1e5aa0" opacity="0"/>
+                </g>
+
+                <!-- Mouth / Speaker -->
+                <g id="mouthGroup" transform="translate(130,135)">
+                  <rect x="-30" y="-8" width="60" height="16" rx="8" fill="#0a1628" stroke="#2a8ae0" stroke-width="1.5"/>
+                  <rect id="mb1" x="-22" y="-4" width="4" height="8" rx="2" fill="#00e8ff" opacity=".5"/>
+                  <rect id="mb2" x="-14" y="-4" width="4" height="8" rx="2" fill="#00e8ff" opacity=".5"/>
+                  <rect id="mb3" x="-6" y="-4" width="4" height="8" rx="2" fill="#00e8ff" opacity=".5"/>
+                  <rect id="mb4" x="2" y="-4" width="4" height="8" rx="2" fill="#00e8ff" opacity=".5"/>
+                  <rect id="mb5" x="10" y="-4" width="4" height="8" rx="2" fill="#00e8ff" opacity=".5"/>
+                  <rect id="mb6" x="18" y="-4" width="4" height="8" rx="2" fill="#00e8ff" opacity=".5"/>
+                </g>
+
+                <!-- Neck -->
+                <rect x="115" y="155" width="30" height="20" rx="5" fill="#2a6fc7" stroke="#4a9eff" stroke-width="1.5"/>
+
+                <!-- Torso -->
+                <rect x="75" y="175" width="110" height="100" rx="20" fill="url(#bodyGrad)" stroke="#6ab8ff" stroke-width="2"/>
+
+                <!-- Chest panel -->
+                <rect x="95" y="195" width="70" height="50" rx="10" fill="#0a1628" stroke="#2a8ae0" stroke-width="1.5"/>
+                <rect x="105" y="205" width="50" height="6" rx="3" fill="#00e8ff" opacity=".4" id="chestBar1"/>
+                <rect x="105" y="216" width="35" height="6" rx="3" fill="#00e8ff" opacity=".4" id="chestBar2"/>
+                <rect x="105" y="227" width="42" height="6" rx="3" fill="#00e8ff" opacity=".4" id="chestBar3"/>
+                <circle cx="130" cy="245" r="8" fill="#00e8ff" opacity=".6" filter="url(#glow)" id="heartLight"/>
+
+                <!-- Left Arm -->
+                <g id="armLeft" transform="translate(65,190)">
+                  <rect x="-15" y="0" width="20" height="55" rx="10" fill="#2a6fc7" stroke="#4a9eff" stroke-width="1.5"/>
+                  <circle cx="-5" cy="55" r="12" fill="#1a4a8a" stroke="#4a9eff" stroke-width="1.5"/>
+                  <g id="fingersL">
+                    <rect x="-12" y="65" width="4" height="15" rx="2" fill="#4a9eff"/>
+                    <rect x="-6" y="65" width="4" height="18" rx="2" fill="#4a9eff"/>
+                    <rect x="0" y="65" width="4" height="15" rx="2" fill="#4a9eff"/>
+                  </g>
+                </g>
+
+                <!-- Right Arm -->
+                <g id="armRight" transform="translate(195,190)">
+                  <rect x="-5" y="0" width="20" height="55" rx="10" fill="#2a6fc7" stroke="#4a9eff" stroke-width="1.5"/>
+                  <circle cx="5" cy="55" r="12" fill="#1a4a8a" stroke="#4a9eff" stroke-width="1.5"/>
+                  <g id="fingersR">
+                    <rect x="-2" y="65" width="4" height="15" rx="2" fill="#4a9eff"/>
+                    <rect x="4" y="65" width="4" height="18" rx="2" fill="#4a9eff"/>
+                    <rect x="10" y="65" width="4" height="15" rx="2" fill="#4a9eff"/>
+                  </g>
+                </g>
+
+                <!-- Left Leg -->
+                <g id="legLeft" transform="translate(100,275)">
+                  <rect x="-8" y="0" width="22" height="45" rx="8" fill="#2a6fc7" stroke="#4a9eff" stroke-width="1.5"/>
+                  <path d="M -12,40 L 18,40 L 20,55 L -14,55 Z" fill="#1a4a8a" stroke="#4a9eff" stroke-width="1.5"/>
+                </g>
+
+                <!-- Right Leg -->
+                <g id="legRight" transform="translate(160,275)">
+                  <rect x="-14" y="0" width="22" height="45" rx="8" fill="#2a6fc7" stroke="#4a9eff" stroke-width="1.5"/>
+                  <path d="M -18,40 L 12,40 L 14,55 L -20,55 Z" fill="#1a4a8a" stroke="#4a9eff" stroke-width="1.5"/>
+                </g>
+              </svg>
+            </div>
           </div>
           <div id="robot-name-badge" style="position:relative;z-index:10;font-family:var(--mono);font-size:9.5px;color:rgba(74,158,255,.4);letter-spacing:.18em;text-transform:uppercase;margin-top:4px;text-align:center;padding-bottom:8px;"></div>
         </div>
@@ -1979,22 +2090,22 @@ function setEyeGlow(mode) {
     rightGlow.setAttribute('fill', 'url(#eyeGlow)');
     leftCore.setAttribute('opacity', '1');
     rightCore.setAttribute('opacity', '1');
-    antL.setAttribute('fill', 'url(#eyeGlow)');
-    antR.setAttribute('fill', 'url(#eyeGlow)');
+    if(antL) antL.setAttribute('fill', 'url(#eyeGlow)');
+    if(antR) antR.setAttribute('fill', 'url(#eyeGlow)');
   } else if(mode === 'dim') {
     leftGlow.setAttribute('fill', 'url(#eyeGlowDim)');
     rightGlow.setAttribute('fill', 'url(#eyeGlowDim)');
     leftCore.setAttribute('opacity', '.4');
     rightCore.setAttribute('opacity', '.4');
-    antL.setAttribute('fill', '#4a9eff');
-    antR.setAttribute('fill', '#4a9eff');
+    if(antL) antL.setAttribute('fill', '#4a9eff');
+    if(antR) antR.setAttribute('fill', '#4a9eff');
   } else {
     leftGlow.setAttribute('fill', 'url(#eyeGlow)');
     rightGlow.setAttribute('fill', 'url(#eyeGlow)');
     leftCore.setAttribute('opacity', '.9');
     rightCore.setAttribute('opacity', '.9');
-    antL.setAttribute('fill', 'url(#eyeGlow)');
-    antR.setAttribute('fill', 'url(#eyeGlow)');
+    if(antL) antL.setAttribute('fill', 'url(#eyeGlow)');
+    if(antR) antR.setAttribute('fill', 'url(#eyeGlow)');
   }
 }
 
@@ -2034,7 +2145,6 @@ function startBlinking() {
   if(!eyelidL || !eyelidR) return;
 
   blinkInterval = setInterval(() => {
-    // Blink closed
     eyelidL.setAttribute('opacity', '1');
     eyelidR.setAttribute('opacity', '1');
     setTimeout(() => {
