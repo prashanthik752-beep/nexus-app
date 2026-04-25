@@ -482,37 +482,7 @@ input,textarea,button,select{font-family:inherit;}
 
 @keyframes cSpin{to{transform:rotate(360deg)}}
 @media(max-width:700px){.prof-cards{flex-direction:column;}.prof-card{width:300px;}}
-
-/* ── MESSENGER MODALS ── */
-.msg-modal-overlay{position:fixed;inset:0;z-index:800;background:rgba(0,0,0,.78);backdrop-filter:blur(20px);display:flex;align-items:center;justify-content:center;}
-.msg-modal-overlay.hidden{display:none;}
-.msg-modal{background:var(--bg-alt);border:1px solid var(--border);border-radius:var(--r4);padding:26px 24px;width:380px;max-width:94vw;box-shadow:var(--shadow-lg);position:relative;overflow:hidden;}
-.msg-modal::before{content:'';position:absolute;top:0;left:15%;right:15%;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.45;}
-.msg-modal-title{font-family:var(--display);font-size:17px;font-weight:600;color:var(--text);margin-bottom:5px;}
-.msg-modal-sub{font-size:12.5px;color:var(--text-m);margin-bottom:16px;line-height:1.7;}
-.sec-alert-item{display:flex;align-items:flex-start;gap:10px;padding:10px;background:var(--bg-sec);border:1px solid var(--border);border-left:3px solid var(--red);border-radius:var(--r3);margin-bottom:8px;}
-.sec-alert-photo{width:48px;height:48px;border-radius:var(--r2);object-fit:cover;flex-shrink:0;border:1px solid var(--border);cursor:pointer;}
-.sec-alert-meta{flex:1;min-width:0;}
-.sec-alert-time{font-family:var(--mono);font-size:9px;color:var(--text-f);letter-spacing:.1em;}
-.sec-alert-reason{font-size:12px;font-weight:600;color:var(--red);margin-top:2px;}
-.sec-alert-dl{display:inline-block;margin-top:5px;padding:3px 10px;background:rgba(232,84,84,.08);border:1px solid rgba(232,84,84,.25);border-radius:99px;color:var(--red);font-size:9.5px;cursor:pointer;font-family:var(--mono);letter-spacing:.08em;text-transform:uppercase;}
-.fu-result-card{display:flex;align-items:center;gap:12px;padding:12px;background:var(--bg-sec);border:1px solid var(--border);border-radius:var(--r3);}
-.fu-result-av{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
-.fu-result-name{font-size:13.5px;font-weight:600;color:var(--text);}
-.fu-result-uid{font-family:var(--mono);font-size:9.5px;color:var(--text-m);}
-.fu-result-btn{margin-left:auto;padding:6px 14px;background:var(--goldg);border:1px solid var(--goldd);border-radius:99px;color:var(--gold);font-size:10.5px;font-weight:600;cursor:pointer;transition:all .2s;}
-.fu-result-btn:hover{background:var(--gold);color:var(--bg);}
-#msgtab-chats,#msgtab-contacts,#msgtab-blocked{transition:all .25s;}
-.blocked-item{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--bsoft);}
-.blocked-item-av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;opacity:.5;}
-.blocked-item-info{flex:1;min-width:0;}
-.blocked-item-name{font-size:13px;color:var(--text-m);}
-.blocked-item-uid{font-family:var(--mono);font-size:9px;color:var(--text-f);}
-.unblock-btn{padding:4px 10px;background:transparent;border:1px solid var(--gold);border-radius:99px;color:var(--gold);font-size:9.5px;cursor:pointer;transition:all .2s;white-space:nowrap;}
-.unblock-btn:hover{background:var(--gold);color:var(--bg);}
-.enc-lock{font-size:9px;color:rgba(63,200,122,.4);margin-left:4px;}
 </style>
-<script src="https://cdn.jsdelivr.net/npm/@vladmandic/face-api@1.7.12/dist/face-api.js" crossorigin="anonymous" onerror="console.warn('face-api CDN failed — Face ID will use password fallback')"></script>
 </head>
 <body>
 <button id="theme-btn" onclick="toggleTheme()">🌙</button>
@@ -625,10 +595,8 @@ input,textarea,button,select{font-family:inherit;}
     <div class="fid-status" id="fid-status">Ready to verify — tap Start</div>
     <div class="fid-err" id="fid-err"></div>
     <button class="fid-btn" id="fid-btn" onclick="startFaceID()">🔓 Start Face ID</button>
-    <div style="text-align:center;margin-top:10px;">
-      <button onclick="goToSafeKey()" style="width:100%;padding:11px;background:transparent;border:1px solid var(--border);border-radius:var(--r3);color:var(--text-m);font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .3s;" onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--text)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text-m)'">🔑 Use Password Instead</button>
-    </div>
     <div class="fid-links">
+      <span class="fid-link" onclick="goToSafeKey()">Use Password Instead</span>
       <span class="fid-link" onclick="goRegister()">New Account</span>
       <span class="fid-link" onclick="resetAccount()">Reset</span>
     </div>
@@ -872,151 +840,54 @@ input,textarea,button,select{font-family:inherit;}
   </div>
 </div>
 
-<!-- ══ MESSENGER MODALS (inline, inside body) ══ -->
-<!-- Find User -->
-<div class="msg-modal-overlay hidden" id="find-user-modal">
-  <div class="msg-modal">
-    <div class="msg-modal-title">🔍 Find Someone</div>
-    <div class="msg-modal-sub">Enter a username#ID to start a conversation. IDs are unique — like <strong style="color:var(--gold)">@roshan#4829</strong></div>
-    <input id="fu-input" style="width:100%;padding:11px 14px;background:var(--bg-sec);border:1px solid var(--border);border-radius:var(--r3);color:var(--text);font-family:var(--mono);font-size:16px;letter-spacing:.05em;outline:none;margin-bottom:8px;transition:all .3s;caret-color:var(--gold);" placeholder="username#1234" onkeydown="if(event.key==='Enter')searchMsgUser()" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--border)'"/>
-    <div id="fu-err" style="font-family:var(--mono);font-size:9.5px;color:var(--red);min-height:14px;margin-bottom:8px;letter-spacing:.05em;"></div>
-    <div id="fu-result" style="margin-bottom:8px;"></div>
-    <div style="display:flex;gap:8px;">
-      <button onclick="searchMsgUser()" style="flex:1;padding:11px;background:var(--text);border:none;border-radius:var(--r2);color:var(--bg);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .25s;">Search</button>
-      <button onclick="closeMsgModal('find-user-modal')" style="flex:1;padding:11px;background:transparent;border:1px solid var(--border);border-radius:var(--r2);color:var(--text-m);font-size:11px;cursor:pointer;transition:all .25s;">Cancel</button>
-    </div>
-  </div>
-</div>
-<!-- Block confirm -->
-<div class="msg-modal-overlay hidden" id="block-confirm-modal">
-  <div class="msg-modal">
-    <div class="msg-modal-title">🚫 Block User</div>
-    <div class="msg-modal-sub" id="block-confirm-sub">Block this person? They won't be able to message you.</div>
-    <div style="display:flex;gap:8px;">
-      <button onclick="confirmMsgBlock()" style="flex:1;padding:11px;background:var(--red);border:none;border-radius:var(--r2);color:#fff;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;">Block</button>
-      <button onclick="closeMsgModal('block-confirm-modal')" style="flex:1;padding:11px;background:transparent;border:1px solid var(--border);border-radius:var(--r2);color:var(--text-m);font-size:11px;cursor:pointer;">Cancel</button>
-    </div>
-  </div>
-</div>
-<!-- Security Alerts -->
-<div class="msg-modal-overlay hidden" id="sec-alerts-modal">
-  <div class="msg-modal" style="width:480px;max-width:95vw;">
-    <div class="msg-modal-title">🚨 Security Alerts</div>
-    <div class="msg-modal-sub">Unauthorized access attempts captured by biometric sensors.</div>
-    <div id="alerts-list-inner" style="max-height:380px;overflow-y:auto;"></div>
-    <button onclick="closeMsgModal('sec-alerts-modal')" style="width:100%;padding:11px;margin-top:10px;background:transparent;border:1px solid var(--border);border-radius:var(--r2);color:var(--text-m);font-size:11px;cursor:pointer;">Close</button>
-  </div>
-</div>
-<!-- Clear chat confirm -->
-<div class="msg-modal-overlay hidden" id="clear-chat-modal">
-  <div class="msg-modal">
-    <div class="msg-modal-title">🗑️ Clear Chat</div>
-    <div class="msg-modal-sub">Delete all messages in this conversation? This cannot be undone.</div>
-    <div style="display:flex;gap:8px;">
-      <button onclick="confirmClearMsgChat()" style="flex:1;padding:11px;background:var(--red);border:none;border-radius:var(--r2);color:#fff;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;">Delete All</button>
-      <button onclick="closeMsgModal('clear-chat-modal')" style="flex:1;padding:11px;background:transparent;border:1px solid var(--border);border-radius:var(--r2);color:var(--text-m);font-size:11px;cursor:pointer;">Cancel</button>
-    </div>
-  </div>
-</div>
-<!-- Re-verify Face (per-chat) -->
-<div class="msg-modal-overlay hidden" id="msg-reverify-modal">
-  <div class="msg-modal" style="text-align:center;">
-    <div class="msg-modal-title">🔐 Verify Identity</div>
-    <div class="msg-modal-sub">Confirm it's you to view this encrypted conversation.</div>
-    <div style="width:130px;height:130px;border-radius:50%;margin:0 auto 14px;position:relative;overflow:hidden;border:2px solid var(--border);background:var(--bg-sec);">
-      <div id="mrv-spin" style="position:absolute;inset:0;border-radius:50%;border:2px solid transparent;border-top-color:var(--gold);animation:cSpin 1.6s linear infinite;z-index:4;display:none;"></div>
-      <video id="mrv-video" autoplay muted playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scaleX(-1);z-index:2;display:none;"></video>
-      <div id="mrv-idle" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:42px;opacity:.15;">👤</div>
-    </div>
-    <div id="mrv-status" style="font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-m);min-height:14px;margin-bottom:16px;"></div>
-    <div style="display:flex;gap:8px;">
-      <button id="mrv-btn" onclick="startMsgReVerify()" style="flex:1;padding:11px;background:var(--text);border:none;border-radius:var(--r2);color:var(--bg);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .25s;">📷 Start Scan</button>
-      <button onclick="cancelMsgReVerify()" style="flex:1;padding:11px;background:transparent;border:1px solid var(--border);border-radius:var(--r2);color:var(--text-m);font-size:11px;cursor:pointer;">Cancel</button>
-    </div>
-  </div>
-</div>
-
 <!-- ══════════════════════════════════════════════
      PAGE: MESSENGER
 ══════════════════════════════════════════════ -->
 <div class="page out" id="page-msg">
   <div class="msg-shell">
-    <!-- Top bar -->
     <div class="msg-topbar">
       <button class="msg-back-btn" onclick="goPage('profiles')">← Back</button>
       <div class="msg-topbar-title">💬 Messenger</div>
-      <div style="font-family:var(--mono);font-size:8.5px;color:var(--green);letter-spacing:.18em;text-transform:uppercase;display:flex;align-items:center;gap:5px;">🔒 AES-256 · E2E</div>
-      <div style="margin-left:auto;display:flex;gap:6px;">
-        <button onclick="openMsgModal('sec-alerts-modal');loadSecAlerts()" style="padding:5px 10px;background:transparent;border:1px solid var(--border);border-radius:var(--r2);color:var(--text-m);font-size:11px;cursor:pointer;transition:all .2s;" title="Security Alerts">🚨</button>
-        <button onclick="openMsgModal('find-user-modal');document.getElementById('fu-input').focus()" style="padding:5px 10px;background:transparent;border:1px solid var(--border);border-radius:var(--r2);color:var(--text-m);font-size:11px;cursor:pointer;transition:all .2s;" title="Find Someone">✏️ New</button>
-      </div>
+      <div style="font-family:var(--mono);font-size:9px;color:var(--text-f);letter-spacing:.18em;text-transform:uppercase;">PIN-Protected · E2E</div>
     </div>
     <div class="msg-content">
-      <!-- LEFT: Sidebar with tabs -->
       <div class="cp">
         <div class="cp-head">
-          <!-- Tabs -->
-          <div style="display:flex;border-bottom:1px solid var(--border);margin:-14px -14px 10px;">
-            <button id="msgtab-chats" onclick="switchMsgTab('chats')" style="flex:1;padding:9px 4px;background:transparent;border:none;border-bottom:2px solid var(--gold);color:var(--text);font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;">Chats</button>
-            <button id="msgtab-contacts" onclick="switchMsgTab('contacts')" style="flex:1;padding:9px 4px;background:transparent;border:none;border-bottom:2px solid transparent;color:var(--text-f);font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;">Contacts</button>
-            <button id="msgtab-blocked" onclick="switchMsgTab('blocked')" style="flex:1;padding:9px 4px;background:transparent;border:none;border-bottom:2px solid transparent;color:var(--text-f);font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;">Blocked</button>
-          </div>
-          <!-- Search -->
+          <div class="cp-toprow"><div class="cp-title">Messages</div></div>
           <div class="search-wrap">
-            <input class="cp-search" type="text" id="msg-search-inp" placeholder="Search…" oninput="filterContacts(this.value)"/>
+            <input class="cp-search" type="text" placeholder="Search contacts…" oninput="filterContacts(this.value)"/>
           </div>
-        </div>
-        <!-- My ID badge -->
-        <div id="my-uid-banner" style="margin:0 6px 6px;padding:7px 12px;background:var(--goldg);border:1px solid var(--goldd);border-radius:var(--r2);display:flex;align-items:center;gap:8px;cursor:pointer;" onclick="copyMyUID()" title="Click to copy your ID">
-          <span style="font-size:12px;">🔑</span>
-          <div style="flex:1;min-width:0;">
-            <div style="font-family:var(--mono);font-size:8.5px;color:var(--text-f);letter-spacing:.16em;text-transform:uppercase;">Your ID</div>
-            <div id="my-uid-display" style="font-family:var(--mono);font-size:11px;color:var(--gold);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">@—</div>
-          </div>
-          <span style="font-size:10px;color:var(--goldd);">📋</span>
         </div>
         <div class="cp-list" id="clist"></div>
-        <div class="cp-list hidden" id="contacts-list"></div>
-        <div class="cp-list hidden" id="blocked-list"></div>
       </div>
-
-      <!-- RIGHT: Chat area -->
       <div class="cc" id="chat-main">
         <div class="no-chat" id="no-chat-state">
-          <div class="no-chat-ico" style="font-size:42px;opacity:.12;">🔐</div>
-          <div class="no-chat-title">Secured Messenger</div>
-          <div class="no-chat-sub" style="font-size:12px;color:var(--text-f);text-align:center;max-width:260px;line-height:1.75;">Select a chat or tap <strong>✏️ New</strong> to find someone by their <strong style="color:var(--gold)">username#ID</strong>. All messages AES-256 encrypted.</div>
+          <div class="no-chat-ico">💬</div>
+          <div class="no-chat-title">Select a conversation</div>
+          <div class="no-chat-sub">PIN-protected · end-to-end encrypted</div>
         </div>
-        <div id="chat-active" class="hidden" style="position:relative;display:flex;flex-direction:column;height:100%;overflow:hidden;">
-          <!-- Ghost overlay -->
-          <div id="ghost-overlay" class="hidden" style="position:absolute;inset:0;z-index:40;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;">
-            <div style="font-size:52px;opacity:.1;">👻</div>
-            <div style="font-family:var(--display);font-size:17px;color:var(--text-m);font-weight:300;">Conversation Hidden</div>
-            <div style="font-size:12.5px;color:var(--text-f);text-align:center;max-width:280px;line-height:1.75;">This chat is protected by Face ID. An intruder photo was captured and saved to your Security Alerts.</div>
-            <button onclick="triggerGhostReVerify()" style="padding:10px 26px;background:var(--gold);border:none;border-radius:99px;color:var(--bg);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .25s;">🔓 Verify to View</button>
-          </div>
-          <!-- Chat header -->
+        <div id="chat-active" class="hidden" style="display:flex;flex-direction:column;height:100%;overflow:hidden;">
           <div class="cc-head">
-            <div class="cc-av" id="cz-av" style="position:relative;"></div>
+            <div class="cc-av" id="cz-av"></div>
             <div style="flex:1;min-width:0;">
               <div id="cz-name" class="cc-name">—</div>
-              <div id="cz-uid-tag" style="font-family:var(--mono);font-size:9px;color:var(--text-f);letter-spacing:.08em;">—</div>
-              <div style="font-family:var(--mono);font-size:8px;color:var(--green);letter-spacing:.1em;display:flex;align-items:center;gap:4px;">🔒 <span>AES-256 Encrypted</span></div>
+              <div id="cz-status" class="cc-status">—</div>
             </div>
             <div class="cc-actions">
-              <button class="cc-btn" title="Block user" onclick="promptMsgBlock()" style="font-size:13px;">🚫</button>
-              <button class="cc-btn" title="Clear chat" onclick="openMsgModal('clear-chat-modal')" style="font-size:13px;">🗑️</button>
+              <button class="cc-btn" title="Search">🔍</button>
+              <button class="cc-btn" title="More">⋯</button>
             </div>
           </div>
           <div class="chat-area" id="msg-body"></div>
           <div class="ibar">
             <div class="chip-row" id="msg-chips"></div>
             <div class="irow">
+              <button class="ib ib-ghost" title="Emoji" style="border:1px solid var(--border);">😊</button>
               <label class="ib ib-ghost" title="Attach" style="cursor:pointer;border:1px solid var(--border);">
                 📎<input type="file" id="msg-file" multiple accept="image/*,.pdf,.txt" onchange="handleMsgFile(this)" style="display:none;"/>
               </label>
               <div class="iwrap">
-                <textarea class="cta" id="msg-ta" placeholder="Message (AES encrypted)…" rows="1" onkeydown="msgKey(event)" oninput="autoResize(this)"></textarea>
+                <textarea class="cta" id="msg-ta" placeholder="Message…" rows="1" onkeydown="msgKey(event)" oninput="autoResize(this)"></textarea>
               </div>
               <button class="ib ib-ghost" id="msg-voice-btn" title="Voice note" onclick="toggleVoiceNote()" style="border:1px solid var(--border);">🎙</button>
               <button class="ib ib-send" onclick="sendMsg()">➤</button>
@@ -1204,38 +1075,24 @@ window.addEventListener('load', () => {
 
 function checkUser() {
   const u = getUser();
-  if (!u) {
-    // New user — show Face ID screen (has "New Account" link)
-    goPage('faceid');
-    setFidStatus('New here? Click "New Account" below');
-    return;
-  }
+  if (!u) { goPage('faceid'); return; }
   currentUser = u;
-  if(u.faceDescriptor && !IS_FILE && IS_SECURE) {
-    // Has face enrolled AND we're on a secure origin — try Face ID
+  if(u.faceDescriptor) {
+    // Has face enrolled — go to face id
     goPage('faceid');
-    setFidStatus('Ready to verify — tap Start');
-  } else if(u.faceDescriptor && IS_FILE) {
-    // Has face but on file:// — can't use camera, go to password
-    goPage('safekey');
-    const sk = document.getElementById('sk-welcome');
-    if(sk) sk.textContent = `Welcome back, ${u.name.split(' ')[0]}. Enter your 6-digit key. (Face ID requires localhost/HTTPS)`;
   } else {
-    // No face enrolled — skip straight to password
-    goPage('safekey');
+    // No face — go to safe key
     const sk = document.getElementById('sk-welcome');
     if(sk) sk.textContent = `Welcome back, ${u.name.split(' ')[0]}. Enter your 6-digit key.`;
+    goPage('safekey');
   }
 }
 
 function getUser()  { try { return JSON.parse(localStorage.getItem(USER_KEY)); } catch { return null; } }
 function saveUser(u){ localStorage.setItem(USER_KEY, JSON.stringify(u)); }
 
-function buildUserRegistry() { /* stub — messenger init handles this */ }
-
 function doLogin() {
   currentUser = getUser();
-  if(!currentUser) { goPage('faceid'); return; }
   stopFidCamera();
   populateProfiles();
   goPage('profiles');
@@ -1302,24 +1159,13 @@ function notif(type, title, body) {
 }
 
 // ══════════════════════════════════════════════
-//  FACE ID ENGINE — works on file://, GitHub Pages, localhost
-//  Uses face-api.js loaded via <script> tag (not dynamic import)
-//  Falls back gracefully to password if camera/models unavailable
+//  FACE ID — HIGH ACCURACY ENGINE
 // ══════════════════════════════════════════════
-
-// Detect environment
-const IS_SECURE = location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1';
-const IS_FILE   = location.protocol === 'file:';
-
-function euclidDist(a, b) {
-  let s=0; for(let i=0;i<a.length;i++) s+=(a[i]-b[i])**2; return Math.sqrt(s);
-}
-
 async function loadFaceModels() {
   if(faceModelsLoaded) return;
-  // faceapi is loaded via <script> tag — check it's ready
-  if(typeof faceapi === 'undefined' || !window.faceapi) {
-    throw new Error('face-api not loaded');
+  if(!faceapi) {
+    const m = await import('https://cdn.jsdelivr.net/npm/@vladmandic/face-api@1.7.12/dist/face-api.esm.js');
+    faceapi = m; window.faceapi = m;
   }
   const U = 'https://cdn.jsdelivr.net/npm/@vladmandic/face-api@1.7.12/model';
   await Promise.all([
@@ -1330,13 +1176,23 @@ async function loadFaceModels() {
   faceModelsLoaded = true;
 }
 
+function euclidDist(a, b) {
+  let s=0; for(let i=0;i<a.length;i++) s+=(a[i]-b[i])**2; return Math.sqrt(s);
+}
+
+// Average multiple descriptors for better accuracy
 async function captureMultipleDescriptors(videoEl, count=5) {
-  const opts = new faceapi.TinyFaceDetectorOptions({ scoreThreshold:0.5, inputSize:416 });
   const descriptors = [];
+  const opts = new faceapi.TinyFaceDetectorOptions({ scoreThreshold:0.5, inputSize:416 });
   for(let attempt=0; attempt<40 && descriptors.length<count; attempt++) {
     try {
-      const det = await faceapi.detectSingleFace(videoEl, opts).withFaceLandmarks().withFaceDescriptor();
-      if(det?.descriptor) descriptors.push(Array.from(det.descriptor));
+      const det = await faceapi
+        .detectSingleFace(videoEl, opts)
+        .withFaceLandmarks()
+        .withFaceDescriptor();
+      if(det && det.descriptor) {
+        descriptors.push(Array.from(det.descriptor));
+      }
     } catch(e){}
     await new Promise(r=>setTimeout(r,180));
   }
@@ -1356,11 +1212,14 @@ function setFidStatus(msg, cls='') {
   const el=document.getElementById('fid-status');
   if(el) { el.textContent=msg; el.className='fid-status'+(cls?' '+cls:''); }
 }
+
 function setFidErr(msg) {
   const el=document.getElementById('fid-err'); if(el) el.textContent=msg;
 }
+
 function updateConfidence(pct) {
-  const meter=document.getElementById('conf-meter'), fill=document.getElementById('conf-fill');
+  const meter=document.getElementById('conf-meter');
+  const fill=document.getElementById('conf-fill');
   if(!meter||!fill) return;
   meter.classList.add('on');
   fill.style.width=Math.min(100,Math.max(0,pct))+'%';
@@ -1370,169 +1229,121 @@ async function startFaceID() {
   const btn = document.getElementById('fid-btn');
   btn.disabled = true;
   setFidErr('');
-
-  const user = getUser();
-
-  // ── CASE 1: No account → show register link
-  if(!user) {
-    setFidStatus('No account found — create one', 'warn');
-    setFidErr('Click "New Account" below to get started');
-    btn.disabled = false;
-    return;
-  }
-
-  // ── CASE 2: No face enrolled → skip straight to password
-  if(!user.faceDescriptor) {
-    setFidStatus('No Face ID enrolled — use password', 'warn');
-    stopFidCamera();
-    goToSafeKey();
-    return;
-  }
-
-  // ── CASE 3: file:// protocol → camera blocked, use password
-  if(IS_FILE) {
-    setFidStatus('Camera unavailable on local files', 'warn');
-    setFidErr('Open via localhost or GitHub Pages for Face ID. Use password for now.');
-    btn.disabled = false;
-    setTimeout(()=>goToSafeKey(), 2000);
-    return;
-  }
-
-  // ── CASE 4: face-api.js not loaded yet
-  if(typeof faceapi === 'undefined' || !window.faceapi) {
-    setFidStatus('Loading face recognition…');
-    // Try to load it
-    try {
-      await loadFaceApiScript();
-    } catch(e) {
-      setFidStatus('Face recognition unavailable', 'warn');
-      setFidErr('Could not load models. Use password instead.');
-      btn.disabled = false;
-      return;
-    }
-  }
-
-  // ── CASE 5: Normal flow — camera + face-api
   setFidStatus('Loading face recognition models…');
+
   try {
     await loadFaceModels();
-  } catch(e) {
-    setFidStatus('Models failed to load', 'warn');
-    setFidErr('Network issue. Use password instead.');
-    btn.disabled = false;
-    return;
-  }
+    setFidStatus('Starting camera…');
 
-  setFidStatus('Starting camera…');
-  try {
     const stream = await navigator.mediaDevices.getUserMedia({
       video:{ facingMode:'user', width:{ ideal:1280 }, height:{ ideal:720 } }
     });
     fidStream = stream;
+
     const video = document.getElementById('fid-video');
     video.srcObject = stream;
     await new Promise(r=>{ video.onloadeddata=r; });
 
+    // Show camera UI
     document.getElementById('cam-idle').style.display='none';
     document.getElementById('cam-video-wrap').style.display='block';
     document.getElementById('cam-spinner').style.display='block';
     document.getElementById('cam-scan').style.display='block';
     document.getElementById('cam-mesh').classList.add('on');
-    document.getElementById('conf-meter').classList.add('on');
 
+    const user = getUser();
+    if(!user) { setFidStatus('No account found', 'error'); btn.disabled=false; return; }
+
+    if(!user.faceDescriptor) {
+      // No face enrolled — use safe key fallback
+      setFidStatus('No face enrolled — use password', 'warn');
+      stopFidCamera();
+      const sk = document.getElementById('sk-welcome');
+      if(sk) sk.textContent = `Welcome back, ${user.name.split(' ')[0]}. Enter your 6-digit key.`;
+      goPage('safekey');
+      return;
+    }
+
+    // Scan loop with rolling window
     setFidStatus('Scanning… look at the camera', 'scanning');
     const enrolledDesc = new Float32Array(user.faceDescriptor);
     const recentDists = [];
     const opts = new faceapi.TinyFaceDetectorOptions({ scoreThreshold:0.45, inputSize:416 });
     let scanAttempts = 0;
+    const maxAttempts = 50;
 
     const scan = async () => {
-      if(scanAttempts >= 55) {
-        setFidStatus('Could not verify — use password', 'warn');
-        setFidErr('Face not recognized. Try password below.');
-        stopFidCamera(); btn.disabled = false;
+      if(scanAttempts >= maxAttempts) {
+        setFidStatus('Could not verify — try password', 'warn');
+        setFidErr('Face not recognized after 10 seconds');
+        stopFidCamera();
+        btn.disabled = false;
         return;
       }
       scanAttempts++;
+
       try {
-        const det = await faceapi.detectSingleFace(video, opts).withFaceLandmarks().withFaceDescriptor();
-        if(det?.descriptor) {
+        const det = await faceapi
+          .detectSingleFace(video, opts)
+          .withFaceLandmarks()
+          .withFaceDescriptor();
+
+        if(det && det.descriptor) {
           const dist = euclidDist(det.descriptor, enrolledDesc);
           recentDists.push(dist);
           if(recentDists.length > 5) recentDists.shift();
+
+          // Convert distance to confidence (0.4=100%, 0.7=0%)
           const conf = Math.max(0, Math.min(100, (1-(dist-0.35)/0.4)*100));
           updateConfidence(conf);
+
           const avgDist = recentDists.reduce((a,b)=>a+b,0)/recentDists.length;
+
           if(recentDists.length >= 3 && avgDist < 0.52) {
+            // ✅ VERIFIED
             setFidStatus('✓ Identity confirmed', 'success');
             updateConfidence(100);
             document.getElementById('cam-spinner').style.display='none';
             stopFidCamera();
             setTimeout(doLogin, 700);
             return;
-          } else if(recentDists.length >= 4 && avgDist > 0.66) {
-            setFidStatus('Face not recognized', 'warn');
-            await captureIntruder();
-            stopFidCamera(); btn.disabled = false;
-            setFidErr('Wrong face detected. Photo saved. Use password.');
-            return;
+          } else if(dist > 0.62) {
+            setFidStatus('Face not recognized…', 'warn');
           } else {
-            setFidStatus(`Analyzing… ${recentDists.length}/3 readings`, 'scanning');
+            setFidStatus(`Analyzing… (${recentDists.length}/3 samples)`, 'scanning');
           }
         } else {
           setFidStatus('No face detected — center your face', 'scanning');
           updateConfidence(0);
         }
-      } catch(e) { /* retry */ }
+      } catch(e) { /* continue */ }
+
       setTimeout(scan, 200);
     };
     scan();
 
   } catch(err) {
+    console.error('FaceID error:', err);
     if(err.name === 'NotAllowedError') {
-      setFidStatus('Camera permission denied', 'error');
-      setFidErr('Allow camera access in browser settings, or use password.');
-    } else if(err.name === 'NotFoundError') {
-      setFidStatus('No camera found', 'warn');
-      setFidErr('No camera detected. Use password instead.');
-      setTimeout(()=>goToSafeKey(), 1500);
+      setFidStatus('Camera access denied', 'error');
+      setFidErr('Please allow camera access and refresh');
     } else {
-      setFidStatus('Camera unavailable — use password', 'warn');
-      setFidErr(err.message||'Camera error');
-      setTimeout(()=>goToSafeKey(), 1500);
+      setFidStatus('Camera error — use password', 'error');
     }
     btn.disabled = false;
     stopFidCamera();
   }
 }
 
-// Dynamically load face-api script if not already present
-function loadFaceApiScript() {
-  return new Promise((resolve, reject) => {
-    if(window.faceapi) { resolve(); return; }
-    const s = document.createElement('script');
-    s.src = 'https://cdn.jsdelivr.net/npm/@vladmandic/face-api@1.7.12/dist/face-api.js';
-    s.onload = () => { resolve(); };
-    s.onerror = () => reject(new Error('Script load failed'));
-    document.head.appendChild(s);
-    setTimeout(()=>reject(new Error('Timeout')), 15000);
-  });
-}
-
 function stopFidCamera() {
   if(fidStream) { fidStream.getTracks().forEach(t=>t.stop()); fidStream=null; }
   const v=document.getElementById('fid-video'); if(v) v.srcObject=null;
-  const idle=document.getElementById('cam-idle');
-  const wrap=document.getElementById('cam-video-wrap');
-  const spin=document.getElementById('cam-spinner');
-  const scan=document.getElementById('cam-scan');
-  const mesh=document.getElementById('cam-mesh');
-  if(idle) idle.style.display='flex';
-  if(wrap) wrap.style.display='none';
-  if(spin) spin.style.display='none';
-  if(scan) scan.style.display='none';
-  if(mesh) mesh.classList.remove('on');
-  const m=document.getElementById('conf-meter'); if(m) m.classList.remove('on');
+  document.getElementById('cam-idle').style.display='flex';
+  document.getElementById('cam-video-wrap').style.display='none';
+  document.getElementById('cam-spinner').style.display='none';
+  document.getElementById('cam-scan').style.display='none';
+  document.getElementById('cam-mesh').classList.remove('on');
+  document.getElementById('conf-meter').classList.remove('on');
   const btn=document.getElementById('fid-btn'); if(btn) btn.disabled=false;
 }
 
@@ -1661,16 +1472,15 @@ function skipFace() {
 }
 
 function regComplete() {
-  const suffix=Math.floor(1000+Math.random()*9000);
-  const uid=(regData.username||'user')+'#'+suffix;
-  saveUser({name:regData.name,username:regData.username,uid,key:regData.key,pin:regData.pin||'1234',faceDescriptor:regData.faceDescriptor||null,createdAt:Date.now()});
+  saveUser({name:regData.name,username:regData.username,key:regData.key,pin:regData.pin||'1234',faceDescriptor:regData.faceDescriptor||null,createdAt:Date.now()});
+  localStorage.setItem(CHATS_KEY,JSON.stringify(SEED_CHATS));
   doLogin();
 }
 
 // ══ PIN MODAL ══
 function openMessenger() {
-  goPage('msg');
-  initMessenger();
+  if(!msgUnlocked) { openPinModal(); }
+  else { goPage('msg'); initMessenger(); }
 }
 function openPinModal(){pinBuf='';updatePinDots();document.getElementById('pin-modal').classList.remove('hidden');}
 function closePinModal(){document.getElementById('pin-modal').classList.add('hidden');pinBuf='';}
@@ -1733,436 +1543,89 @@ function saveApiKey(){
 }
 function getApiKey(){return localStorage.getItem(API_KEY_STORE)||'';}
 
-// ══════════════════════════════════════════════
-//  MESSENGER — COMPLETE SECURE ENGINE v2
-// ══════════════════════════════════════════════
+// ══ MESSENGER ══
+function loadChats(){try{return JSON.parse(localStorage.getItem(CHATS_KEY))||{};}catch{return {};}}
+function saveChats(d){localStorage.setItem(CHATS_KEY,JSON.stringify(d));}
+function getContactMsgs(id){return loadChats()[id]||[];}
+function addMsg(cid,msg){const ch=loadChats();if(!ch[cid])ch[cid]=[];ch[cid].push(msg);saveChats(ch);}
 
-// Extra keys
-const BLOCKED_KEY  = 'nexus_blocked_v2';
-const ALERTS_KEY   = 'nexus_alerts_v2';
-const ENC_KEY_STORE= 'nexus_enckey_v2';
-const USER_REG_KEY = 'nexus_userreg_v2';
-
-// Extra state
-let encryptionKey = null;
-let msgGhostMode = false;
-let mrvStream = null;
-let pendingGhostContact = null;
-let activeMsgTab = 'chats';
-let blockTarget = null;
-
-// User registry (simulated — in real app: backend)
-let userRegistry = {};
-
-// Demo contacts seeded with unique#IDs
-const CONTACTS_SEEDED = [
-  { uid:'alex#7842',    name:'Alex Kumar',    emoji:'👨‍💻', color:'#3a7bd5', status:'online',  unread:2 },
-  { uid:'priya#3156',   name:'Priya Sharma',  emoji:'👩‍🎤', color:'#9b59b6', status:'online',  unread:1 },
-  { uid:'rahul#9034',   name:'Rahul Dev',     emoji:'👨‍💼', color:'#27ae60', status:'away',    unread:3 },
-  { uid:'mom#0012',     name:'Mom',           emoji:'👩', color:'#e67e22', status:'offline', unread:0 },
-];
-
-// Seed chats mapped by uid
-const SEED_CHATS_V2 = {
-  'alex#7842': [
-    {id:1,from:'them',text:"Hey! Did you check the new deployment scripts?",time:Date.now()-3600000*4,status:'read'},
-    {id:2,from:'me',text:"Yeah, they look solid. Ran a test last night.",time:Date.now()-3600000*3,status:'read'},
-    {id:3,from:'them',text:"Sweet. CI pipeline is 40% faster now 🔥",time:Date.now()-3600000*2,status:'read'},
-    {id:4,from:'me',text:"No way! What did you change?",time:Date.now()-3600000,status:'read'},
-    {id:5,from:'them',text:"Parallel jobs + layer caching. Sending config soon.",time:Date.now()-1800000,status:'read'},
-  ],
-  'priya#3156': [
-    {id:1,from:'them',text:"Are you coming to the meetup this weekend?",time:Date.now()-86400000,status:'read'},
-    {id:2,from:'me',text:"Possibly! What's the agenda?",time:Date.now()-80000000,status:'read'},
-    {id:3,from:'them',text:"System design talk + networking. Should be fun 😄",time:Date.now()-3000000,status:'delivered'},
-  ],
-  'rahul#9034': [
-    {id:1,from:'them',sender:'Rahul',text:"Sprint review at 3pm today. Don't forget!",time:Date.now()-7200000,status:'read'},
-    {id:2,from:'me',text:"On it. Dashboard demo will be ready.",time:Date.now()-7000000,status:'read'},
-    {id:3,from:'them',sender:'Rahul',text:"Pushed hotfix for the auth token expiry bug btw",time:Date.now()-1200000,status:'read'},
-    {id:4,from:'them',sender:'Rahul',text:"Merged ✅ Tests passing",time:Date.now()-600000,status:'delivered'},
-  ],
-  'mom#0012': [
-    {id:1,from:'them',text:"Beta, did you eat?",time:Date.now()-86400000*2,status:'read'},
-    {id:2,from:'me',text:"Yes mom, had lunch!",time:Date.now()-86400000*2+3600000,status:'read'},
-    {id:3,from:'them',text:"Call when you get a chance 💛",time:Date.now()-86400000,status:'read'},
-  ]
-};
-
-// ── Data helpers ──
-function loadMsgChats(){try{return JSON.parse(localStorage.getItem(CHATS_KEY))||{};}catch{return {};}}
-function saveMsgChats(d){localStorage.setItem(CHATS_KEY,JSON.stringify(d));}
-function getMsgContacts(){try{return JSON.parse(localStorage.getItem('nexus_msg_contacts'))||[];}catch{return [];}}
-function saveMsgContacts(d){localStorage.setItem('nexus_msg_contacts',JSON.stringify(d));}
-function getBlocked(){try{return JSON.parse(localStorage.getItem(BLOCKED_KEY))||[];}catch{return [];}}
-function saveBlocked(d){localStorage.setItem(BLOCKED_KEY,JSON.stringify(d));}
-function getAlertLog(){try{return JSON.parse(localStorage.getItem(ALERTS_KEY))||[];}catch{return [];}}
-
-// ── AES-256 ENCRYPTION ──
-async function initEncryptionKey(){
-  const stored=localStorage.getItem(ENC_KEY_STORE);
-  if(stored){try{const raw=JSON.parse(stored);encryptionKey=await crypto.subtle.importKey('jwk',raw,{name:'AES-GCM',length:256},true,['encrypt','decrypt']);return;}catch(e){}}
-  encryptionKey=await crypto.subtle.generateKey({name:'AES-GCM',length:256},true,['encrypt','decrypt']);
-  const exp=await crypto.subtle.exportKey('jwk',encryptionKey);
-  localStorage.setItem(ENC_KEY_STORE,JSON.stringify(exp));
-}
-async function encryptMsg(text){
-  if(!encryptionKey) return {text,enc:false};
-  try{
-    const iv=crypto.getRandomValues(new Uint8Array(12));
-    const ct=await crypto.subtle.encrypt({name:'AES-GCM',iv},encryptionKey,new TextEncoder().encode(text));
-    const combined=new Uint8Array(iv.length+ct.byteLength);
-    combined.set(iv); combined.set(new Uint8Array(ct),iv.length);
-    return {text:btoa(String.fromCharCode(...combined)),enc:true};
-  }catch(e){return {text,enc:false};}
-}
-async function decryptMsg(cipherText){
-  if(!encryptionKey) return cipherText;
-  try{
-    const data=Uint8Array.from(atob(cipherText),c=>c.charCodeAt(0));
-    const plain=await crypto.subtle.decrypt({name:'AES-GCM',iv:data.slice(0,12)},encryptionKey,data.slice(12));
-    return new TextDecoder().decode(plain);
-  }catch(e){return cipherText;}
-}
-
-// ── INTRUDER CAPTURE with auto-save to device ──
-async function captureIntruderAndSave(reason){
-  try{
-    const s=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user',width:640,height:480}});
-    const v=document.createElement('video'); v.srcObject=s; v.muted=true; v.playsInline=true; await v.play();
-    await new Promise(r=>setTimeout(r,900));
-    const c=document.createElement('canvas'); c.width=640; c.height=480;
-    c.getContext('2d').drawImage(v,0,0); s.getTracks().forEach(t=>t.stop());
-    const photo=c.toDataURL('image/jpeg',.75);
-    const id=Date.now();
-    const alerts=getAlertLog();
-    alerts.unshift({id,time:id,reason,photo});
-    localStorage.setItem(ALERTS_KEY,JSON.stringify(alerts.slice(0,20)));
-    // Auto-download to device
-    const a=document.createElement('a'); a.href=photo; a.download=`nexus-intruder-${id}.jpg`;
-    document.body.appendChild(a); a.click(); setTimeout(()=>a.remove(),1000);
-    notif('danger','🚨 Intruder Captured!',reason+' — photo saved to device');
-    return photo;
-  }catch(e){notif('warning','Camera','Could not capture intruder photo');return null;}
-}
-
-// ── initMessenger (called from doLogin) ──
 function initMessenger(){
-  initEncryptionKey().catch(()=>{});
-  // Build user registry
-  const knownUsers=[
-    {uid:'alex#7842',name:'Alex Kumar',emoji:'👨‍💻',status:'online'},
-    {uid:'priya#3156',name:'Priya Sharma',emoji:'👩‍🎤',status:'online'},
-    {uid:'rahul#9034',name:'Rahul Dev',emoji:'👨‍💼',status:'away'},
-    {uid:'mom#0012',name:'Mom',emoji:'👩',status:'offline'},
-    {uid:'ananya#5521',name:'Ananya Singh',emoji:'👩‍💻',status:'online'},
-    {uid:'vikram#8834',name:'Vikram Rao',emoji:'👨',status:'offline'},
-  ];
-  knownUsers.forEach(u=>userRegistry[u.uid]=u);
-  if(currentUser){userRegistry[currentUser.uid||currentUser.username+'#0000']={...currentUser};}
-  // Seed contacts if empty
-  const existing=getMsgContacts();
-  if(!existing.length){saveMsgContacts(CONTACTS_SEEDED);saveMsgChats(SEED_CHATS_V2);}
-  // Update my UID banner
-  const uid=currentUser?.uid||('@'+(currentUser?.username||'user')+'#'+Math.floor(1000+Math.random()*9000));
-  if(!currentUser.uid){const u=getUser();u.uid=uid;saveUser(u);}
-  const el=document.getElementById('my-uid-display'); if(el) el.textContent=currentUser.uid||uid;
+  const ex=loadChats();
+  if(!Object.keys(ex).length) localStorage.setItem(CHATS_KEY,JSON.stringify(SEED_CHATS));
   renderContactList();
 }
 
-function copyMyUID(){
-  const uid=currentUser?.uid||'—';
-  navigator.clipboard.writeText('@'+uid).then(()=>notif('success','Copied!','Share @'+uid+' with friends'));
-}
-
-// ── TABS ──
-function switchMsgTab(tab){
-  activeMsgTab=tab;
-  ['chats','contacts','blocked'].forEach(t=>{
-    const btn=document.getElementById('msgtab-'+t);
-    const pane=document.getElementById(t===\'chats\'?\'clist\':t+\'-list\');
-    if(btn){btn.style.borderBottomColor=t===tab?\'var(--gold)':\'transparent\';btn.style.color=t===tab?\'var(--text)\':\'var(--text-f)\';}
-    if(pane) pane.classList.toggle(\'hidden\',t!==tab);
-  });
-  if(tab===\'chats\') renderContactList();
-  else if(tab===\'contacts\') renderMsgContacts();
-  else renderBlockedList();
-}
-
-// ── RENDER CONTACT/CHAT LIST ──
 function renderContactList(filter=''){
   const list=document.getElementById('clist'); if(!list) return;
   list.innerHTML='';
-  const chats=loadMsgChats();
-  const contacts=getMsgContacts();
-  const blocked=getBlocked();
-  contacts.filter(c=>!filter||c.name.toLowerCase().includes(filter.toLowerCase())).forEach(c=>{
-    const msgs=chats[c.uid]||[];
+  const chats=loadChats();
+  CONTACTS.filter(c=>!filter||c.name.toLowerCase().includes(filter.toLowerCase())).forEach(c=>{
+    const msgs=chats[c.id]||[];
     const last=msgs[msgs.length-1];
-    const isBlocked=blocked.includes(c.uid);
+    const unread=c.unread||0;
     const el=document.createElement('div');
-    el.className='ci'+(currentContact?.uid===c.uid?' active':'');
-    el.style.opacity=isBlocked?'.4':'1';
-    el.onclick=()=>{
-      if(isBlocked){notif('info','Blocked','Unblock this user first');return;}
-      openMsgChatWithFaceCheck(c);
-    };
-    el.innerHTML=`<div class="ci-av ci-av-${c.status==='online'?'online':c.status==='away'?'away':''}" style="background:${c.color||'var(--bg-tri)'};">${c.emoji||'🧑'}</div>
-    <div class="ci-info">
-      <div class="ci-row1"><div class="ci-name">${c.name}${isBlocked?'<span style="font-size:9px;color:var(--red);font-weight:400;margin-left:6px;">[blocked]</span>':''}</div><div class="ci-time">${last?fmtTime(last.time):''}</div></div>
-      <div class="ci-row2">
-        <div class="ci-prev">${last?(last.from==='me'?'You: ':'')+(last.text||'📎').slice(0,36):' No messages yet'}</div>
-        ${c.unread>0?`<span class="ci-un">${c.unread}</span>`:''}
-      </div>
-    </div>`;
-    list.appendChild(el);
-  });
-  if(!contacts.length) list.innerHTML='<div style="padding:24px;text-align:center;color:var(--text-f);font-size:12px;">No conversations.<br>Tap ✏️ New to find someone.</div>';
-}
-
-function renderMsgContacts(){
-  const list=document.getElementById('contacts-list'); if(!list) return;
-  list.innerHTML='';
-  const contacts=getMsgContacts();
-  contacts.forEach(c=>{
-    const el=document.createElement('div'); el.className='ci';
-    el.onclick=()=>openMsgChatWithFaceCheck(c);
-    el.innerHTML=`<div class="ci-av ci-av-${c.status==='online'?'online':c.status==='away'?'away':''}" style="background:${c.color||'var(--bg-tri)'};">${c.emoji||'🧑'}</div>
-    <div class="ci-info">
-      <div class="ci-row1"><div class="ci-name">${c.name}</div></div>
-      <div class="ci-bot"><div style="font-family:var(--mono);font-size:9px;color:var(--text-f);">@${c.uid}</div></div>
-    </div>`;
-    list.appendChild(el);
+    el.className='ci'+(currentContact?.id===c.id?' active':'');
+    el.onclick=()=>openChat(c);
+    const av=document.createElement('div');
+    av.className='ci-av ci-av-'+(c.status==='online'?'online':c.status==='away'?'away':'');
+    av.style.background=c.color; av.textContent=c.emoji; el.appendChild(av);
+    const info=document.createElement('div'); info.className='ci-info';
+    const row1=document.createElement('div'); row1.className='ci-row1';
+    const nm=document.createElement('div'); nm.className='ci-name'; nm.textContent=c.name;
+    const tm=document.createElement('div'); tm.className='ci-time'; tm.textContent=last?fmtTime(last.time):'';
+    row1.appendChild(nm); row1.appendChild(tm);
+    const row2=document.createElement('div'); row2.className='ci-row2';
+    const pv=document.createElement('div'); pv.className='ci-prev';
+    pv.textContent=last?(last.from==='me'?'You: ':'')+last.text.slice(0,38)+(last.text.length>38?'…':''):'No messages';
+    row2.appendChild(pv);
+    if(unread>0){const b=document.createElement('span');b.className='ci-un';b.textContent=unread;row2.appendChild(b);}
+    info.appendChild(row1); info.appendChild(row2); el.appendChild(info); list.appendChild(el);
   });
 }
+function filterContacts(v){renderContactList(v);}
 
-function renderBlockedList(){
-  const list=document.getElementById('blocked-list'); if(!list) return;
-  list.innerHTML='';
-  const blocked=getBlocked();
-  const contacts=getMsgContacts();
-  if(!blocked.length){list.innerHTML='<div style="padding:24px;text-align:center;color:var(--text-f);font-size:12px;">No blocked users</div>';return;}
-  blocked.forEach(uid=>{
-    const c=contacts.find(ct=>ct.uid===uid)||userRegistry[uid]||{name:uid,emoji:'🧑'};
-    const el=document.createElement('div'); el.className='blocked-item';
-    el.innerHTML=`<div class="blocked-item-av" style="background:var(--bg-tri);">${c.emoji||'🧑'}</div>
-    <div class="blocked-item-info"><div class="blocked-item-name">${c.name||uid}</div><div class="blocked-item-uid">@${uid}</div></div>
-    <button class="unblock-btn" onclick="unblockUser('${uid}')">Unblock</button>`;
-    list.appendChild(el);
-  });
-}
-
-function filterContacts(v){
-  if(activeMsgTab==='chats') renderContactList(v);
-  else if(activeMsgTab==='contacts') renderMsgContacts();
-}
-
-// ── FIND USER (username#ID search) ──
-function searchMsgUser(){
-  const q=document.getElementById('fu-input').value.trim().replace('@','');
-  const err=document.getElementById('fu-err');
-  const result=document.getElementById('fu-result');
-  err.textContent=''; result.innerHTML='';
-  if(!q||!q.includes('#')){err.textContent='Format: username#1234';return;}
-  const myUid=currentUser?.uid||'';
-  if(q===myUid){err.textContent="That's you!";return;}
-  if(getBlocked().includes(q)){err.textContent='You have blocked this user';return;}
-  const found=userRegistry[q];
-  if(!found){err.textContent='No user found — check the ID';return;}
-  result.innerHTML=`<div class="fu-result-card">
-    <div class="fu-result-av" style="background:var(--bg-tri);">${found.emoji||'🧑'}</div>
-    <div><div class="fu-result-name">${found.name}</div><div class="fu-result-uid">@${found.uid}</div></div>
-    <button class="fu-result-btn" onclick="startChatWith('${found.uid}')">💬 Message</button>
-  </div>`;
-}
-
-function startChatWith(uid){
-  closeMsgModal('find-user-modal');
-  const found=userRegistry[uid]; if(!found) return;
-  const contacts=getMsgContacts();
-  if(!contacts.find(c=>c.uid===uid)){
-    const colors=['#3a7bd5','#9b59b6','#27ae60','#e67e22','#e74c3c'];
-    const newC={uid,name:found.name,emoji:found.emoji||'🧑',color:colors[Math.floor(Math.random()*colors.length)],status:found.status||'offline',unread:0};
-    contacts.push(newC); saveMsgContacts(contacts);
-    const chats=loadMsgChats(); if(!chats[uid])chats[uid]=[]; saveMsgChats(chats);
-    notif('success','Chat Started','You can now message '+found.name);
-  }
-  const c=getMsgContacts().find(ct=>ct.uid===uid)||{uid,name:found.name,emoji:found.emoji||'🧑',color:'var(--bg-tri)',status:'offline'};
-  switchMsgTab('chats');
-  openMsgChatWithFaceCheck(c);
-}
-
-// ── FACE CHECK ON CHAT OPEN ──
-function openMsgChatWithFaceCheck(contact){
-  const user=getUser();
-  if(user?.faceDescriptor){
-    // Require face re-verify each time a chat is opened
-    pendingGhostContact=contact;
-    openMsgModal('msg-reverify-modal');
-    document.getElementById('mrv-status').textContent='Tap button to verify';
-    document.getElementById('mrv-btn').textContent='📷 Start Scan';
-  } else {
-    // No face enrolled — open directly
-    openMsgChatDirect(contact);
-  }
-}
-
-async function startMsgReVerify(){
-  const btn=document.getElementById('mrv-btn');
-  btn.disabled=true; btn.textContent='⏳ Loading…';
-  document.getElementById('mrv-status').textContent='LOADING MODELS…';
-  // If file:// or no camera support, skip straight to opening chat
-  if(IS_FILE || !navigator.mediaDevices) {
-    stopMrvCamera(); closeMsgModal('msg-reverify-modal');
-    openMsgChatDirect(pendingGhostContact);
-    btn.disabled=false; btn.textContent='📷 Start Scan'; return;
-  }
-  // Load face-api if not present
-  if(!window.faceapi || !faceModelsLoaded) {
-    try { await loadFaceApiScript(); await loadFaceModels(); }
-    catch(e) { stopMrvCamera(); closeMsgModal('msg-reverify-modal'); openMsgChatDirect(pendingGhostContact); btn.disabled=false; btn.textContent='📷 Start Scan'; return; }
-  }
-  try{
-    await loadFaceModels();
-    const s=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user',width:{ideal:1280},height:{ideal:720}}});
-    mrvStream=s;
-    const vid=document.getElementById('mrv-video');
-    vid.srcObject=s; vid.style.display='block';
-    await new Promise(r=>{vid.onloadeddata=r;});
-    document.getElementById('mrv-idle').style.display='none';
-    document.getElementById('mrv-spin').style.display='block';
-    document.getElementById('mrv-status').textContent='LOOK AT THE CAMERA…';
-    btn.textContent='Scanning…';
-    const user=getUser();
-    const enrolled=new Float32Array(user.faceDescriptor);
-    const opts=new faceapi.TinyFaceDetectorOptions({scoreThreshold:.45,inputSize:416});
-    const dists=[];
-    let att=0;
-    const scan=async()=>{
-      if(att++>45){
-        // FAILED — intruder
-        document.getElementById('mrv-status').textContent='⚠ VERIFICATION FAILED';
-        await captureIntruderAndSave('Unauthorized chat access attempt');
-        stopMrvCamera(); closeMsgModal('msg-reverify-modal');
-        openMsgChatGhostMode(pendingGhostContact);
-        btn.disabled=false; btn.textContent='📷 Start Scan'; return;
-      }
-      try{
-        const det=await faceapi.detectSingleFace(document.getElementById('mrv-video'),opts).withFaceLandmarks().withFaceDescriptor();
-        if(det?.descriptor){
-          const dist=euclidDist(det.descriptor,enrolled);
-          dists.push(dist); if(dists.length>4) dists.shift();
-          const avg=dists.reduce((a,b)=>a+b,0)/dists.length;
-          if(dists.length>=3&&avg<0.50){
-            document.getElementById('mrv-status').textContent='✓ VERIFIED';
-            document.getElementById('mrv-spin').style.display='none';
-            setTimeout(()=>{
-              stopMrvCamera(); closeMsgModal('msg-reverify-modal');
-              openMsgChatDirect(pendingGhostContact);
-              btn.disabled=false; btn.textContent='📷 Start Scan';
-            },500); return;
-          } else if(dists.length>=3&&avg>0.66){
-            document.getElementById('mrv-status').textContent='FACE NOT RECOGNIZED';
-            await captureIntruderAndSave('Wrong face tried to open chat');
-            stopMrvCamera(); closeMsgModal('msg-reverify-modal');
-            openMsgChatGhostMode(pendingGhostContact);
-            btn.disabled=false; btn.textContent='📷 Start Scan'; return;
-          }
-        }
-      }catch(e){}
-      setTimeout(scan,200);
-    };
-    scan();
-  }catch(err){
-    document.getElementById('mrv-status').textContent='CAMERA ERROR — opening anyway';
-    stopMrvCamera();
-    setTimeout(()=>{closeMsgModal('msg-reverify-modal');openMsgChatDirect(pendingGhostContact);btn.disabled=false;btn.textContent='📷 Start Scan';},1000);
-  }
-}
-
-function cancelMsgReVerify(){stopMrvCamera();closeMsgModal('msg-reverify-modal');pendingGhostContact=null;}
-function stopMrvCamera(){
-  if(mrvStream){mrvStream.getTracks().forEach(t=>t.stop());mrvStream=null;}
-  const v=document.getElementById('mrv-video'); if(v){v.srcObject=null;v.style.display='none';}
-  document.getElementById('mrv-idle').style.display='flex';
-  document.getElementById('mrv-spin').style.display='none';
-}
-
-function openMsgChatGhostMode(contact){
-  msgGhostMode=true; currentContact=contact;
-  const chatActive=document.getElementById('chat-active');
-  document.getElementById('no-chat-state').classList.add('hidden');
-  chatActive.classList.remove('hidden'); chatActive.style.display='flex';
-  document.getElementById('ghost-overlay').classList.remove('hidden');
-  document.getElementById('msg-body').innerHTML='';
-  const av=document.getElementById('cz-av'); av.textContent='🔒'; av.style.background='var(--bg-tri)';
-  document.getElementById('cz-name').textContent='Protected';
-  document.getElementById('cz-uid-tag').textContent='Verify identity to view';
+function openChat(contact){
+  currentContact=contact;
+  const idx=CONTACTS.findIndex(c=>c.id===contact.id); if(idx>=0)CONTACTS[idx].unread=0;
   renderContactList();
-}
-
-function triggerGhostReVerify(){
-  document.getElementById('ghost-overlay').classList.add('hidden');
-  openMsgModal('msg-reverify-modal');
-  document.getElementById('mrv-status').textContent='Tap button to verify';
-}
-
-function openMsgChatDirect(contact){
-  msgGhostMode=false; currentContact=contact;
-  document.getElementById('ghost-overlay').classList.add('hidden');
-  const chatActive=document.getElementById('chat-active');
   document.getElementById('no-chat-state').classList.add('hidden');
-  chatActive.classList.remove('hidden'); chatActive.style.display='flex';
-  const contacts=getMsgContacts();
-  const idx=contacts.findIndex(c=>c.uid===contact.uid);
-  if(idx>=0){contacts[idx].unread=0;saveMsgContacts(contacts);}
+  const ca=document.getElementById('chat-active'); ca.classList.remove('hidden'); ca.style.display='flex';
   const av=document.getElementById('cz-av');
-  av.textContent=contact.emoji||'🧑'; av.style.background=contact.color||'var(--bg-tri)';
+  av.style.background=contact.color; av.textContent=contact.emoji;
   av.className='cc-av'+(contact.status==='online'?' cc-online':'');
   document.getElementById('cz-name').textContent=contact.name;
-  document.getElementById('cz-uid-tag').textContent='@'+contact.uid;
-  renderContactList();
+  document.getElementById('cz-status').textContent=contact.status==='online'?'online · last seen now':contact.status==='away'?'last seen recently':'last seen a while ago';
   renderMessages();
 }
 
-// ── RENDER MESSAGES (async decrypt) ──
-async function renderMessages(){
-  const body=document.getElementById('msg-body'); if(!body||msgGhostMode) return;
+function renderMessages(){
+  const body=document.getElementById('msg-body'); if(!body) return;
   body.innerHTML='';
-  // Encryption notice
-  const notice=document.createElement('div');
-  notice.style.cssText='display:flex;align-items:center;justify-content:center;gap:7px;padding:7px 14px;background:rgba(63,200,122,.05);border:1px solid rgba(63,200,122,.1);border-radius:99px;margin:8px auto;max-width:340px;font-family:var(--mono);font-size:9px;color:rgba(63,200,122,.6);letter-spacing:.1em;';
-  notice.textContent='🔒 AES-256 Encrypted · Only your face can unlock this';
-  body.appendChild(notice);
-  const chats=loadMsgChats();
-  const msgs=chats[currentContact.uid]||[];
+  const msgs=getContactMsgs(currentContact.id);
   let lastDate='';
-  for(const msg of msgs){
+  msgs.forEach(msg=>{
     const md=fmtDate(msg.time);
     if(md!==lastDate){
-      const sep=document.createElement('div'); sep.className='date-divider';
-      sep.innerHTML=`<span>${md}</span>`; body.appendChild(sep); lastDate=md;
+      const div=document.createElement('div'); div.className='date-divider';
+      const sp=document.createElement('span'); sp.textContent=md; div.appendChild(sp); body.appendChild(div);
+      lastDate=md;
     }
     const isMe=msg.from==='me';
     const row=document.createElement('div'); row.className='msg-row '+(isMe?'sent':'recv');
-    const bub=document.createElement('div'); bub.className='bubble';
-    // Group sender
-    if(!isMe&&msg.sender&&(contact?.uid||currentContact?.uid)==='rahul#9034'){
-      const sl=document.createElement('div');sl.style.cssText='font-family:var(--mono);font-size:9px;color:var(--gold);margin-bottom:4px;font-weight:600;';sl.textContent=msg.sender;bub.appendChild(sl);
+    const bubble=document.createElement('div'); bubble.className='bubble';
+    if(!isMe&&currentContact.id==='devgrp'&&msg.sender){
+      const sl=document.createElement('div');
+      sl.style.cssText='font-family:var(--mono);font-size:9.5px;color:var(--gold);margin-bottom:4px;font-weight:600;';
+      sl.textContent=msg.sender; bubble.appendChild(sl);
     }
-    if(msg.image){const img=document.createElement('img');img.className='bubble-img';img.src=msg.image;img.onclick=()=>window.open(msg.image,'_blank');bub.appendChild(img);}
-    if(msg.voice){bub.appendChild(buildVoiceNoteBubble(msg.voice));}
-    if(msg.text){
-      let text=msg.text;
-      if(msg.enc&&encryptionKey){try{text=await decryptMsg(msg.text);}catch(e){}}
-      const t=document.createElement('div'); t.className='bubble-text'; t.textContent=text; bub.appendChild(t);
-    }
+    if(msg.image){const img=document.createElement('img');img.className='bubble-img';img.src=msg.image;img.onclick=()=>window.open(msg.image,'_blank');bubble.appendChild(img);}
+    if(msg.voice){bubble.appendChild(buildVoiceNoteBubble(msg.voice));}
+    if(msg.text){const t=document.createElement('div');t.className='bubble-text';t.textContent=msg.text;bubble.appendChild(t);}
     const meta=document.createElement('div'); meta.className='msg-meta';
     const tm=document.createElement('span'); tm.className='msg-time'; tm.textContent=fmtChatTime(msg.time); meta.appendChild(tm);
-    if(msg.enc){const lock=document.createElement('span');lock.className='enc-lock';lock.textContent='🔒';meta.appendChild(lock);}
     if(isMe){const tk=document.createElement('span');tk.className='msg-ticks '+(msg.status||'sent');tk.textContent=msg.status==='read'?'✓✓':msg.status==='delivered'?'✓✓':'✓';meta.appendChild(tk);}
-    bub.appendChild(meta); row.appendChild(bub); body.appendChild(row);
-  }
+    bubble.appendChild(meta); row.appendChild(bubble); body.appendChild(row);
+  });
   body.scrollTop=body.scrollHeight;
 }
 
@@ -2175,72 +1638,6 @@ function buildVoiceNoteBubble(dur){
   vn.appendChild(btn); vn.appendChild(wave); vn.appendChild(d); return vn;
 }
 
-// ── SEND MESSAGE ──
-async function sendMsg(){
-  if(!currentContact||msgGhostMode) return;
-  const ta=document.getElementById('msg-ta'); if(!ta) return;
-  const text=ta.value.trim();
-  const chips=document.getElementById('msg-chips');
-  if(!text&&(!chips||!chips.children.length)) return;
-  if(text){
-    const {text:ct,enc}=await encryptMsg(text);
-    const chats=loadMsgChats(); if(!chats[currentContact.uid])chats[currentContact.uid]=[];
-    chats[currentContact.uid].push({id:Date.now(),from:'me',text:ct,enc,time:Date.now(),status:'sent'});
-    saveMsgChats(chats); ta.value=''; ta.style.height='auto';
-  }
-  document.querySelectorAll('#msg-chips .chip').forEach(chip=>{
-    if(chip.dataset.img){const chats=loadMsgChats();if(!chats[currentContact.uid])chats[currentContact.uid]=[];chats[currentContact.uid].push({id:Date.now(),from:'me',image:chip.dataset.img,text:'',time:Date.now(),status:'sent'});saveMsgChats(chats);}
-    chip.remove();
-  });
-  renderMessages(); renderContactList();
-  setTimeout(()=>markMsgRead(currentContact.uid,'delivered'),900);
-  setTimeout(()=>markMsgRead(currentContact.uid,'read'),2600);
-  const c=currentContact;
-  if(replyTimeout) clearTimeout(replyTimeout);
-  const contacts=getMsgContacts();
-  if(contacts.find(ct=>ct.uid===c.uid)?.status!=='offline')
-    replyTimeout=setTimeout(()=>simulateMsgReply(c,text),1800+Math.random()*2000);
-}
-
-function markMsgRead(uid,status){
-  const ch=loadMsgChats(); const msgs=ch[uid]||[];
-  const my=msgs.filter(m=>m.from==='me');
-  if(my.length){my[my.length-1].status=status;saveMsgChats(ch);if(currentContact?.uid===uid&&!msgGhostMode)renderMessages();}
-}
-
-async function simulateMsgReply(contact,userText){
-  if(currentContact?.uid!==contact.uid||msgGhostMode) return;
-  addTypingIndicator();
-  let reply='';
-  try{
-    const key=getApiKey(); if(!key) throw new Error('no key');
-    const ctx=getMsgContactPersona(contact);
-    const res=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',
-      headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-      body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:80,messages:[{role:'user',content:ctx+'\nUser: "'+userText+'"\nReply as '+contact.name+' in 1 sentence:'}]})
-    });
-    const d=await res.json(); reply=(d.content?.[0]?.text||'').trim();
-  }catch(e){reply=getMsgContactFallback(contact);}
-  removeTypingIndicator();
-  if(!reply) reply=getMsgContactFallback(contact);
-  const {text:ct,enc}=await encryptMsg(reply);
-  const chats=loadMsgChats(); if(!chats[contact.uid]) chats[contact.uid]=[];
-  chats[contact.uid].push({id:Date.now(),from:'them',text:ct,enc,time:Date.now(),sender:contact.name.split(' ')[0]});
-  saveMsgChats(chats);
-  if(currentContact?.uid===contact.uid&&!msgGhostMode){renderMessages();renderContactList();}
-  else{const cts=getMsgContacts();const i=cts.findIndex(c=>c.uid===contact.uid);if(i>=0){cts[i].unread=(cts[i].unread||0)+1;saveMsgContacts(cts);}renderContactList();}
-}
-
-function getMsgContactPersona(c){
-  const p={'alex#7842':'You are Alex Kumar, a software engineer colleague. Casual but professional.','priya#3156':'You are Priya Sharma, friendly and enthusiastic.','rahul#9034':'You are Rahul, a developer. Keep it work-related.','mom#0012':"You are Mom, loving. Use 'beta' occasionally."};
-  return p[c.uid]||'You are a friendly contact. Reply in 1 short sentence.';
-}
-function getMsgContactFallback(c){
-  const f={'alex#7842':'Sounds good!','priya#3156':'Haha yes! 😄','rahul#9034':'Got it.','mom#0012':'Okay beta 💛'};
-  return f[c.uid]||'👍';
-}
-
 function addTypingIndicator(){
   const body=document.getElementById('msg-body'); if(!body) return;
   removeTypingIndicator();
@@ -2251,68 +1648,58 @@ function addTypingIndicator(){
 }
 function removeTypingIndicator(){const el=document.getElementById('typing-ind');if(el)el.remove();}
 
-// ── BLOCK ──
-function promptMsgBlock(){
-  if(!currentContact) return;
-  blockTarget=currentContact.uid;
-  document.getElementById('block-confirm-sub').textContent=`Block @${currentContact.uid}? They won't be able to message you.`;
-  openMsgModal('block-confirm-modal');
-}
-function confirmMsgBlock(){
-  if(!blockTarget) return;
-  const blocked=getBlocked(); if(!blocked.includes(blockTarget)){blocked.push(blockTarget);saveBlocked(blocked);}
-  closeMsgModal('block-confirm-modal');
-  notif('info','Blocked','@'+blockTarget+' has been blocked');
-  currentContact=null; msgGhostMode=false;
-  document.getElementById('no-chat-state').classList.remove('hidden');
-  document.getElementById('chat-active').classList.add('hidden');
-  renderContactList(); blockTarget=null;
-}
-function unblockUser(uid){
-  const blocked=getBlocked().filter(b=>b!==uid); saveBlocked(blocked);
-  notif('success','Unblocked','User can message you again');
-  renderBlockedList(); renderContactList();
-}
-
-// ── CLEAR CHAT ──
-function confirmClearMsgChat(){
-  if(!currentContact) return;
-  const ch=loadMsgChats(); ch[currentContact.uid]=[]; saveMsgChats(ch);
-  closeMsgModal('clear-chat-modal');
-  renderMessages(); renderContactList();
-  notif('info','Cleared','Conversation cleared');
-}
-
-// ── SECURITY ALERTS ──
-function loadSecAlerts(){
-  const list=document.getElementById('alerts-list-inner'); if(!list) return;
-  const alerts=getAlertLog();
-  if(!alerts.length){list.innerHTML='<div style="padding:20px;text-align:center;color:var(--text-f);font-size:12.5px;">✅ No security alerts. Your account is safe.</div>';return;}
-  list.innerHTML='';
-  alerts.forEach(a=>{
-    const item=document.createElement('div'); item.className='sec-alert-item';
-    item.innerHTML=`${a.photo?`<img class="sec-alert-photo" src="${a.photo}" title="Click to view" onclick="window.open('${a.photo}','_blank')"/>`:'<div style="width:48px;height:48px;border-radius:8px;background:var(--bg-tri);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;">📷</div>'}
-    <div class="sec-alert-meta">
-      <div class="sec-alert-time">${new Date(a.time).toLocaleString()}</div>
-      <div class="sec-alert-reason">⚠ ${a.reason||'Unauthorized attempt'}</div>
-      ${a.photo?`<span class="sec-alert-dl" onclick="dlAlert(${a.id})">⬇ Save Photo</span>`:''}
-    </div>`;
-    list.appendChild(item);
+function sendMsg(){
+  const ta=document.getElementById('msg-ta'); if(!ta||!currentContact) return;
+  const text=ta.value.trim();
+  const chips=document.getElementById('msg-chips');
+  if(!text&&(!chips||!chips.children.length)) return;
+  if(text){addMsg(currentContact.id,{from:'me',text,time:Date.now(),status:'sent'});ta.value='';ta.style.height='auto';}
+  document.querySelectorAll('#msg-chips .chip').forEach(chip=>{
+    if(chip.dataset.img) addMsg(currentContact.id,{from:'me',image:chip.dataset.img,text:'',time:Date.now(),status:'sent'});
+    chip.remove();
   });
-}
-function dlAlert(id){
-  const a=getAlertLog().find(al=>al.id==id); if(!a?.photo) return;
-  const link=document.createElement('a'); link.href=a.photo; link.download=`nexus-intruder-${id}.jpg`;
-  document.body.appendChild(link); link.click(); link.remove();
+  renderMessages(); renderContactList();
+  setTimeout(()=>markLastRead(currentContact.id,'delivered'),800);
+  setTimeout(()=>markLastRead(currentContact.id,'read'),2500);
+  const c=currentContact;
+  if(replyTimeout) clearTimeout(replyTimeout);
+  if(c.status!=='offline') replyTimeout=setTimeout(()=>simulateReply(c,text),1800+Math.random()*2000);
 }
 
-// ── MODAL HELPERS ──
-function openMsgModal(id){const el=document.getElementById(id);if(el)el.classList.remove('hidden');}
-function closeMsgModal(id){const el=document.getElementById(id);if(el)el.classList.add('hidden');}
+function markLastRead(cid,status){
+  const ch=loadChats(); const msgs=ch[cid]||[];
+  const my=msgs.filter(m=>m.from==='me');
+  if(my.length){my[my.length-1].status=status;saveChats(ch);if(currentContact?.id===cid)renderMessages();}
+}
 
-// ── FILE + VOICE ──
+async function simulateReply(contact, userText){
+  if(currentContact?.id!==contact.id) return;
+  addTypingIndicator();
+  let reply='';
+  try {
+    const ctx=buildContactContext(contact);
+    reply=await callClaude(ctx+'\n\nUser said: "'+userText+'"\n\nRespond naturally as '+contact.name+' in 1-2 short sentences. No quotes, just reply.');
+    reply=reply.trim().replace(/^["']|["']$/g,'');
+  } catch(e){ reply=getContactFallback(contact); }
+  removeTypingIndicator();
+  const msg={from:'them',text:reply,time:Date.now(),status:'delivered',sender:contact.name.split(' ')[0]};
+  addMsg(contact.id,msg);
+  CONTACTS.find(c=>c.id===contact.id).unread=0;
+  if(currentContact?.id===contact.id){renderMessages();renderContactList();}
+  else{const ci=CONTACTS.findIndex(c=>c.id===contact.id);if(ci>=0)CONTACTS[ci].unread=(CONTACTS[ci].unread||0)+1;renderContactList();}
+}
+
+function buildContactContext(c){
+  const p={alex:'You are Alex Kumar, a software engineer colleague. Casual but professional. Talk about code, deployments.',priya:'You are Priya Sharma, friendly and enthusiastic. Talk about events, life, mutual friends.',devgrp:'You are in a dev team group chat. You are Rahul or Ananya. Keep it work-related.',mom:'You are Mom, loving and caring. Use "beta" occasionally. Ask about food and health.'};
+  return p[c.id]||'You are a friendly contact. Keep replies brief.';
+}
+function getContactFallback(c){
+  const f={alex:'Sounds good! Let me check on my end.',priya:'Haha yes! Let me know what you think.',devgrp:'Got it, will follow up.',mom:'Okay beta, take care 💛'};
+  return f[c.id]||'Sure, sounds good!';
+}
+
 function handleMsgFile(input){
-  if(!input.files.length||!currentContact||msgGhostMode) return;
+  if(!input.files.length||!currentContact) return;
   const chips=document.getElementById('msg-chips');
   Array.from(input.files).forEach(file=>{
     const reader=new FileReader();
@@ -2323,28 +1710,32 @@ function handleMsgFile(input){
       chip.appendChild(nm); chip.appendChild(x); chips.appendChild(chip);
     };
     if(file.type.startsWith('image/')) reader.readAsDataURL(file);
-    else{const chip=document.createElement('div');chip.className='chip';const nm=document.createElement('span');nm.className='chip-n';nm.textContent=file.name;const x=document.createElement('button');x.className='chip-x';x.textContent='×';x.onclick=()=>chip.remove();chip.appendChild(nm);chip.appendChild(x);chips.appendChild(chip);}
+    else {
+      const chip=document.createElement('div'); chip.className='chip';
+      const nm=document.createElement('span'); nm.className='chip-n'; nm.textContent=file.name;
+      const x=document.createElement('button'); x.className='chip-x'; x.textContent='×'; x.onclick=()=>chip.remove();
+      chip.appendChild(nm); chip.appendChild(x); chips.appendChild(chip);
+    }
   });
   input.value='';
 }
 
 function toggleVoiceNote(){
-  if(!currentContact||msgGhostMode) return;
+  if(!currentContact) return;
   voiceRecording=!voiceRecording;
   const btn=document.getElementById('msg-voice-btn');
   if(voiceRecording){
-    btn.textContent='⏹'; btn.style.color='var(--red)';
-    notif('info','Recording','Voice note (3s)…');
-    setTimeout(async()=>{
+    btn.textContent='🔴'; btn.style.color='var(--red)';
+    notif('info','Recording','Voice note started…');
+    setTimeout(()=>{
       voiceRecording=false; btn.textContent='🎙'; btn.style.color='';
       const dur='0:'+(8+Math.floor(Math.random()*12)).toString().padStart(2,'0');
-      const chats=loadMsgChats(); if(!chats[currentContact.uid])chats[currentContact.uid]=[];
-      chats[currentContact.uid].push({id:Date.now(),from:'me',voice:dur,text:'',time:Date.now(),status:'sent'});
-      saveMsgChats(chats); renderMessages(); renderContactList();
-      setTimeout(()=>markMsgRead(currentContact.uid,'delivered'),900);
-      setTimeout(()=>markMsgRead(currentContact.uid,'read'),2200);
+      addMsg(currentContact.id,{from:'me',voice:dur,text:'',time:Date.now(),status:'sent'});
+      renderMessages(); renderContactList();
+      setTimeout(()=>markLastRead(currentContact.id,'delivered'),900);
+      setTimeout(()=>markLastRead(currentContact.id,'read'),2200);
     },3000);
-  } else {btn.textContent='🎙'; btn.style.color='';}
+  } else { btn.textContent='🎙'; btn.style.color=''; }
 }
 
 function msgKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg();}}
