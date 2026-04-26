@@ -1097,6 +1097,7 @@ const API_KEY_STORE = 'nexus_anthropic_key';
 const ALERTS_KEY    = 'nexus_security_alerts';
 const BLOCKED_KEY   = 'nexus_blocked_contacts';
 const CRYPTO_KEY_STORE = 'nexus_aes_key';
+const MY_CONTACTS_KEY = 'nexus_my_contacts_v1';
 
 // ══ STATE ══
 let isDark = true;
@@ -1230,6 +1231,42 @@ function generateUID() { return Math.floor(1000 + Math.random() * 9000).toString
 
 function getBlockedList(){ try{ return JSON.parse(localStorage.getItem(BLOCKED_KEY))||[]; }catch{ return []; } }
 function saveBlockedList(l){ localStorage.setItem(BLOCKED_KEY, JSON.stringify(l)); }
+
+// ══ MY CONTACTS (Added via ID search) ══
+function getMyContacts(){ try{ return JSON.parse(localStorage.getItem(MY_CONTACTS_KEY))||[]; }catch{ return []; } }
+function saveMyContacts(list){ localStorage.setItem(MY_CONTACTS_KEY, JSON.stringify(list)); }
+
+// Simulated user database for ID lookup (in production, this would be a backend API)
+const USER_DATABASE = [
+  { id:'roshan', name:'Roshan Kumar', uid:'@roshan#5634', emoji:'👨‍💻', color:'#e74c3c', status:'online', role:'Friend' },
+  { id:'prash', name:'Prashanth Reddy', uid:'@prash#0000', emoji:'🧑‍🚀', color:'#3498db', status:'online', role:'Work' },
+  { id:'neha', name:'Neha Sharma', uid:'@neha#7821', emoji:'👩‍🎨', color:'#9b59b6', status:'away', role:'Friend' },
+  { id:'vikram', name:'Vikram Patel', uid:'@vikram#4521', emoji:'🧑‍💼', color:'#1abc9c', status:'offline', role:'Work' },
+  { id:'ananya', name:'Ananya Iyer', uid:'@ananya#9912', emoji:'👩‍🔬', color:'#f39c12', status:'online', role:'Family' },
+  { id:'kiran', name:'Kiran Rao', uid:'@kiran#3345', emoji:'🧑‍🌾', color:'#27ae60', status:'away', role:'Friend' },
+  { id:'sneha', name:'Sneha Gupta', uid:'@sneha#8765', emoji:'👩‍⚕️', color:'#e91e63', status:'online', role:'Work' },
+  { id:'arjun', name:'Arjun Nair', uid:'@arjun#1234', emoji:'🧑‍🎤', color:'#673ab7', status:'offline', role:'Friend' },
+  { id:'divya', name:'Divya Krishnan', uid:'@divya#5678', emoji:'👩‍🏫', color:'#ff5722', status:'online', role:'Family' },
+  { id:'rahul', name:'Rahul Mehta', uid:'@rahul#9999', emoji:'🧑‍🔧', color:'#795548', status:'away', role:'Work' },
+];
+
+function findUserById(query) {
+  // Strip @ prefix if present
+  const cleanQuery = query.replace(/^@/, '').trim().toLowerCase();
+  if(!cleanQuery) return null;
+  // Search by exact UID or username#tag
+  return USER_DATABASE.find(u => {
+    const uid = u.uid.toLowerCase();
+    const username = u.uid.split('#')[0].toLowerCase();
+    return uid === cleanQuery || uid === '@' + cleanQuery || username === cleanQuery;
+  }) || null;
+}
+
+function isContactAdded(userId) {
+  const myContacts = getMyContacts();
+  const staticIds = CONTACTS.map(c => c.id);
+  return staticIds.includes(userId) || myContacts.some(c => c.id === userId);
+}
 
 function getSecurityAlerts(){ try{ return JSON.parse(localStorage.getItem(ALERTS_KEY))||[]; }catch{ return []; } }
 function saveSecurityAlerts(a){ localStorage.setItem(ALERTS_KEY, JSON.stringify(a.slice(-20))); }
@@ -1719,24 +1756,58 @@ async function renderContactList(filter='') {
   }
 
   if(currentTab==='contacts'){
-    // All contacts with their UIDs
-    const contacts=CONTACTS.filter(c=>!filter||c.name.toLowerCase().includes(filter.toLowerCase())||c.uid.toLowerCase().includes(filter.toLowerCase()));
-    contacts.forEach(c=>{
+    // All contacts (static + added) + searchable database users not yet added
+    const myContacts=getMyContacts();
+    const allContacts=[...CONTACTS,...myContacts];
+    const addedIds=allContacts.map(c=>c.id);
+    const dbUsers=USER_DATABASE.filter(u=>!addedIds.includes(u.id)&&(!filter||u.name.toLowerCase().includes(filter.toLowerCase())||u.uid.toLowerCase().includes(filter.toLowerCase())));
+    const displayContacts=allContacts.filter(c=>!filter||c.name.toLowerCase().includes(filter.toLowerCase())||c.uid.toLowerCase().includes(filter.toLowerCase()));
+
+    // Show "My Contacts" header
+    if(displayContacts.length){
+      const hdr=document.createElement('div');
+      hdr.style.cssText='padding:8px 14px;font-family:var(--mono);font-size:9px;color:var(--text-f);letter-spacing:.14em;text-transform:uppercase;border-bottom:1px solid var(--bsoft);';
+      hdr.textContent='My Contacts ('+displayContacts.length+')';
+      list.appendChild(hdr);
+    }
+    displayContacts.forEach(c=>{
       const el=document.createElement('div'); el.className='ci'; el.onclick=()=>openChatRequest(c);
       const av=document.createElement('div'); av.className='ci-av'; av.style.background=c.color; av.textContent=c.emoji;
       const info=document.createElement('div'); info.className='ci-info';
       const nm=document.createElement('div'); nm.className='ci-name'; nm.textContent=c.name;
       const uid=document.createElement('div'); uid.className='ci-uid'; uid.textContent=c.uid;
-      const role=document.createElement('div'); role.className='ci-prev'; role.textContent=c.role;
+      const role=document.createElement('div'); role.className='ci-prev'; role.textContent=c.role+(isContactAdded(c.id)?' · Added':'');
       info.appendChild(nm); info.appendChild(uid); info.appendChild(role);
       el.appendChild(av); el.appendChild(info); list.appendChild(el);
     });
+
+    // Show "Discover People" header for database users
+    if(dbUsers.length){
+      const dhdr=document.createElement('div');
+      dhdr.style.cssText='padding:8px 14px;font-family:var(--mono);font-size:9px;color:var(--goldd);letter-spacing:.14em;text-transform:uppercase;border-bottom:1px solid var(--bsoft);border-top:1px solid var(--border);margin-top:4px;';
+      dhdr.textContent='Discover People';
+      list.appendChild(dhdr);
+      dbUsers.forEach(c=>{
+        const el=document.createElement('div'); el.className='ci'; el.style.opacity='.7';
+        const av=document.createElement('div'); av.className='ci-av'; av.style.background=c.color; av.textContent=c.emoji;
+        const info=document.createElement('div'); info.className='ci-info';
+        const nm=document.createElement('div'); nm.className='ci-name'; nm.textContent=c.name;
+        const uid=document.createElement('div'); uid.className='ci-uid'; uid.textContent=c.uid;
+        const role=document.createElement('div'); role.className='ci-prev'; role.textContent=c.role+' · Tap to add';
+        info.appendChild(nm); info.appendChild(uid); info.appendChild(role);
+        el.appendChild(av); el.appendChild(info);
+        el.onclick=()=>{ document.getElementById('contact-search-inp').value=c.uid; addContact(); };
+        list.appendChild(el);
+      });
+    }
     return;
   }
 
-  // Chats tab
+  // Chats tab — show static contacts + added contacts
   const chats=loadRawChats();
-  const visibleContacts=CONTACTS.filter(c=>!blocked.includes(c.id)&&(!filter||c.name.toLowerCase().includes(filter.toLowerCase())));
+  const myContacts=getMyContacts();
+  const allContacts=[...CONTACTS,...myContacts];
+  const visibleContacts=allContacts.filter(c=>!blocked.includes(c.id)&&(!filter||c.name.toLowerCase().includes(filter.toLowerCase())||c.uid.toLowerCase().includes(filter.toLowerCase())));
   visibleContacts.forEach(c=>{
     const msgs=chats[c.id]||[];
     const last=msgs[msgs.length-1];
@@ -1763,16 +1834,33 @@ function filterContacts(v){ renderContactList(v); }
 function addContact(){
   const inp=document.getElementById('contact-search-inp');
   const q=inp.value.trim();
-  if(!q){ notif('warning','Enter ID','Type a @username#ID to search'); return; }
-  // Match exact ID
-  const match=CONTACTS.find(c=>c.uid.toLowerCase()===q.toLowerCase()||c.uid.toLowerCase()==='@'+q.toLowerCase());
+  if(!q){ notif('warning','Enter ID','Type a username#ID to search'); return; }
+
+  // Strip @ prefix if present, then search
+  const cleanQuery = q.replace(/^@/, '').trim();
+  const match = findUserById(cleanQuery);
+
   if(match){
-    notif('success','Found!',match.name+' ('+match.uid+') — opening chat');
+    // Prevent duplicate contacts
+    if(isContactAdded(match.id)){
+      notif('info','Already Added',match.name+' is already in your contacts');
+      inp.value='';
+      switchTab('chats');
+      openChatRequest(match);
+      return;
+    }
+
+    // Add to my contacts list
+    const myContacts = getMyContacts();
+    myContacts.push(match);
+    saveMyContacts(myContacts);
+
+    notif('success','Contact Added',match.name+' ('+match.uid+') added to your contacts');
     inp.value='';
     switchTab('chats');
     openChatRequest(match);
   } else {
-    notif('warning','Not Found','No user with that exact ID was found');
+    notif('warning','User Not Found','No user with ID "'+cleanQuery+'" exists');
   }
 }
 
@@ -2027,18 +2115,32 @@ async function simulateReply(contact,userText){
   removeTypingIndicator();
   const msg={from:'them',text:reply,time:Date.now(),status:'delivered',sender:contact.name.split(' ')[0]};
   await saveMsg(contact.id,msg);
-  const ci=CONTACTS.findIndex(c=>c.id===contact.id);if(ci>=0)CONTACTS[ci].unread=0;
+  // Update unread for both static and dynamically added contacts
+  const ci=CONTACTS.findIndex(c=>c.id===contact.id);
+  if(ci>=0) CONTACTS[ci].unread=0;
   if(currentContact?.id===contact.id){await renderMessages();renderContactList();}
-  else{if(ci>=0)CONTACTS[ci].unread=(CONTACTS[ci].unread||0)+1;renderContactList();}
+  else{if(ci>=0) CONTACTS[ci].unread=(CONTACTS[ci].unread||0)+1;renderContactList();}
 }
 
 function buildContactContext(c){
+  // Static contacts with predefined personalities
   const p={alex:'You are Alex Kumar, a software engineer colleague. Casual but professional. Talk about code, deployments.',priya:'You are Priya Sharma, friendly and enthusiastic. Talk about events, life, mutual friends.',devgrp:'You are in a dev team group chat. You are Rahul or Ananya. Keep it work-related.',mom:'You are Mom, loving and caring. Use "beta" occasionally.'};
-  return p[c.id]||'You are a friendly contact. Keep replies brief.';
+  if(p[c.id]) return p[c.id];
+  // Dynamic context for added contacts from USER_DATABASE
+  const role=c.role||'Friend', name=c.name||'User';
+  if(role==='Work') return `You are ${name}, a professional colleague. Keep responses work-appropriate and concise.`;
+  if(role==='Family') return `You are ${name}, a family member. Warm, caring tone. Use casual language.`;
+  return `You are ${name}, a friendly contact. Keep replies brief and natural.`;
 }
 function getContactFallback(c){
+  // Static contacts with predefined fallbacks
   const f={alex:'Sounds good! Let me check on my end.',priya:'Haha yes! Let me know what you think.',devgrp:'Got it, will follow up.',mom:'Okay beta, take care 💛'};
-  return f[c.id]||'Sure, sounds good!';
+  if(f[c.id]) return f[c.id];
+  // Dynamic fallback for added contacts from USER_DATABASE
+  const role=c.role||'Friend';
+  if(role==='Work') return 'Got it, will review and get back to you.';
+  if(role==='Family') return 'Take care! Talk soon 💛';
+  return 'Sure, sounds good! Let me know.';
 }
 
 // ══ BLOCK ══
