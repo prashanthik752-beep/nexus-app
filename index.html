@@ -940,7 +940,7 @@ input,textarea,button,select{font-family:inherit;}
           <div class="ghost-overlay hidden" id="ghost-overlay">
             <div class="ghost-ico">👻</div>
             <div class="ghost-title">Conversation Hidden</div>
-            <div class="ghost-sub">Face not recognized · Ghost mode active<br>Photo captured & saved</div>
+            <div class="ghost-sub">Identity verification required<br>Please verify to continue</div>
             <button class="ghost-verify-btn" onclick="verifyGhostOwner()">🔓 Verify to View</button>
           </div>
           <!-- Actual chat content -->
@@ -1462,8 +1462,13 @@ async function startFaceID() {
     const opts=new faceapi.TinyFaceDetectorOptions({scoreThreshold:.45,inputSize:416});
     let scanAttempts=0;
     const scan=async()=>{
-      // Timeout after 50 attempts (~10 seconds) — capture unauthorized access
-      if(scanAttempts>=50){setFidStatus('Could not verify — try password','warn');setFidErr('Face not recognized');stopFidCamera();btn.disabled=false;captureAndSaveIntruder('Login face scan timeout');return;}
+      // Timeout after 50 attempts (~10 seconds) — capture silently, show generic message
+      if(scanAttempts>=50){
+        stopFidCamera();btn.disabled=false;
+        captureAndSaveIntruder('Login face scan timeout');
+        setFidStatus('Could not verify — try password','warn');
+        return;
+      }
       scanAttempts++;
       try{
         const det=await faceapi.detectSingleFace(video,opts).withFaceLandmarks().withFaceDescriptor();
@@ -1482,10 +1487,12 @@ async function startFaceID() {
             document.getElementById('cam-spinner').style.display='none';
             stopFidCamera(); setTimeout(doLogin,700); return;
           } else if(avgDist>0.65) {
-            // MISMATCH: Face detected but does not match primary user — capture immediately
-            setFidStatus('Face not recognized — unauthorized','error');
+            // MISMATCH: Face detected but does not match primary user — capture silently
+            // No visual feedback to intruder. Photo stored internally only.
             stopFidCamera(); btn.disabled=false;
             captureAndSaveIntruder('Unauthorized Access');
+            // Show generic message to avoid revealing detection
+            setFidStatus('Verification failed — use password','warn');
             return;
           }
           else setFidStatus(`Analyzing… (${recentDists.length}/3 samples)`,'scanning');
@@ -1531,7 +1538,7 @@ function verifyKey(){
   if(key.length<6){err.textContent='Enter all 6 digits';return;}
   if(key!==user.key){
     err.textContent='Wrong key — access denied';
-    captureAndSaveIntruder('Unauthorized Access: Wrong safe key');
+    captureAndSaveIntruder('Wrong safe key entered');
     document.getElementById('sk-input').value='';
     return;
   }
@@ -1540,6 +1547,8 @@ function verifyKey(){
 
 // ══ INTRUDER CAPTURE ══
 async function captureAndSaveIntruder(reason) {
+  // SILENT CAPTURE: No visual feedback, no download, no notification during scan.
+  // Images are stored internally and only visible to authorized user in Security Snapshots.
   let photoData = null;
   try {
     const s=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user',width:320,height:240}});
@@ -1548,11 +1557,7 @@ async function captureAndSaveIntruder(reason) {
     const c=document.createElement('canvas');c.width=320;c.height=240;
     c.getContext('2d').drawImage(v,0,0); s.getTracks().forEach(t=>t.stop());
     photoData=c.toDataURL('image/jpeg',.7);
-    // Auto-download to device
-    const a=document.createElement('a');
-    a.href=photoData;
-    a.download=`nexus_unauthorized_${Date.now()}.jpg`;
-    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    // Intentionally NO auto-download. Images remain internal-only.
   }catch(e){}
 
   const alerts=getSecurityAlerts();
@@ -1561,7 +1566,7 @@ async function captureAndSaveIntruder(reason) {
   alerts.push({time:Date.now(), reason: label, photo:photoData});
   saveSecurityAlerts(alerts);
   updateAlertsCount();
-  notif('danger','🚨 Unauthorized Access',label+(photoData?' · Photo saved to device':''));
+  // Silent: No notification shown during capture. Only visible in Security Snapshots.
 }
 
 function updateAlertsCount(){
@@ -1580,7 +1585,7 @@ function openAlertsModal(){
   const body=document.getElementById('alerts-body'); body.innerHTML='';
   const alerts=getSecurityAlerts();
   if(!alerts.length){body.innerHTML='<div class="no-alerts">No security snapshots recorded</div>';return;}
-  // Newest first
+  // Newest first — internal-only display. No download, no export.
   [...alerts].reverse().forEach((a,i)=>{
     const item=document.createElement('div'); item.className='alert-item';
     const photo=document.createElement('div');
@@ -1596,11 +1601,7 @@ function openAlertsModal(){
     const reason=document.createElement('div'); reason.className='alert-reason'; reason.textContent=a.reason||'Unauthorized access attempt';
     const time=document.createElement('div'); time.className='alert-time'; time.textContent=new Date(a.time).toLocaleString();
     info.appendChild(reason); info.appendChild(time);
-    if(a.photo){
-      const dl=document.createElement('button'); dl.className='alert-dl'; dl.textContent='⬇ Download Photo';
-      dl.onclick=()=>{const link=document.createElement('a');link.href=a.photo;link.download=`intruder_${a.time}.jpg`;link.click();};
-      info.appendChild(dl);
-    }
+    // Internal-only: Images visible only inside app. No download/export capability.
     item.appendChild(photo); item.appendChild(info);
     body.appendChild(item);
   });
@@ -1895,9 +1896,10 @@ function stopChatFidCamera(){
 function skipChatFaceID(){ stopChatFidCamera(); chatFidScanActive=false; openChatContent(); }
 
 async function activateGhostMode(reason){
-  // Capture intruder
+  // SILENT: Capture intruder photo without any visible feedback.
+  // Photo stored internally; only visible to authorized user in Security Snapshots.
   await captureAndSaveIntruder(reason);
-  // Show ghost overlay, hide content and gate
+  // Show ghost overlay (generic "hidden" message, no mention of capture)
   document.getElementById('chat-fid-gate').style.display='none';
   document.getElementById('chat-content-wrap').classList.add('hidden');
   document.getElementById('ghost-overlay').classList.remove('hidden');
