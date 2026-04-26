@@ -2,7 +2,7 @@
 <html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>NEXUS — Private Terminal</title>
+<title>You N Me AI</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Sora:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 <style>
 :root{
@@ -611,8 +611,8 @@ input,textarea,button,select{font-family:inherit;}
   <div class="fid-float ff3"><div class="ff-dot blue"></div><div><div class="ff-label">AI Model</div><div class="ff-val">Claude</div></div></div>
   <div class="fid-card">
     <div class="fid-brand">
-      <div class="fid-mark">N</div>
-      <div><div class="fid-name">NEXUS</div><div class="fid-sub">Private Terminal</div></div>
+      <div class="fid-mark">Y</div>
+      <div><div class="fid-name">You N Me AI</div><div class="fid-sub">Private Terminal</div></div>
     </div>
     <div class="fid-headline">Face <em>Verification</em></div>
     <div class="fid-desc">Look at the camera to authenticate. Advanced biometric recognition powered by neural face analysis.</div>
@@ -651,8 +651,8 @@ input,textarea,button,select{font-family:inherit;}
   <div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div>
   <div class="reg-card">
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:22px;">
-      <div style="width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:linear-gradient(135deg,var(--bg-sec),var(--bg-tri));display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:14px;color:var(--gold);font-weight:700;">N</div>
-      <div><div style="font-family:var(--display);font-size:16px;color:var(--text);font-weight:600;">NEXUS</div><div style="font-family:var(--mono);font-size:8px;color:var(--text-m);letter-spacing:.24em;text-transform:uppercase;">New Account</div></div>
+      <div style="width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:linear-gradient(135deg,var(--bg-sec),var(--bg-tri));display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:14px;color:var(--gold);font-weight:700;">Y</div>
+      <div><div style="font-family:var(--display);font-size:16px;color:var(--text);font-weight:600;">You N Me AI</div><div style="font-family:var(--mono);font-size:8px;color:var(--text-m);letter-spacing:.24em;text-transform:uppercase;">New Account</div></div>
     </div>
     <div class="reg-progress"><div class="rp-step active" id="rp0"></div><div class="rp-step" id="rp1"></div><div class="rp-step" id="rp2"></div><div class="rp-step" id="rp3"></div><div class="rp-step" id="rp4"></div></div>
     <div class="rs active" id="rs-0">
@@ -690,7 +690,7 @@ input,textarea,button,select{font-family:inherit;}
     </div>
     <div class="rs" id="rs-3">
       <div class="done-circle">✅</div>
-      <div class="rs-title" style="text-align:center;">Welcome to <em>NEXUS</em></div>
+      <div class="rs-title" style="text-align:center;">Welcome to <em>You N Me AI</em></div>
       <div class="rs-sub" style="text-align:center;margin-bottom:0;">Your terminal is secured and ready.</div>
       <button class="r-btn" onclick="regComplete()" style="margin-top:20px;">🚀 Enter Terminal</button>
     </div>
@@ -702,8 +702,8 @@ input,textarea,button,select{font-family:inherit;}
   <div class="orb orb-1"></div><div class="orb orb-2"></div>
   <div class="fid-card" style="max-width:400px;">
     <div class="fid-brand">
-      <div class="fid-mark">N</div>
-      <div><div class="fid-name">NEXUS</div><div class="fid-sub">Safe Key Fallback</div></div>
+      <div class="fid-mark">Y</div>
+      <div><div class="fid-name">You N Me AI</div><div class="fid-sub">Safe Key Fallback</div></div>
     </div>
     <div class="fid-headline">Enter <em>Safe Key</em></div>
     <div id="sk-welcome" style="font-size:13px;color:var(--text-m);margin-bottom:20px;line-height:1.7;">Enter your 6-digit terminal key.</div>
@@ -723,7 +723,7 @@ input,textarea,button,select{font-family:inherit;}
   <div class="prof-wrap">
     <div class="prof-head">
       <div class="prof-title">Choose your <em>workspace</em></div>
-      <div class="prof-sub">Nexus Private Terminal · All systems nominal</div>
+      <div class="prof-sub">You N Me AI · All systems nominal</div>
     </div>
     <div class="prof-cards">
       <div class="prof-card" onclick="goPage('ai')">
@@ -763,7 +763,7 @@ input,textarea,button,select{font-family:inherit;}
     <div class="ai-topbar">
       <button class="ai-back-btn" onclick="goPage('profiles')">← Back</button>
       <div style="flex:1;">
-        <div class="ai-title" id="ai-panel-title">NEXUS AI</div>
+        <div class="ai-title" id="ai-panel-title">You N Me AI</div>
         <div class="ai-title-tag">Chrome Humanoid · Voice · EN / TE / HI</div>
       </div>
       <button class="ai-t-btn" onclick="openImgen()">✨ Image</button>
@@ -1088,7 +1088,7 @@ let isAiProcessing = false, isListening = false;
 let recognition = null, currentUtterance = null;
 let mouthTick = null, blinkInterval = null, chestInterval = null;
 let conversationHistory = [];
-let robotName = 'NEXUS', voiceType = 'male', langChoice = 'en';
+let robotName = 'YOU N ME AI', voiceType = 'male', langChoice = 'en';
 let voiceRecording = false;
 let currentGeneratedImage = null;
 let faceapi = null, faceModelsLoaded = false;
@@ -1146,7 +1146,7 @@ function migrateUserIfNeeded() {
   }
   if(changed) {
     saveUser(u);
-    console.log('[NEXUS] Migrated user account:', u);
+    console.log('[YOU N ME AI] Migrated user account:', u);
   }
 }
 
@@ -2396,9 +2396,9 @@ async function callClaude(prompt){
 }
 function buildSystemPrompt(){
   const p={
-    en:`You are ${robotName}, a sophisticated chrome humanoid AI in the NEXUS private terminal powered by Claude Sonnet. Respond in 2-3 concise English sentences. Be helpful, intelligent, direct. No markdown. Speak naturally.`,
-    te:`మీరు ${robotName}, NEXUS టెర్మినల్‌లో Claude Sonnet AI. 2-3 తెలుగు వాక్యాలలో సమాధానం ఇవ్వండి.`,
-    hi:`आप ${robotName} हैं, NEXUS टर्मिनल में Claude Sonnet AI। 2-3 हिंदी वाक्यों में उत्तर दें।`
+    en:`You are ${robotName}, a sophisticated chrome humanoid AI in the You N Me AI powered by Claude Sonnet. Respond in 2-3 concise English sentences. Be helpful, intelligent, direct. No markdown. Speak naturally.`,
+    te:`మీరు ${robotName}, You N Me AI లో Claude Sonnet AI. 2-3 తెలుగు వాక్యాలలో సమాధానం ఇవ్వండి.`,
+    hi:`आप ${robotName} हैं, You N Me AI में Claude Sonnet AI। 2-3 हिंदी वाक्यों में उत्तर दें।`
   };
   return p[langChoice]||p.en;
 }
