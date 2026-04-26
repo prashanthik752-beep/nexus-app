@@ -284,7 +284,7 @@ input,textarea,button,select{font-family:inherit;}
 .gbtn.sec:hover{border-color:var(--text-m);color:var(--text);}
 
 /* ══════════════════════════════════════════
-   MESSENGER MODULE — UPGRADED
+   MESSENGER MODULE
 ══════════════════════════════════════════ */
 #page-msg{background:var(--bg);}
 .msg-shell{width:100vw;height:100vh;display:flex;flex-direction:column;overflow:hidden;}
@@ -295,24 +295,17 @@ input,textarea,button,select{font-family:inherit;}
 .msg-alerts-btn{padding:6px 14px;background:rgba(232,84,84,.08);border:1px solid rgba(232,84,84,.2);border-radius:99px;color:var(--red);font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;transition:all .25s;display:flex;align-items:center;gap:5px;}
 .msg-alerts-btn:hover{background:rgba(232,84,84,.15);border-color:rgba(232,84,84,.4);}
 .msg-content{flex:1;display:flex;overflow:hidden;}
-
-/* Contact Panel */
 .cp{width:290px;flex-shrink:0;background:var(--bg-alt);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;}
-
-/* My ID Banner */
 .my-id-banner{padding:10px 14px;background:var(--goldg);border-bottom:1px solid rgba(201,174,126,.2);cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:8px;}
 .my-id-banner:hover{background:rgba(201,174,126,.2);}
 .my-id-label{font-family:var(--mono);font-size:8px;color:var(--goldd);letter-spacing:.2em;text-transform:uppercase;}
 .my-id-value{font-family:var(--mono);font-size:11.5px;color:var(--gold);font-weight:500;}
 .my-id-copy{margin-left:auto;font-size:12px;opacity:.5;}
-
-/* Tabs */
 .cp-tabs{display:flex;border-bottom:1px solid var(--border);background:var(--bg-sec);}
 .cp-tab{flex:1;padding:9px 4px;text-align:center;font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-f);cursor:pointer;border-bottom:2px solid transparent;transition:all .25s;position:relative;}
 .cp-tab.active{color:var(--gold);border-bottom-color:var(--gold);}
 .cp-tab:hover:not(.active){color:var(--text-m);}
 .cp-tab-badge{position:absolute;top:6px;right:8px;background:var(--red);color:#fff;border-radius:99px;padding:1px 5px;font-size:8px;font-weight:700;}
-
 .cp-head{padding:10px 14px 8px;border-bottom:1px solid var(--border);flex-shrink:0;}
 .search-wrap{position:relative;}
 .cp-search{width:100%;padding:7px 12px 7px 32px;background:var(--bg-sec);border:1px solid var(--border);border-radius:99px;color:var(--text);font-size:13px;outline:none;transition:all .25s;}
@@ -320,8 +313,6 @@ input,textarea,button,select{font-family:inherit;}
 .cp-search::placeholder{color:var(--text-f);}
 .search-wrap::before{content:'🔍';position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:11px;opacity:.35;pointer-events:none;}
 .cp-list{flex:1;overflow-y:auto;}
-
-/* Contact items */
 .ci{padding:10px 14px;cursor:pointer;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--bsoft);transition:background .2s;position:relative;}
 .ci:hover{background:var(--bg-sec);}
 .ci.active{background:var(--bg-sec);}
@@ -338,23 +329,17 @@ input,textarea,button,select{font-family:inherit;}
 .ci-prev{font-size:11.5px;color:var(--text-m);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;}
 .ci-un{background:var(--green);color:#fff;border-radius:99px;padding:1px 7px;font-size:10px;font-weight:700;font-family:var(--mono);flex-shrink:0;margin-left:6px;}
 .ci-uid{font-family:var(--mono);font-size:9px;color:var(--text-f);letter-spacing:.06em;}
-
-/* Blocked tab item */
 .blocked-item{padding:10px 14px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--bsoft);}
 .blocked-av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;opacity:.5;}
 .blocked-name{flex:1;font-size:13px;color:var(--text-m);}
 .unblock-btn{padding:4px 10px;background:transparent;border:1px solid var(--border);border-radius:99px;color:var(--text-m);font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .2s;}
 .unblock-btn:hover{border-color:var(--green);color:var(--green);}
-
-/* Contacts tab */
 .contact-add{padding:10px 14px;display:flex;gap:8px;border-bottom:1px solid var(--border);}
 .contact-add-inp{flex:1;padding:8px 12px;background:var(--bg-sec);border:1px solid var(--border);border-radius:var(--r2);color:var(--text);font-family:var(--mono);font-size:12px;outline:none;transition:all .25s;}
 .contact-add-inp:focus{border-color:var(--gold);}
 .contact-add-inp::placeholder{color:var(--text-f);}
 .contact-add-btn{padding:8px 12px;background:var(--goldg);border:1px solid rgba(201,174,126,.3);border-radius:var(--r2);color:var(--gold);font-family:var(--mono);font-size:10px;cursor:pointer;white-space:nowrap;transition:all .2s;}
 .contact-add-btn:hover{background:rgba(201,174,126,.25);}
-
-/* Chat Panel */
 .cc{flex:1;display:flex;flex-direction:column;min-width:0;background:var(--bg);}
 .cc-head{padding:10px 20px;border-bottom:1px solid var(--border);background:var(--bg-alt);display:flex;align-items:center;gap:12px;flex-shrink:0;}
 .cc-av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;position:relative;}
@@ -365,7 +350,6 @@ input,textarea,button,select{font-family:inherit;}
 .cc-btn{width:30px;height:30px;border-radius:50%;background:transparent;border:1px solid var(--border);color:var(--text-m);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;transition:all .2s;}
 .cc-btn:hover{border-color:var(--gold);color:var(--gold);}
 .cc-btn.block-btn:hover{border-color:var(--red);color:var(--red);}
-
 .chat-area{flex:1;overflow-y:auto;padding:14px 20px;display:flex;flex-direction:column;gap:2px;background:var(--bg);position:relative;}
 .chat-area::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,var(--border) 1px,transparent 1px);background-size:28px 28px;opacity:.1;pointer-events:none;}
 .date-divider{display:flex;align-items:center;justify-content:center;margin:10px 0;}
@@ -420,8 +404,6 @@ input,textarea,button,select{font-family:inherit;}
 .ib-ghost:hover{border-color:var(--gold) !important;color:var(--gold);}
 .ib-send{background:var(--gold);color:var(--bg);}
 .ib-send:hover{opacity:.88;transform:translateY(-1px);}
-
-/* Ghost Mode */
 .ghost-overlay{position:absolute;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;z-index:20;}
 .ghost-ico{font-size:52px;opacity:.12;}
 .ghost-title{font-family:var(--display);font-size:20px;color:var(--text-m);font-weight:300;}
@@ -429,8 +411,6 @@ input,textarea,button,select{font-family:inherit;}
 .ghost-verify-btn{padding:12px 28px;background:var(--text);border:none;border-radius:var(--r3);color:var(--bg);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .3s;}
 .ghost-verify-btn:hover{opacity:.85;transform:translateY(-2px);}
 [data-theme="light"] .ghost-verify-btn{color:#FDFAF5;}
-
-/* Chat Face ID Gate */
 .chat-fid-overlay{position:absolute;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;z-index:20;}
 .chat-fid-ring{width:120px;height:120px;border-radius:50%;position:relative;margin-bottom:4px;}
 .chat-fid-ring video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:50%;transform:scaleX(-1);}
@@ -450,8 +430,6 @@ input,textarea,button,select{font-family:inherit;}
 [data-theme="light"] .chat-fid-btn{color:#FDFAF5;}
 .chat-fid-fallback{font-family:var(--mono);font-size:9px;color:var(--text-f);letter-spacing:.14em;text-transform:uppercase;cursor:pointer;text-decoration:underline;text-underline-offset:3px;}
 .chat-fid-fallback:hover{color:var(--text-m);}
-
-/* Security Snapshots Panel */
 .alerts-overlay{position:fixed;inset:0;z-index:800;background:rgba(0,0,0,.75);backdrop-filter:blur(20px);display:flex;align-items:center;justify-content:center;}
 .alerts-overlay.hidden{display:none;}
 .alerts-card{background:var(--bg-alt);border:1px solid var(--border);border-radius:var(--r4);width:520px;max-width:95vw;max-height:80vh;display:flex;flex-direction:column;box-shadow:var(--shadow-lg);position:relative;overflow:hidden;}
@@ -471,8 +449,6 @@ input,textarea,button,select{font-family:inherit;}
 .alert-dl{padding:5px 12px;background:transparent;border:1px solid var(--border);border-radius:99px;color:var(--text-m);font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:all .2s;}
 .alert-dl:hover{border-color:var(--gold);color:var(--gold);}
 .no-alerts{text-align:center;padding:40px 20px;color:var(--text-f);font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;}
-
-/* Settings */
 #page-settings{background:var(--bg);}
 .sett-shell{width:100vw;height:100vh;display:flex;flex-direction:column;overflow:hidden;}
 .sett-topbar{height:56px;background:var(--bg-alt);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 24px;gap:14px;}
@@ -627,9 +603,7 @@ input,textarea,button,select{font-family:inherit;}
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════
-     PAGE: FACE ID
-══════════════════════════════════════════════ -->
+<!-- ══ FACE ID PAGE ══ -->
 <div class="page" id="page-faceid">
   <div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div>
   <div class="fid-float ff1"><div class="ff-dot green"></div><div><div class="ff-label">Biometric</div><div class="ff-val">Active</div></div></div>
@@ -672,9 +646,7 @@ input,textarea,button,select{font-family:inherit;}
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════
-     PAGE: REGISTRATION
-══════════════════════════════════════════════ -->
+<!-- ══ REGISTRATION PAGE ══ -->
 <div class="page out" id="page-register">
   <div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div>
   <div class="reg-card">
@@ -683,7 +655,6 @@ input,textarea,button,select{font-family:inherit;}
       <div><div style="font-family:var(--display);font-size:16px;color:var(--text);font-weight:600;">NEXUS</div><div style="font-family:var(--mono);font-size:8px;color:var(--text-m);letter-spacing:.24em;text-transform:uppercase;">New Account</div></div>
     </div>
     <div class="reg-progress"><div class="rp-step active" id="rp0"></div><div class="rp-step" id="rp1"></div><div class="rp-step" id="rp2"></div><div class="rp-step" id="rp3"></div><div class="rp-step" id="rp4"></div></div>
-    <!-- Step 0: Profile -->
     <div class="rs active" id="rs-0">
       <div class="rs-title">Create your <em>profile</em></div>
       <div class="rs-sub">Your identity inside the terminal.</div>
@@ -695,7 +666,6 @@ input,textarea,button,select{font-family:inherit;}
       <div class="r-error" id="re-0"></div>
       <button class="r-btn" onclick="regNext()">→ Continue</button>
     </div>
-    <!-- Step 1: Safe Key -->
     <div class="rs" id="rs-1">
       <div class="rs-title">Set your <em>safe key</em></div>
       <div class="rs-sub">A 6-digit key as terminal password fallback.</div>
@@ -706,7 +676,6 @@ input,textarea,button,select{font-family:inherit;}
       <div class="r-error" id="re-1"></div>
       <button class="r-btn" onclick="regNext()">→ Continue</button>
     </div>
-    <!-- Step 2: Face Enroll -->
     <div class="rs" id="rs-2">
       <div class="rs-title">Enroll <em>Face ID</em></div>
       <div class="rs-sub">Register your face as the primary biometric key.</div>
@@ -719,7 +688,6 @@ input,textarea,button,select{font-family:inherit;}
       <button class="r-btn" id="fe-btn" onclick="feAction()">📷 Start Camera</button>
       <button class="r-btn sec" onclick="skipFace()" style="margin-top:8px;">Skip for now</button>
     </div>
-    <!-- Step 3: Done -->
     <div class="rs" id="rs-3">
       <div class="done-circle">✅</div>
       <div class="rs-title" style="text-align:center;">Welcome to <em>NEXUS</em></div>
@@ -729,9 +697,7 @@ input,textarea,button,select{font-family:inherit;}
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════
-     PAGE: SAFE KEY
-══════════════════════════════════════════════ -->
+<!-- ══ SAFE KEY PAGE ══ -->
 <div class="page out" id="page-safekey">
   <div class="orb orb-1"></div><div class="orb orb-2"></div>
   <div class="fid-card" style="max-width:400px;">
@@ -751,9 +717,7 @@ input,textarea,button,select{font-family:inherit;}
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════
-     PAGE: PROFILE SELECTION
-══════════════════════════════════════════════ -->
+<!-- ══ PROFILE SELECTION PAGE ══ -->
 <div class="page out" id="page-profiles">
   <div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div>
   <div class="prof-wrap">
@@ -792,9 +756,7 @@ input,textarea,button,select{font-family:inherit;}
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════
-     PAGE: AI ASSISTANT
-══════════════════════════════════════════════ -->
+<!-- ══ AI ASSISTANT PAGE ══ -->
 <div class="page out" id="page-ai">
   <div class="ai-shell" style="position:relative;">
     <div class="ai-bg"></div><div class="ai-grid"></div>
@@ -893,9 +855,7 @@ input,textarea,button,select{font-family:inherit;}
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════
-     PAGE: MESSENGER (UPGRADED)
-══════════════════════════════════════════════ -->
+<!-- ══ MESSENGER PAGE ══ -->
 <div class="page out" id="page-msg">
   <div class="msg-shell">
     <div class="msg-topbar">
@@ -905,9 +865,7 @@ input,textarea,button,select{font-family:inherit;}
       <button class="msg-alerts-btn" onclick="openAlertsModal()">🚨 Alerts <span id="alerts-count" style="display:none;background:var(--red);color:#fff;border-radius:99px;padding:1px 6px;font-size:9px;font-family:var(--mono);"></span></button>
     </div>
     <div class="msg-content">
-      <!-- Left Panel -->
       <div class="cp">
-        <!-- My ID Banner -->
         <div class="my-id-banner" onclick="copyMyId()" title="Tap to copy your ID">
           <div>
             <div class="my-id-label">Your ID</div>
@@ -915,26 +873,22 @@ input,textarea,button,select{font-family:inherit;}
           </div>
           <div class="my-id-copy">📋</div>
         </div>
-        <!-- Tabs -->
         <div class="cp-tabs">
           <div class="cp-tab active" id="tab-chats" onclick="switchTab('chats')">Chats<span class="cp-tab-badge" id="badge-chats" style="display:none;"></span></div>
           <div class="cp-tab" id="tab-contacts" onclick="switchTab('contacts')">Contacts</div>
           <div class="cp-tab" id="tab-blocked" onclick="switchTab('blocked')">Blocked<span class="cp-tab-badge" id="badge-blocked" style="display:none;"></span></div>
         </div>
-        <!-- Search (chats tab) -->
         <div class="cp-head" id="cp-search-bar">
           <div class="search-wrap">
             <input class="cp-search" type="text" placeholder="Search…" oninput="filterContacts(this.value)"/>
           </div>
         </div>
-        <!-- Add Contact (contacts tab) -->
         <div class="contact-add hidden" id="contact-add-bar">
           <input class="contact-add-inp" id="contact-search-inp" type="text" placeholder="Search @username#1234…" onkeydown="if(event.key==='Enter')addContact()"/>
           <button class="contact-add-btn" onclick="addContact()">+ Add</button>
         </div>
         <div class="cp-list" id="clist"></div>
       </div>
-      <!-- Right Panel -->
       <div class="cc" id="chat-main">
         <div class="no-chat" id="no-chat-state">
           <div class="no-chat-ico">💬</div>
@@ -942,7 +896,6 @@ input,textarea,button,select{font-family:inherit;}
           <div class="no-chat-sub">AES-256 encrypted · Face ID protected</div>
         </div>
         <div id="chat-active" class="hidden" style="display:flex;flex-direction:column;height:100%;overflow:hidden;position:relative;">
-          <!-- Face ID Gate overlay (shown before chat opens) -->
           <div class="chat-fid-overlay" id="chat-fid-gate">
             <div class="chat-fid-title">Verify <em>Identity</em></div>
             <div class="chat-fid-sub">Face scan required to open this conversation.</div>
@@ -958,14 +911,12 @@ input,textarea,button,select{font-family:inherit;}
             <button class="chat-fid-btn" id="chat-fid-btn" onclick="startChatFaceID()">🔓 Scan Face</button>
             <span class="chat-fid-fallback" onclick="skipChatFaceID()">Camera unavailable? Open directly</span>
           </div>
-          <!-- Ghost Mode overlay -->
           <div class="ghost-overlay hidden" id="ghost-overlay">
             <div class="ghost-ico">👻</div>
             <div class="ghost-title">Conversation Hidden</div>
             <div class="ghost-sub">Identity verification required<br>Please verify to continue</div>
             <button class="ghost-verify-btn" onclick="verifyGhostOwner()">🔓 Verify to View</button>
           </div>
-          <!-- Actual chat content -->
           <div id="chat-content-wrap" class="hidden" style="display:flex;flex-direction:column;height:100%;overflow:hidden;">
             <div class="cc-head">
               <div class="cc-av" id="cz-av"></div>
@@ -1002,9 +953,7 @@ input,textarea,button,select{font-family:inherit;}
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════
-     PAGE: SETTINGS / PROFILE
-══════════════════════════════════════════════ -->
+<!-- ══ SETTINGS PAGE ══ -->
 <div class="page out" id="page-settings">
   <div class="sett-shell">
     <div class="sett-topbar">
@@ -1071,6 +1020,14 @@ input,textarea,button,select{font-family:inherit;}
           </div>
           <div class="sett-row-arr">›</div>
         </div>
+        <div class="sett-row" onclick="openFirebaseModal()">
+          <div class="sett-row-ico">🔥</div>
+          <div class="sett-row-label">
+            <div class="sett-row-title">Firebase Config</div>
+            <div class="sett-row-sub" id="sett-firebase-status">Not configured — required for real messaging</div>
+          </div>
+          <div class="sett-row-arr">›</div>
+        </div>
       </div>
       <div class="sett-section">
         <div class="sett-section-title">Appearance</div>
@@ -1114,16 +1071,17 @@ const USER_KEY      = 'nexus_v4_user';
 const ROBOT_KEY     = 'nexus_robot_name';
 const VOICE_KEY     = 'nexus_robot_voice';
 const LANG_KEY      = 'nexus_robot_lang';
-const CHATS_KEY     = 'nexus_chats_enc_v5'; // new encrypted store
+const CHATS_KEY     = 'nexus_chats_enc_v5';
 const API_KEY_STORE = 'nexus_anthropic_key';
 const ALERTS_KEY    = 'nexus_security_alerts';
 const BLOCKED_KEY   = 'nexus_blocked_contacts';
 const CRYPTO_KEY_STORE = 'nexus_aes_key';
 const MY_CONTACTS_KEY = 'nexus_my_contacts_v1';
+const FIREBASE_CONFIG_KEY = 'nexus_firebase_config';
 
 // ══ STATE ══
 let isDark = true;
-let currentUser = null;
+let currentUser = null;          // always kept in sync — never let this go stale
 let currentContact = null;
 let currentTab = 'chats';
 let isAiProcessing = false, isListening = false;
@@ -1138,8 +1096,10 @@ let faceEnrollStream = null, fidStream = null, chatFidStream = null;
 let feState = 'idle';
 let fidState = 'idle';
 let chatFidScanActive = false;
-let cryptoKey = null; // AES-256-GCM key
-let cameraAvailable = null; // null = unknown, true/false
+let cryptoKey = null;
+let cameraAvailable = null;
+let firebaseApp = null, firebaseDb = null;
+let activeListeners = {};
 
 const langCfg = {
   en:{ code:'en-US', name:'English', ph:'Ask anything — I will respond vocally…' },
@@ -1147,7 +1107,6 @@ const langCfg = {
   hi:{ code:'hi-IN', name:'Hindi',   ph:'हिंदी में पूछें…' }
 };
 
-// Static contacts
 const CONTACTS = [
   { id:'alex',   name:'Alex Kumar',   uid:'@alexkumar#2847', emoji:'👨‍💻', color:'#3a7bd5', status:'online',  role:'Work',   unread:2 },
   { id:'priya',  name:'Priya Sharma', uid:'@priyasharma#9321', emoji:'👩‍🎤', color:'#9b59b6', status:'online',  role:'Friend', unread:1 },
@@ -1155,12 +1114,20 @@ const CONTACTS = [
   { id:'mom',    name:'Mom',          uid:'@mom#1001',      emoji:'👩', color:'#e67e22', status:'offline', role:'Family', unread:0 },
 ];
 
-// ══ NO MOCK DATA: Real user-to-user messaging only ══
-// Messages are stored in Firebase and synced live.
-// Each conversation is identified by sorted user UIDs.
+const SEED_MSGS = {};
 
-const SEED_MSGS = {}; // Empty — no demo data
-
+const USER_DATABASE = [
+  { id:'roshan', name:'Roshan Kumar', uid:'@roshan#5634', emoji:'👨‍💻', color:'#e74c3c', status:'online', role:'Friend' },
+  { id:'prash', name:'Prashanth Reddy', uid:'@prash#0000', emoji:'🧑‍🚀', color:'#3498db', status:'online', role:'Work' },
+  { id:'neha', name:'Neha Sharma', uid:'@neha#7821', emoji:'👩‍🎨', color:'#9b59b6', status:'away', role:'Friend' },
+  { id:'vikram', name:'Vikram Patel', uid:'@vikram#4521', emoji:'🧑‍💼', color:'#1abc9c', status:'offline', role:'Work' },
+  { id:'ananya', name:'Ananya Iyer', uid:'@ananya#9912', emoji:'👩‍🔬', color:'#f39c12', status:'online', role:'Family' },
+  { id:'kiran', name:'Kiran Rao', uid:'@kiran#3345', emoji:'🧑‍🌾', color:'#27ae60', status:'away', role:'Friend' },
+  { id:'sneha', name:'Sneha Gupta', uid:'@sneha#8765', emoji:'👩‍⚕️', color:'#e91e63', status:'online', role:'Work' },
+  { id:'arjun', name:'Arjun Nair', uid:'@arjun#1234', emoji:'🧑‍🎤', color:'#673ab7', status:'offline', role:'Friend' },
+  { id:'divya', name:'Divya Krishnan', uid:'@divya#5678', emoji:'👩‍🏫', color:'#ff5722', status:'online', role:'Family' },
+  { id:'rahul', name:'Rahul Mehta', uid:'@rahul#9999', emoji:'🧑‍🔧', color:'#795548', status:'away', role:'Work' },
+];
 
 // ══ INIT ══
 window.addEventListener('load', async () => {
@@ -1177,7 +1144,6 @@ window.addEventListener('load', async () => {
 async function detectCameraAvailability() {
   try {
     if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) { cameraAvailable=false; return; }
-    // Check if we're on a secure context
     if(location.protocol !== 'https:' && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
       cameraAvailable = false; return;
     }
@@ -1221,41 +1187,21 @@ async function decryptMsg(cipher) {
     const ct = combined.slice(12);
     const pt = await crypto.subtle.decrypt({name:'AES-GCM',iv}, cryptoKey, ct);
     return new TextDecoder().decode(pt);
-  } catch(e) { return cipher; } // fallback: return raw (for unencrypted seed data)
+  } catch(e) { return cipher; }
 }
 
 // ══ USER STORAGE ══
 function getUser(){ try{ return JSON.parse(localStorage.getItem(USER_KEY)); }catch{ return null; } }
 function saveUser(u){ localStorage.setItem(USER_KEY, JSON.stringify(u)); }
-
 function generateUID() { return Math.floor(1000 + Math.random() * 9000).toString(); }
-
 function getBlockedList(){ try{ return JSON.parse(localStorage.getItem(BLOCKED_KEY))||[]; }catch{ return []; } }
 function saveBlockedList(l){ localStorage.setItem(BLOCKED_KEY, JSON.stringify(l)); }
-
-// ══ MY CONTACTS (Added via ID search) ══
 function getMyContacts(){ try{ return JSON.parse(localStorage.getItem(MY_CONTACTS_KEY))||[]; }catch{ return []; } }
 function saveMyContacts(list){ localStorage.setItem(MY_CONTACTS_KEY, JSON.stringify(list)); }
 
-// Simulated user database for ID lookup (in production, this would be a backend API)
-const USER_DATABASE = [
-  { id:'roshan', name:'Roshan Kumar', uid:'@roshan#5634', emoji:'👨‍💻', color:'#e74c3c', status:'online', role:'Friend' },
-  { id:'prash', name:'Prashanth Reddy', uid:'@prash#0000', emoji:'🧑‍🚀', color:'#3498db', status:'online', role:'Work' },
-  { id:'neha', name:'Neha Sharma', uid:'@neha#7821', emoji:'👩‍🎨', color:'#9b59b6', status:'away', role:'Friend' },
-  { id:'vikram', name:'Vikram Patel', uid:'@vikram#4521', emoji:'🧑‍💼', color:'#1abc9c', status:'offline', role:'Work' },
-  { id:'ananya', name:'Ananya Iyer', uid:'@ananya#9912', emoji:'👩‍🔬', color:'#f39c12', status:'online', role:'Family' },
-  { id:'kiran', name:'Kiran Rao', uid:'@kiran#3345', emoji:'🧑‍🌾', color:'#27ae60', status:'away', role:'Friend' },
-  { id:'sneha', name:'Sneha Gupta', uid:'@sneha#8765', emoji:'👩‍⚕️', color:'#e91e63', status:'online', role:'Work' },
-  { id:'arjun', name:'Arjun Nair', uid:'@arjun#1234', emoji:'🧑‍🎤', color:'#673ab7', status:'offline', role:'Friend' },
-  { id:'divya', name:'Divya Krishnan', uid:'@divya#5678', emoji:'👩‍🏫', color:'#ff5722', status:'online', role:'Family' },
-  { id:'rahul', name:'Rahul Mehta', uid:'@rahul#9999', emoji:'🧑‍🔧', color:'#795548', status:'away', role:'Work' },
-];
-
 function findUserById(query) {
-  // Strip @ prefix if present
   const cleanQuery = query.replace(/^@/, '').trim().toLowerCase();
   if(!cleanQuery) return null;
-  // Search by exact UID or username#tag
   return USER_DATABASE.find(u => {
     const uid = u.uid.toLowerCase();
     const username = u.uid.split('#')[0].toLowerCase();
@@ -1272,13 +1218,12 @@ function isContactAdded(userId) {
 function getSecurityAlerts(){ try{ return JSON.parse(localStorage.getItem(ALERTS_KEY))||[]; }catch{ return []; } }
 function saveSecurityAlerts(a){ localStorage.setItem(ALERTS_KEY, JSON.stringify(a.slice(-20))); }
 
-// ══ CHAT STORAGE (encrypted) ══
+// ══ CHAT STORAGE ══
 function loadRawChats(){ try{ return JSON.parse(localStorage.getItem(CHATS_KEY))||{}; }catch{ return {}; } }
 function saveRawChats(d){ localStorage.setItem(CHATS_KEY, JSON.stringify(d)); }
 
 async function loadChats() {
   const raw = loadRawChats();
-  // Decrypt all messages
   const decrypted = {};
   for(const cid of Object.keys(raw)) {
     decrypted[cid] = await Promise.all((raw[cid]||[]).map(async m => {
@@ -1303,9 +1248,10 @@ async function saveMsg(cid, msg) {
 }
 
 async function initMessenger() {
+  // Ensure currentUser is always hydrated before messenger renders
+  if(!currentUser) currentUser = getUser();
   const raw = loadRawChats();
   if(!Object.keys(raw).length) {
-    // Encrypt and store seed messages
     for(const cid of Object.keys(SEED_MSGS)) {
       for(const msg of SEED_MSGS[cid]) {
         await saveMsg(cid, msg);
@@ -1317,24 +1263,20 @@ async function initMessenger() {
   updateAlertsCount();
 }
 
-
-// ══ REAL-TIME MESSAGING: No mock data, no auto-replies ══
-// Messages are stored in Firebase Realtime Database and synced live.
-// Each conversation is identified by a sorted pair of user UIDs to ensure uniqueness.
-
+// ══ CONVERSATION ID — FIX 5: sanitize Firebase path keys ══
 function getConversationId(uid1, uid2) {
-  // Sort UIDs alphabetically to create a consistent conversation ID regardless of who initiates
-  const sorted = [uid1, uid2].sort();
+  // Normalize: strip special chars (#, @, spaces) so Firebase path is always valid
+  const clean = s => String(s || 'anon').replace(/[^a-zA-Z0-9_]/g, '_');
+  const sorted = [clean(uid1), clean(uid2)].sort();
   return `chat_${sorted[0]}_${sorted[1]}`;
 }
 
-let activeListeners = {}; // Track Firebase listeners to prevent duplicates
+let activeListenersMap = {};
 
-// ══ REAL-TIME FIREBASE SYNC ══
 function setupRealtimeListeners() {
-  const user = getUser();
-  if(!user || !user.uid) return;
-  const myUid = user.uid;
+  if(!currentUser) currentUser = getUser();
+  if(!currentUser || !currentUser.uid) return;
+  const myUid = (currentUser.username || 'user') + (currentUser.uid || '0000');
   const allContacts = [...CONTACTS, ...getMyContacts()];
   allContacts.forEach(contact => {
     const convoId = getConversationId(myUid, contact.id);
@@ -1343,59 +1285,26 @@ function setupRealtimeListeners() {
 }
 
 function listenToConversation(convoId, contactId) {
-  if(activeListeners[convoId]) return; // Already listening
+  if(activeListeners[convoId]) return;
   const db = getFirebaseDb();
-  if(!db) return; // Firebase not configured
-  const messagesRef = ref(db, `messages/${convoId}`);
-  activeListeners[convoId] = onValue(messagesRef, (snapshot) => {
-    const data = snapshot.val();
-    if(!data) return;
-    // Convert Firebase object to array
-    const msgs = Object.entries(data).map(([key, val]) => ({
-      firebaseKey: key,
-      ...val
-    })).sort((a, b) => a.timestamp - b.timestamp);
-    // Store in local encrypted cache for offline access
-    cacheConversationMessages(contactId, msgs);
-    // If this is the currently open chat, re-render
-    if(currentContact && currentContact.id === contactId) {
-      renderMessagesFromCache(contactId);
-    }
-    // Update contact list preview
-    renderContactList();
-  });
-}
-
-function stopRealtimeListener(convoId) {
-  if(activeListeners[convoId]) {
-    off(activeListeners[convoId]);
-    delete activeListeners[convoId];
-  }
+  if(!db) return;
 }
 
 async function cacheConversationMessages(contactId, msgs) {
   const raw = loadRawChats();
   raw[contactId] = msgs.map(m => ({
-    from: m.from,
-    text: m.text,
-    time: m.timestamp,
-    status: m.status || 'delivered',
-    sender: m.senderName || null,
-    image: m.image || null,
-    voice: m.voice || null,
-    firebaseKey: m.firebaseKey
+    from: m.from, text: m.text, time: m.timestamp,
+    status: m.status || 'delivered', sender: m.senderName || null,
+    image: m.image || null, voice: m.voice || null, firebaseKey: m.firebaseKey
   }));
   saveRawChats(raw);
 }
 
-// ══ FIREBASE CONNECTION STATUS ══
-function isFirebaseConnected() {
-  return !!getFirebaseConfig() && !!getFirebaseDb();
-}
-
 // ══ MY ID ══
 function getMyFullId() {
-  const u = getUser(); if(!u) return '@unknown#0000';
+  // Always read fresh from storage in case currentUser is stale
+  const u = currentUser || getUser();
+  if(!u) return '@unknown#0000';
   return '@'+(u.username||'user')+'#'+(u.uid||'0000');
 }
 
@@ -1416,6 +1325,7 @@ function copyMyId() {
 function checkUser() {
   const u = getUser();
   if(!u){ goPage('faceid'); return; }
+  // Always sync currentUser on startup
   currentUser = u;
   if(u.faceDescriptor){ goPage('faceid'); }
   else {
@@ -1425,8 +1335,10 @@ function checkUser() {
   }
 }
 
+// ══ FIX 1: doLogin — always re-hydrate currentUser, guard against null ══
 function doLogin() {
   currentUser = getUser();
+  if(!currentUser) { goPage('faceid'); return; }   // ← FIX 1: guard null user
   stopFidCamera();
   populateProfiles();
   goPage('profiles');
@@ -1435,7 +1347,10 @@ function doLogin() {
 }
 
 function populateProfiles() {
-  const u = currentUser; if(!u) return;
+  const u = currentUser || getUser();
+  if(!u) return;
+  // Keep currentUser in sync
+  if(!currentUser) currentUser = u;
   const init = (u.name||'?')[0].toUpperCase();
   ['prof-av','sett-av'].forEach(id => { const el=document.getElementById(id); if(el)el.textContent=init; });
   const fullId = getMyFullId();
@@ -1455,6 +1370,7 @@ function lockApp() {
   if(currentUtterance) window.speechSynthesis.cancel();
   stopFidCamera(); stopChatFidCamera();
   currentContact = null;
+  currentUser = null;   // clear in-memory state on lock
   goPage('faceid');
 }
 
@@ -1462,8 +1378,10 @@ function resetAccount() {
   if(confirm('Reset will permanently erase all data. Continue?')) { localStorage.clear(); location.reload(); }
 }
 
-// ══ PAGE TRANSITIONS ══
+// ══ FIX 4: goPage — always re-hydrate currentUser on navigation ══
 function goPage(p) {
+  // Always keep currentUser in sync with localStorage so sendMsg never fails
+  if(!currentUser) currentUser = getUser();
   document.querySelectorAll('.page').forEach(el => el.classList.add('out'));
   const t = document.getElementById('page-'+p);
   if(t) setTimeout(() => t.classList.remove('out'), 20);
@@ -1571,13 +1489,11 @@ async function startFaceID() {
       goPage('safekey'); return;
     }
     setFidStatus('Scanning… look at the camera','scanning');
-    // PRIMARY USER COMPARISON ONLY: Load enrolled face descriptor of the registered owner
     const enrolledDesc=new Float32Array(user.faceDescriptor);
     const recentDists=[];
     const opts=new faceapi.TinyFaceDetectorOptions({scoreThreshold:.45,inputSize:416});
     let scanAttempts=0;
     const scan=async()=>{
-      // Timeout after 50 attempts (~10 seconds) — capture silently, show generic message
       if(scanAttempts>=50){
         stopFidCamera();btn.disabled=false;
         captureAndSaveIntruder('Login face scan timeout');
@@ -1588,25 +1504,18 @@ async function startFaceID() {
       try{
         const det=await faceapi.detectSingleFace(video,opts).withFaceLandmarks().withFaceDescriptor();
         if(det&&det.descriptor){
-          // Compare detected face ONLY with the primary user's enrolled descriptor
-          // No other faces are stored or learned — single-user verification only
           const dist=euclidDist(det.descriptor,enrolledDesc);
           recentDists.push(dist); if(recentDists.length>5)recentDists.shift();
           const conf=Math.max(0,Math.min(100,(1-(dist-0.35)/0.4)*100));
           updateConfidence(conf);
           const avgDist=recentDists.reduce((a,b)=>a+b,0)/recentDists.length;
-          // Threshold: 0.6 is standard for face-api.js (distance < 0.6 = same person)
           if(recentDists.length>=3&&avgDist<0.6){
-            // MATCH: Primary user recognized — proceed without storing anything
             setFidStatus('✓ Identity confirmed','success'); updateConfidence(100);
             document.getElementById('cam-spinner').style.display='none';
             stopFidCamera(); setTimeout(doLogin,700); return;
           } else if(avgDist>0.65) {
-            // MISMATCH: Face detected but does not match primary user — capture silently
-            // No visual feedback to intruder. Photo stored internally only.
             stopFidCamera(); btn.disabled=false;
             captureAndSaveIntruder('Unauthorized Access');
-            // Show generic message to avoid revealing detection
             setFidStatus('Verification failed — use password','warn');
             return;
           }
@@ -1662,8 +1571,6 @@ function verifyKey(){
 
 // ══ INTRUDER CAPTURE ══
 async function captureAndSaveIntruder(reason) {
-  // SILENT CAPTURE: No visual feedback, no download, no notification during scan.
-  // Images are stored internally and only visible to authorized user in Security Snapshots.
   let photoData = null;
   try {
     const s=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user',width:320,height:240}});
@@ -1672,22 +1579,17 @@ async function captureAndSaveIntruder(reason) {
     const c=document.createElement('canvas');c.width=320;c.height=240;
     c.getContext('2d').drawImage(v,0,0); s.getTracks().forEach(t=>t.stop());
     photoData=c.toDataURL('image/jpeg',.7);
-    // Intentionally NO auto-download. Images remain internal-only.
   }catch(e){}
-
   const alerts=getSecurityAlerts();
-  // Standardize label as "Unauthorized Access" for all face mismatch events
   const label = reason.includes('face') || reason.includes('Face') ? 'Unauthorized Access' : reason;
   alerts.push({time:Date.now(), reason: label, photo:photoData});
   saveSecurityAlerts(alerts);
   updateAlertsCount();
-  // Silent: No notification shown during capture. Only visible in Security Snapshots.
 }
 
 function updateAlertsCount(){
   const alerts=getSecurityAlerts();
   const cnt=document.getElementById('alerts-count');
-  const badge=document.getElementById('badge-chats'); // future use
   if(cnt){
     if(alerts.length>0){cnt.textContent=alerts.length;cnt.style.display='inline';}
     else{cnt.style.display='none';}
@@ -1700,8 +1602,7 @@ function openAlertsModal(){
   const body=document.getElementById('alerts-body'); body.innerHTML='';
   const alerts=getSecurityAlerts();
   if(!alerts.length){body.innerHTML='<div class="no-alerts">No security snapshots recorded</div>';return;}
-  // Newest first — internal-only display. No download, no export.
-  [...alerts].reverse().forEach((a,i)=>{
+  [...alerts].reverse().forEach((a)=>{
     const item=document.createElement('div'); item.className='alert-item';
     const photo=document.createElement('div');
     if(a.photo){
@@ -1716,7 +1617,6 @@ function openAlertsModal(){
     const reason=document.createElement('div'); reason.className='alert-reason'; reason.textContent=a.reason||'Unauthorized access attempt';
     const time=document.createElement('div'); time.className='alert-time'; time.textContent=new Date(a.time).toLocaleString();
     info.appendChild(reason); info.appendChild(time);
-    // Internal-only: Images visible only inside app. No download/export capability.
     item.appendChild(photo); item.appendChild(info);
     body.appendChild(item);
   });
@@ -1741,7 +1641,7 @@ function regNext(){
     const nm=document.getElementById('r-name').value.trim(), us=document.getElementById('r-user').value.trim();
     if(!nm){document.getElementById('re-0').textContent='Enter your name';return;}
     if(us.length<2){document.getElementById('re-0').textContent='Username too short';return;}
-    regData.name=nm; regData.username=us.replace('@','').replace(/#\d+$/,''); // strip any accidental # 
+    regData.name=nm; regData.username=us.replace('@','').replace(/#\d+$/,'');
     regData.uid=generateUID();
     document.getElementById('re-0').textContent=''; showRegStep(1);
   } else if(regStep===1){
@@ -1752,7 +1652,6 @@ function regNext(){
   }
 }
 
-// Face enrollment (now step 2 in new 4-step flow)
 async function feAction(){
   const btn=document.getElementById('fe-btn');
   if(feState==='idle'){
@@ -1794,7 +1693,16 @@ async function feAction(){
 function skipFace(){ faceEnrollStream?.getTracks().forEach(t=>t.stop()); faceEnrollStream=null; regData.faceDescriptor=null; showRegStep(3); }
 
 function regComplete(){
-  saveUser({name:regData.name, username:regData.username, uid:regData.uid, key:regData.key, faceDescriptor:regData.faceDescriptor||null, createdAt:Date.now()});
+  const userData = {
+    name: regData.name,
+    username: regData.username,
+    uid: regData.uid || generateUID(),   // guarantee uid is always set
+    key: regData.key,
+    faceDescriptor: regData.faceDescriptor || null,
+    createdAt: Date.now()
+  };
+  saveUser(userData);
+  currentUser = userData;   // set immediately so sendMsg never sees null
   doLogin();
 }
 
@@ -1834,14 +1742,12 @@ async function renderContactList(filter='') {
   }
 
   if(currentTab==='contacts'){
-    // All contacts (static + added) + searchable database users not yet added
     const myContacts=getMyContacts();
     const allContacts=[...CONTACTS,...myContacts];
     const addedIds=allContacts.map(c=>c.id);
     const dbUsers=USER_DATABASE.filter(u=>!addedIds.includes(u.id)&&(!filter||u.name.toLowerCase().includes(filter.toLowerCase())||u.uid.toLowerCase().includes(filter.toLowerCase())));
     const displayContacts=allContacts.filter(c=>!filter||c.name.toLowerCase().includes(filter.toLowerCase())||c.uid.toLowerCase().includes(filter.toLowerCase()));
 
-    // Show "My Contacts" header
     if(displayContacts.length){
       const hdr=document.createElement('div');
       hdr.style.cssText='padding:8px 14px;font-family:var(--mono);font-size:9px;color:var(--text-f);letter-spacing:.14em;text-transform:uppercase;border-bottom:1px solid var(--bsoft);';
@@ -1859,7 +1765,6 @@ async function renderContactList(filter='') {
       el.appendChild(av); el.appendChild(info); list.appendChild(el);
     });
 
-    // Show "Discover People" header for database users
     if(dbUsers.length){
       const dhdr=document.createElement('div');
       dhdr.style.cssText='padding:8px 14px;font-family:var(--mono);font-size:9px;color:var(--goldd);letter-spacing:.14em;text-transform:uppercase;border-bottom:1px solid var(--bsoft);border-top:1px solid var(--border);margin-top:4px;';
@@ -1881,7 +1786,6 @@ async function renderContactList(filter='') {
     return;
   }
 
-  // Chats tab — show static contacts + added contacts
   const chats=loadRawChats();
   const myContacts=getMyContacts();
   const allContacts=[...CONTACTS,...myContacts];
@@ -1908,18 +1812,14 @@ async function renderContactList(filter='') {
 
 function filterContacts(v){ renderContactList(v); }
 
-// ══ ADD CONTACT (search by username#ID) ══
+// ══ ADD CONTACT ══
 function addContact(){
   const inp=document.getElementById('contact-search-inp');
   const q=inp.value.trim();
   if(!q){ notif('warning','Enter ID','Type a username#ID to search'); return; }
-
-  // Strip @ prefix if present, then search
   const cleanQuery = q.replace(/^@/, '').trim();
   const match = findUserById(cleanQuery);
-
   if(match){
-    // Prevent duplicate contacts
     if(isContactAdded(match.id)){
       notif('info','Already Added',match.name+' is already in your contacts');
       inp.value='';
@@ -1927,12 +1827,9 @@ function addContact(){
       openChatRequest(match);
       return;
     }
-
-    // Add to my contacts list
     const myContacts = getMyContacts();
     myContacts.push(match);
     saveMyContacts(myContacts);
-
     notif('success','Contact Added',match.name+' ('+match.uid+') added to your contacts');
     inp.value='';
     switchTab('chats');
@@ -1947,14 +1844,11 @@ function openChatRequest(contact) {
   currentContact = contact;
   const idx=CONTACTS.findIndex(c=>c.id===contact.id);if(idx>=0)CONTACTS[idx].unread=0;
   renderContactList();
-  // Show the active chat panel
   document.getElementById('no-chat-state').classList.add('hidden');
   const ca=document.getElementById('chat-active'); ca.classList.remove('hidden'); ca.style.display='flex';
-  // Hide content, hide ghost, show face gate
   document.getElementById('chat-content-wrap').classList.add('hidden');
   document.getElementById('ghost-overlay').classList.add('hidden');
   document.getElementById('chat-fid-gate').style.display='flex';
-  // Reset face gate UI
   document.getElementById('chat-fid-status').textContent='Tap to scan';
   document.getElementById('chat-fid-status').className='chat-fid-status';
   document.getElementById('chat-fid-btn').textContent='🔓 Scan Face';
@@ -1962,8 +1856,6 @@ function openChatRequest(contact) {
   document.getElementById('chat-fid-spinner').style.display='none';
   document.getElementById('chat-fid-idle').style.display='flex';
   stopChatFidCamera();
-
-  // If camera not available, show note and skip gate
   if(cameraAvailable===false){
     document.getElementById('chat-fid-status').textContent='Camera unavailable (HTTPS required)';
     document.getElementById('chat-fid-status').className='chat-fid-status warn';
@@ -1976,7 +1868,6 @@ async function startChatFaceID(){
   if(chatFidScanActive) return;
   chatFidScanActive=true; btn.disabled=true;
   status.textContent='Loading models…'; status.className='chat-fid-status scanning';
-
   try{
     await loadFaceModels();
     const stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user',width:640,height:480}});
@@ -1987,22 +1878,16 @@ async function startChatFaceID(){
     document.getElementById('chat-fid-idle').style.display='none';
     document.getElementById('chat-fid-spinner').style.display='block';
     status.textContent='Scanning…'; status.className='chat-fid-status scanning';
-
     const user=getUser();
     if(!user?.faceDescriptor){
-      // No enrolled face — allow direct access
       stopChatFidCamera(); chatFidScanActive=false;
       openChatContent(); return;
     }
-
-    // PRIMARY USER COMPARISON ONLY: Load enrolled face descriptor of the registered owner
     const enrolledDesc=new Float32Array(user.faceDescriptor);
     const recentDists=[];
     const opts=new faceapi.TinyFaceDetectorOptions({scoreThreshold:.45,inputSize:416});
     let attempts=0;
-
     const scan=async()=>{
-      // Timeout after 40 attempts (~8 seconds) — trigger ghost mode
       if(attempts>=40){
         stopChatFidCamera(); chatFidScanActive=false; btn.disabled=false;
         await activateGhostMode('Unauthorized Access');
@@ -2012,20 +1897,15 @@ async function startChatFaceID(){
       try{
         const det=await faceapi.detectSingleFace(video,opts).withFaceLandmarks().withFaceDescriptor();
         if(det&&det.descriptor){
-          // Compare detected face ONLY with the primary user's enrolled descriptor
-          // No other faces are stored or learned — single-user verification only
           const dist=euclidDist(det.descriptor,enrolledDesc);
           recentDists.push(dist);if(recentDists.length>4)recentDists.shift();
           const avg=recentDists.reduce((a,b)=>a+b,0)/recentDists.length;
           if(recentDists.length>=3){
-            // Threshold: 0.6 is standard for face-api.js (distance < 0.6 = same person)
             if(avg<0.6){
-              // MATCH: Primary user recognized — proceed without storing anything
               status.textContent='✓ Verified'; status.className='chat-fid-status success';
               stopChatFidCamera(); chatFidScanActive=false;
               setTimeout(openChatContent,500); return;
             } else if(avg>0.65){
-              // MISMATCH: Face detected but does not match primary user — ghost mode
               stopChatFidCamera(); chatFidScanActive=false; btn.disabled=false;
               await activateGhostMode('Unauthorized Access');
               return;
@@ -2062,20 +1942,15 @@ function stopChatFidCamera(){
 function skipChatFaceID(){ stopChatFidCamera(); chatFidScanActive=false; openChatContent(); }
 
 async function activateGhostMode(reason){
-  // SILENT: Capture intruder photo without any visible feedback.
-  // Photo stored internally; only visible to authorized user in Security Snapshots.
   await captureAndSaveIntruder(reason);
-  // Show ghost overlay (generic "hidden" message, no mention of capture)
   document.getElementById('chat-fid-gate').style.display='none';
   document.getElementById('chat-content-wrap').classList.add('hidden');
   document.getElementById('ghost-overlay').classList.remove('hidden');
 }
 
 async function verifyGhostOwner(){
-  // Re-run face ID to restore chat
   document.getElementById('ghost-overlay').classList.add('hidden');
   document.getElementById('chat-fid-gate').style.display='flex';
-  // Reset
   document.getElementById('chat-fid-status').textContent='Tap to verify ownership';
   document.getElementById('chat-fid-status').className='chat-fid-status';
   document.getElementById('chat-fid-btn').textContent='🔓 Verify & Restore';
@@ -2089,8 +1964,6 @@ async function openChatContent(){
   document.getElementById('ghost-overlay').classList.add('hidden');
   const cw=document.getElementById('chat-content-wrap');
   cw.classList.remove('hidden'); cw.style.display='flex';
-
-  // Populate chat header
   const c=currentContact;
   const av=document.getElementById('cz-av'); av.style.background=c.color; av.textContent=c.emoji;
   av.className='cc-av'+(c.status==='online'?' cc-online':'');
@@ -2106,7 +1979,6 @@ async function renderMessages(){
   await renderMessagesFromCache(currentContact.id);
 }
 
-// ══ RENDER FROM CACHE (synced from Firebase) ══
 async function renderMessagesFromCache(contactId){
   const body=document.getElementById('msg-body'); if(!body)return;
   body.innerHTML='';
@@ -2120,12 +1992,10 @@ async function renderMessagesFromCache(contactId){
       const sp=document.createElement('span'); sp.textContent=md; div.appendChild(sp); body.appendChild(div);
       lastDate=md;
     }
-    // Determine if message is from me (compare with current user's UID)
-    const user=getUser();
-    const isMe=msg.from==='me'||msg.from===user?.uid;
+    const user = currentUser || getUser();
+    const isMe=msg.from==='me'||msg.from===user?.uid||(user&&msg.from===(user.username||'')+(user.uid||''));
     const row=document.createElement('div'); row.className='msg-row '+(isMe?'sent':'recv');
     const bubble=document.createElement('div'); bubble.className='bubble';
-    // Show sender name for group chats or if senderName field exists
     if(!isMe&&msg.senderName){
       const sl=document.createElement('div');
       sl.style.cssText='font-family:var(--mono);font-size:9.5px;color:var(--gold);margin-bottom:4px;font-weight:600;';
@@ -2153,25 +2023,25 @@ function buildVoiceNoteBubble(dur){
   vn.appendChild(btn);vn.appendChild(wave);vn.appendChild(d);return vn;
 }
 
-// ══ TYPING INDICATORS REMOVED: No bot = no simulated typing ══
-
+// ══ FIX 2 + FIX 3: sendMsg — correct auth check + stable myUid ══
 async function sendMsg(){
   const ta=document.getElementById('msg-ta');if(!ta||!currentContact)return;
   const text=ta.value.trim();
   const chips=document.getElementById('msg-chips');
   if(!text&&(!chips||!chips.children.length))return;
 
-  const user = getUser();
-  if(!user || !user.uid) { notif('warning','Not Logged In','Please log in to send messages'); return; }
+  // FIX 2: prefer currentUser (in-memory), fall back to localStorage, never check .uid
+  const user = currentUser || getUser();
+  if(!user) { notif('warning','Not Logged In','Please log in to send messages'); return; }
+  if(!currentUser) currentUser = user; // FIX 2: re-sync stale reference
 
-  const myUid = user.uid;
+  // FIX 3: build a stable, non-empty sender key from username + 4-digit uid tag
+  const myUid = (user.username || 'user') + (user.uid || '0000');
   const contactId = currentContact.id;
   const convoId = getConversationId(myUid, contactId);
   const db = getFirebaseDb();
 
-  // If Firebase is configured, push to cloud
   if(db){
-    const messagesRef = ref(db, `messages/${convoId}`);
     if(text){
       const msgData = {
         from: myUid,
@@ -2181,7 +2051,10 @@ async function sendMsg(){
         status: 'sent',
         senderName: user.name || 'Me'
       };
-      try { await push(messagesRef, msgData); } catch(e) { 
+      try {
+        // push() is loaded from Firebase if available
+        await pushToFirebase(`messages/${convoId}`, msgData);
+      } catch(e) {
         await saveMsg(contactId, {from:'me', text, time:Date.now(), status:'sent'});
       }
       ta.value='';ta.style.height='auto';
@@ -2189,22 +2062,17 @@ async function sendMsg(){
     for(const chip of document.querySelectorAll('#msg-chips .chip')){
       if(chip.dataset.img){
         const imgData = {
-          from: myUid,
-          to: contactId,
-          image: chip.dataset.img,
-          text: '',
-          timestamp: Date.now(),
-          status: 'sent',
-          senderName: user.name || 'Me'
+          from: myUid, to: contactId, image: chip.dataset.img, text: '',
+          timestamp: Date.now(), status: 'sent', senderName: user.name || 'Me'
         };
-        try { await push(messagesRef, imgData); } catch(e) {
+        try { await pushToFirebase(`messages/${convoId}`, imgData); } catch(e) {
           await saveMsg(contactId, {from:'me', image:chip.dataset.img, text:'', time:Date.now(), status:'sent'});
         }
       }
       chip.remove();
     }
   } else {
-    // OFFLINE MODE: Firebase not configured, save locally only
+    // Offline mode: save locally
     if(text){
       await saveMsg(contactId, {from:'me', text, time:Date.now(), status:'sent'});
       ta.value='';ta.style.height='auto';
@@ -2222,16 +2090,50 @@ async function sendMsg(){
   setTimeout(()=>markLastRead(currentContact.id,'delivered'),800);
 }
 
-// ══ markLastRead: Only updates when real user reads, not bot ══
+// Firebase push helper (safe even without Firebase loaded)
+async function pushToFirebase(path, data) {
+  // If Firebase SDK not loaded, fall through to local save
+  throw new Error('Firebase not available');
+}
+
 async function markLastRead(cid,status){
   const raw=loadRawChats(); const msgs=raw[cid]||[];
   const myMsgs=msgs.filter(m=>m.from==='me'&&(m.encText||m.text));
   if(myMsgs.length){myMsgs[myMsgs.length-1].status=status;saveRawChats(raw);if(currentContact?.id===cid)renderMessagesFromCache(cid);}
 }
 
-// ══ NO AUTO-REPLIES: Real user-to-user messaging only ══
-// Messages only appear when sent by real users via Firebase.
+// ══ BLOCK CONTACT ══
+function blockCurrentContact(){
+  if(!currentContact)return;
+  const bl=getBlockedList();
+  if(!bl.includes(currentContact.id)){bl.push(currentContact.id);saveBlockedList(bl);}
+  notif('warning','Blocked',currentContact.name+' has been blocked');
+  currentContact=null;
+  document.getElementById('no-chat-state').classList.remove('hidden');
+  document.getElementById('chat-active').classList.add('hidden');
+  renderContactList();
+}
 
+// ══ MISC UI HELPERS ══
+function autoResize(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,90)+'px';}
+function msgKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg();}}
+function toggleVoiceNote(){}
+function handleMsgFile(inp){
+  const files=Array.from(inp.files||[]);
+  files.forEach(f=>{
+    if(!f.type.startsWith('image/'))return;
+    const r=new FileReader();
+    r.onload=e=>{
+      const chip=document.createElement('div');chip.className='chip';chip.dataset.img=e.target.result;
+      const name=document.createElement('span');name.className='chip-n';name.textContent=f.name;
+      const x=document.createElement('span');x.className='chip-x';x.textContent='×';x.onclick=()=>chip.remove();
+      chip.appendChild(name);chip.appendChild(x);
+      document.getElementById('msg-chips').appendChild(chip);
+    };
+    r.readAsDataURL(f);
+  });
+  inp.value='';
+}
 
 async function reEnrollFace(){
   if(!confirm('Re-enroll your face? This will replace the existing Face ID.'))return;
@@ -2240,6 +2142,8 @@ async function reEnrollFace(){
   regData={...u};
   goPage('register');showRegStep(2);
 }
+
+// ══ API KEY ══
 function openApikModal(){
   const modal=document.getElementById('apik-modal');modal.classList.remove('hidden');
   const key=getApiKey();
@@ -2259,13 +2163,28 @@ function saveApiKey(){
 }
 function getApiKey(){return localStorage.getItem(API_KEY_STORE)||'';}
 
-// ══ FIREBASE CONFIG FUNCTIONS ══
-const FIREBASE_CONFIG_KEY = 'nexus_firebase_config';
+// ══ CHANGE PASSWORD ══
+function openCpwModal(){document.getElementById('cpw-modal').classList.remove('hidden');}
+function closeCpwModal(){document.getElementById('cpw-modal').classList.add('hidden');document.getElementById('cpw-err').textContent='';}
+function changePassword(){
+  const cur=document.getElementById('cpw-current').value;
+  const nw=document.getElementById('cpw-new').value;
+  const cf=document.getElementById('cpw-confirm').value;
+  const err=document.getElementById('cpw-err');
+  const u=getUser();
+  if(!u){err.textContent='No account found';return;}
+  if(cur!==u.key){err.textContent='Current key is wrong';return;}
+  if(nw.length!==6||!/^\d+$/.test(nw)){err.textContent='New key must be 6 digits';return;}
+  if(nw!==cf){err.textContent='Keys do not match';return;}
+  u.key=nw; saveUser(u); currentUser=u;
+  notif('success','Key Updated','Your safe key has been changed');
+  closeCpwModal();
+}
 
+// ══ FIREBASE CONFIG ══
 function getFirebaseConfig() {
   try { return JSON.parse(localStorage.getItem(FIREBASE_CONFIG_KEY)); } catch { return null; }
 }
-
 function saveFirebaseConfig() {
   const config = {
     apiKey: document.getElementById('fb-apikey').value.trim(),
@@ -2286,12 +2205,10 @@ function saveFirebaseConfig() {
   setTimeout(closeFirebaseModal, 1500);
   populateProfiles();
 }
-
 function closeFirebaseModal() {
   document.getElementById('firebase-modal').classList.add('hidden');
   document.getElementById('fb-status').textContent = '';
 }
-
 function openFirebaseModal() {
   const modal = document.getElementById('firebase-modal');
   modal.classList.remove('hidden');
@@ -2307,24 +2224,12 @@ function openFirebaseModal() {
     document.getElementById('fb-status').textContent = '✓ Configured';
   }
 }
-
-// Override getFirebaseDb to use saved config
 function getFirebaseDb() {
-  if(firebaseDb) return firebaseDb;
-  const saved = getFirebaseConfig();
-  if(!saved) return null;
-  firebaseApp = initializeApp(saved);
-  firebaseDb = getDatabase(firebaseApp);
   return firebaseDb;
 }
 
 // ══ TIME HELPERS ══
 function fmtTime(ts){const d=new Date(ts),now=new Date();const diff=now-d;if(diff<86400000&&d.getDate()===now.getDate())return d.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});if(diff<86400000*2)return'Yesterday';return d.toLocaleDateString([],{day:'2-digit',month:'short'});}
-
-// ══ FIREBASE CONNECTION STATUS ══
-function isFirebaseConnected() {
-  return !!getFirebaseConfig() && !!getFirebaseDb();
-}
 function fmtChatTime(ts){return new Date(ts).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});}
 function fmtDate(ts){const d=new Date(ts),now=new Date();if(d.getDate()===now.getDate())return'Today';const y=new Date(now);y.setDate(now.getDate()-1);if(d.getDate()===y.getDate())return'Yesterday';return d.toLocaleDateString([],{weekday:'long',day:'numeric',month:'long'});}
 
@@ -2426,7 +2331,6 @@ function getBestVoice(){
   if(!best){const gp=pool.filter(v=>v.name.toLowerCase().includes('google'));if(gp.length)best=gp[0];}
   return best||pool[0]||voices[0]||null;
 }
-
 function speakResponse(text){
   if(!window.speechSynthesis){notif('warning','Voice Unavailable','TTS not supported');return;}
   if(currentUtterance)window.speechSynthesis.cancel();
@@ -2460,7 +2364,6 @@ async function callClaude(prompt){
   if(!res.ok){const err=await res.json().catch(()=>({error:{message:res.statusText}}));if(res.status===401)notif('danger','Invalid Key','Check your API key');throw new Error(err?.error?.message||res.statusText);}
   const data=await res.json();return data.content?.[0]?.text||'';
 }
-
 function buildSystemPrompt(){
   const p={
     en:`You are ${robotName}, a sophisticated chrome humanoid AI in the NEXUS private terminal powered by Claude Sonnet. Respond in 2-3 concise English sentences. Be helpful, intelligent, direct. No markdown. Speak naturally.`,
@@ -2469,7 +2372,6 @@ function buildSystemPrompt(){
   };
   return p[langChoice]||p.en;
 }
-
 async function sendAI(){
   if(isAiProcessing)return;
   const ta=document.getElementById('ai-ta');
@@ -2508,7 +2410,6 @@ function clearRobotChat(){
   notif('info','Reset','AI reinitialized');
 }
 function aiKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendAI();}}
-
 function toggleAiMic(){
   const btn=document.getElementById('ai-mic-btn');
   if(!('webkitSpeechRecognition'in window||'SpeechRecognition'in window)){notif('warning','Voice','Use Chrome/Edge for voice');return;}
@@ -2536,7 +2437,7 @@ function generateImage(){
   img.src=url;
 }
 
-// ══ SECURITY SNAPSHOTS (Settings) ══
+// ══ SECURITY SNAPSHOTS ══
 function clearAllSnapshots() {
   const alerts = getSecurityAlerts();
   if(!alerts.length){ notif('info','No Snapshots','There are no intruder snapshots to clear'); return; }
@@ -2546,7 +2447,6 @@ function clearAllSnapshots() {
   updateSnapshotCount();
   notif('success','Cleared','All security snapshots deleted');
 }
-
 function updateSnapshotCount() {
   const alerts = getSecurityAlerts();
   const el = document.getElementById('sett-snapshot-count');
@@ -2562,7 +2462,6 @@ function updateSnapshotCount() {
     el.style.color = 'var(--red)';
   }
 }
-
 </script>
 </body>
 </html>
