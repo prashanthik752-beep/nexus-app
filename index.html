@@ -1456,26 +1456,38 @@ async function startFaceID() {
       goPage('safekey'); return;
     }
     setFidStatus('Scanning… look at the camera','scanning');
+    // PRIMARY USER COMPARISON ONLY: Load enrolled face descriptor of the registered owner
     const enrolledDesc=new Float32Array(user.faceDescriptor);
     const recentDists=[];
     const opts=new faceapi.TinyFaceDetectorOptions({scoreThreshold:.45,inputSize:416});
     let scanAttempts=0;
     const scan=async()=>{
-      if(scanAttempts>=50){setFidStatus('Could not verify — try password','warn');setFidErr('Face not recognized');stopFidCamera();btn.disabled=false;captureAndSaveIntruder('Login face scan failed');return;}
+      // Timeout after 50 attempts (~10 seconds) — capture unauthorized access
+      if(scanAttempts>=50){setFidStatus('Could not verify — try password','warn');setFidErr('Face not recognized');stopFidCamera();btn.disabled=false;captureAndSaveIntruder('Login face scan timeout');return;}
       scanAttempts++;
       try{
         const det=await faceapi.detectSingleFace(video,opts).withFaceLandmarks().withFaceDescriptor();
         if(det&&det.descriptor){
+          // Compare detected face ONLY with the primary user's enrolled descriptor
+          // No other faces are stored or learned — single-user verification only
           const dist=euclidDist(det.descriptor,enrolledDesc);
           recentDists.push(dist); if(recentDists.length>5)recentDists.shift();
           const conf=Math.max(0,Math.min(100,(1-(dist-0.35)/0.4)*100));
           updateConfidence(conf);
           const avgDist=recentDists.reduce((a,b)=>a+b,0)/recentDists.length;
-          if(recentDists.length>=3&&avgDist<0.52){
+          // Threshold: 0.6 is standard for face-api.js (distance < 0.6 = same person)
+          if(recentDists.length>=3&&avgDist<0.6){
+            // MATCH: Primary user recognized — proceed without storing anything
             setFidStatus('✓ Identity confirmed','success'); updateConfidence(100);
             document.getElementById('cam-spinner').style.display='none';
             stopFidCamera(); setTimeout(doLogin,700); return;
-          } else if(dist>0.62) setFidStatus('Face not recognized…','warn');
+          } else if(avgDist>0.65) {
+            // MISMATCH: Face detected but does not match primary user — capture immediately
+            setFidStatus('Face not recognized — unauthorized','error');
+            stopFidCamera(); btn.disabled=false;
+            captureAndSaveIntruder('Unauthorized Access');
+            return;
+          }
           else setFidStatus(`Analyzing… (${recentDists.length}/3 samples)`,'scanning');
         } else { setFidStatus('No face detected — center your face','scanning'); updateConfidence(0); }
       }catch(e){}
@@ -1519,7 +1531,7 @@ function verifyKey(){
   if(key.length<6){err.textContent='Enter all 6 digits';return;}
   if(key!==user.key){
     err.textContent='Wrong key — access denied';
-    captureAndSaveIntruder('Wrong safe key entered');
+    captureAndSaveIntruder('Unauthorized Access: Wrong safe key');
     document.getElementById('sk-input').value='';
     return;
   }
@@ -1539,15 +1551,17 @@ async function captureAndSaveIntruder(reason) {
     // Auto-download to device
     const a=document.createElement('a');
     a.href=photoData;
-    a.download=`nexus_intruder_${Date.now()}.jpg`;
+    a.download=`nexus_unauthorized_${Date.now()}.jpg`;
     document.body.appendChild(a); a.click(); document.body.removeChild(a);
   }catch(e){}
 
   const alerts=getSecurityAlerts();
-  alerts.push({time:Date.now(), reason, photo:photoData});
+  // Standardize label as "Unauthorized Access" for all face mismatch events
+  const label = reason.includes('face') || reason.includes('Face') ? 'Unauthorized Access' : reason;
+  alerts.push({time:Date.now(), reason: label, photo:photoData});
   saveSecurityAlerts(alerts);
   updateAlertsCount();
-  notif('danger','🚨 Snapshot Captured',reason+(photoData?' · Photo saved to device':''));
+  notif('danger','🚨 Unauthorized Access',label+(photoData?' · Photo saved to device':''));
 }
 
 function updateAlertsCount(){
@@ -1809,40 +1823,44 @@ async function startChatFaceID(){
 
     const user=getUser();
     if(!user?.faceDescriptor){
-      // No enrolled face — just open
+      // No enrolled face — allow direct access
       stopChatFidCamera(); chatFidScanActive=false;
       openChatContent(); return;
     }
 
+    // PRIMARY USER COMPARISON ONLY: Load enrolled face descriptor of the registered owner
     const enrolledDesc=new Float32Array(user.faceDescriptor);
     const recentDists=[];
     const opts=new faceapi.TinyFaceDetectorOptions({scoreThreshold:.45,inputSize:416});
     let attempts=0;
 
     const scan=async()=>{
+      // Timeout after 40 attempts (~8 seconds) — trigger ghost mode
       if(attempts>=40){
-        // Timeout — ghost mode
         stopChatFidCamera(); chatFidScanActive=false; btn.disabled=false;
-        await activateGhostMode('Chat access: face scan timeout');
+        await activateGhostMode('Unauthorized Access');
         return;
       }
       attempts++;
       try{
         const det=await faceapi.detectSingleFace(video,opts).withFaceLandmarks().withFaceDescriptor();
         if(det&&det.descriptor){
+          // Compare detected face ONLY with the primary user's enrolled descriptor
+          // No other faces are stored or learned — single-user verification only
           const dist=euclidDist(det.descriptor,enrolledDesc);
           recentDists.push(dist);if(recentDists.length>4)recentDists.shift();
           const avg=recentDists.reduce((a,b)=>a+b,0)/recentDists.length;
           if(recentDists.length>=3){
-            if(avg<0.52){
-              // ✅ Match
+            // Threshold: 0.6 is standard for face-api.js (distance < 0.6 = same person)
+            if(avg<0.6){
+              // MATCH: Primary user recognized — proceed without storing anything
               status.textContent='✓ Verified'; status.className='chat-fid-status success';
               stopChatFidCamera(); chatFidScanActive=false;
               setTimeout(openChatContent,500); return;
-            } else if(avg>0.62){
-              // ❌ Mismatch
+            } else if(avg>0.65){
+              // MISMATCH: Face detected but does not match primary user — ghost mode
               stopChatFidCamera(); chatFidScanActive=false; btn.disabled=false;
-              await activateGhostMode('Chat access: face mismatch');
+              await activateGhostMode('Unauthorized Access');
               return;
             }
           }
