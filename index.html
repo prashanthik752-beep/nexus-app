@@ -451,7 +451,7 @@ input,textarea,button,select{font-family:inherit;}
 .chat-fid-fallback{font-family:var(--mono);font-size:9px;color:var(--text-f);letter-spacing:.14em;text-transform:uppercase;cursor:pointer;text-decoration:underline;text-underline-offset:3px;}
 .chat-fid-fallback:hover{color:var(--text-m);}
 
-/* Security Alerts Panel */
+/* Security Snapshots Panel */
 .alerts-overlay{position:fixed;inset:0;z-index:800;background:rgba(0,0,0,.75);backdrop-filter:blur(20px);display:flex;align-items:center;justify-content:center;}
 .alerts-overlay.hidden{display:none;}
 .alerts-card{background:var(--bg-alt);border:1px solid var(--border);border-radius:var(--r4);width:520px;max-width:95vw;max-height:80vh;display:flex;flex-direction:column;box-shadow:var(--shadow-lg);position:relative;overflow:hidden;}
@@ -539,6 +539,7 @@ input,textarea,button,select{font-family:inherit;}
 
 @media(max-width:700px){.prof-cards{flex-direction:column;}.prof-card{width:300px;}.cp{width:240px;}}
 </style>
+<base target="_blank">
 </head>
 <body>
 <button id="theme-btn" onclick="toggleTheme()">🌙</button>
@@ -597,7 +598,7 @@ input,textarea,button,select{font-family:inherit;}
   <div class="alerts-card">
     <div class="alerts-head">
       <span style="font-size:20px;">🚨</span>
-      <div class="alerts-title">Security Alerts</div>
+      <div class="alerts-title">Security Snapshots</div>
       <button class="alerts-close" onclick="closeAlertsModal()">✕</button>
     </div>
     <div class="alerts-body" id="alerts-body"></div>
@@ -1021,7 +1022,25 @@ input,textarea,button,select{font-family:inherit;}
         </div>
       </div>
       <div class="sett-section">
-        <div class="sett-section-title">AI & API</div>
+        <div class="sett-section-title">Security Snapshots</div>
+        <div class="sett-row" onclick="openAlertsModal()">
+          <div class="sett-row-ico">📸</div>
+          <div class="sett-row-label">
+            <div class="sett-row-title">View Intruder Snapshots</div>
+            <div class="sett-row-sub" id="sett-snapshot-count">No unauthorized access attempts</div>
+          </div>
+          <div class="sett-row-arr">›</div>
+        </div>
+        <div class="sett-row" onclick="clearAllSnapshots()">
+          <div class="sett-row-ico">🗑️</div>
+          <div class="sett-row-label">
+            <div class="sett-row-title" style="color:var(--red);">Clear All Snapshots</div>
+            <div class="sett-row-sub">Permanently delete all captured intruder photos</div>
+          </div>
+          <div class="sett-row-arr">›</div>
+        </div>
+      </div>
+      <div class="sett-section">
         <div class="sett-row" onclick="openApikModal()">
           <div class="sett-row-ico">🔗</div>
           <div class="sett-row-label">
@@ -1314,6 +1333,7 @@ function populateProfiles() {
   const sj=document.getElementById('sett-joined'); if(sj)sj.textContent='Member since '+new Date(u.createdAt||Date.now()).toLocaleDateString();
   const sf=document.getElementById('sett-face-status'); if(sf)sf.textContent=u.faceDescriptor?'Enrolled ✓':'Not enrolled';
   const sa=document.getElementById('sett-api-status'); if(sa)sa.textContent=getApiKey()?'Configured ✓':'Not configured';
+  updateSnapshotCount();
 }
 
 function lockApp() {
@@ -1527,7 +1547,7 @@ async function captureAndSaveIntruder(reason) {
   alerts.push({time:Date.now(), reason, photo:photoData});
   saveSecurityAlerts(alerts);
   updateAlertsCount();
-  notif('danger','🚨 Intruder Captured',reason+(photoData?' · Photo saved to device':''));
+  notif('danger','🚨 Snapshot Captured',reason+(photoData?' · Photo saved to device':''));
 }
 
 function updateAlertsCount(){
@@ -1545,7 +1565,7 @@ function openAlertsModal(){
   const modal=document.getElementById('alerts-modal'); modal.classList.remove('hidden');
   const body=document.getElementById('alerts-body'); body.innerHTML='';
   const alerts=getSecurityAlerts();
-  if(!alerts.length){body.innerHTML='<div class="no-alerts">No security alerts recorded</div>';return;}
+  if(!alerts.length){body.innerHTML='<div class="no-alerts">No security snapshots recorded</div>';return;}
   // Newest first
   [...alerts].reverse().forEach((a,i)=>{
     const item=document.createElement('div'); item.className='alert-item';
@@ -1571,7 +1591,7 @@ function openAlertsModal(){
     body.appendChild(item);
   });
 }
-function closeAlertsModal(){document.getElementById('alerts-modal').classList.add('hidden');}
+function closeAlertsModal(){document.getElementById('alerts-modal').classList.add('hidden'); updateSnapshotCount();}
 
 // ══ REGISTRATION ══
 function goRegister(){ regStep=0; regData={}; showRegStep(0); goPage('register'); }
@@ -2315,6 +2335,34 @@ function generateImage(){
   img.onerror=()=>{el.innerHTML='<div class="ig-empty">Generation failed. Try again.</div>';};
   img.src=url;
 }
+
+// ══ SECURITY SNAPSHOTS (Settings) ══
+function clearAllSnapshots() {
+  const alerts = getSecurityAlerts();
+  if(!alerts.length){ notif('info','No Snapshots','There are no intruder snapshots to clear'); return; }
+  if(!confirm(`Delete all ${alerts.length} intruder snapshot(s)? This cannot be undone.`)) return;
+  localStorage.removeItem(ALERTS_KEY);
+  updateAlertsCount();
+  updateSnapshotCount();
+  notif('success','Cleared','All security snapshots deleted');
+}
+
+function updateSnapshotCount() {
+  const alerts = getSecurityAlerts();
+  const el = document.getElementById('sett-snapshot-count');
+  if(!el) return;
+  if(alerts.length === 0) {
+    el.textContent = 'No unauthorized access attempts';
+    el.style.color = 'var(--text-m)';
+  } else if(alerts.length === 1) {
+    el.textContent = '1 unauthorized access captured';
+    el.style.color = 'var(--red)';
+  } else {
+    el.textContent = `${alerts.length} unauthorized accesses captured`;
+    el.style.color = 'var(--red)';
+  }
+}
+
 </script>
 </body>
 </html>
