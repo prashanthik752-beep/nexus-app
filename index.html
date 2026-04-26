@@ -1129,11 +1129,33 @@ const USER_DATABASE = [
   { id:'rahul', name:'Rahul Mehta', uid:'@rahul#9999', emoji:'🧑‍🔧', color:'#795548', status:'away', role:'Work' },
 ];
 
+// ══ SELF-HEALING: migrate old accounts missing uid ══
+function migrateUserIfNeeded() {
+  const u = getUser();
+  if(!u) return;
+  let changed = false;
+  // If uid is missing, null, or '0000' from a broken registration, assign a real one
+  if(!u.uid || u.uid === '0000' || u.uid === 0) {
+    u.uid = generateUID();
+    changed = true;
+  }
+  // If username is missing, derive from name
+  if(!u.username && u.name) {
+    u.username = u.name.split(' ')[0].toLowerCase().replace(/[^a-z0-9]/g,'');
+    changed = true;
+  }
+  if(changed) {
+    saveUser(u);
+    console.log('[NEXUS] Migrated user account:', u);
+  }
+}
+
 // ══ INIT ══
 window.addEventListener('load', async () => {
   loadRobotPrefs();
   await initCryptoKey();
   await detectCameraAvailability();
+  migrateUserIfNeeded(); // ← heal any broken existing accounts
   if(window.speechSynthesis){
     window.speechSynthesis.getVoices();
     window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
@@ -1302,10 +1324,10 @@ async function cacheConversationMessages(contactId, msgs) {
 
 // ══ MY ID ══
 function getMyFullId() {
-  // Always read fresh from storage in case currentUser is stale
   const u = currentUser || getUser();
-  if(!u) return '@unknown#0000';
-  return '@'+(u.username||'user')+'#'+(u.uid||'0000');
+  if(!u) return '@unknown#????';
+  const uid = u.uid && u.uid !== '0000' ? u.uid : '????';
+  return '@'+(u.username||'user')+'#'+uid;
 }
 
 function updateMyIdDisplay() {
@@ -1337,6 +1359,7 @@ function checkUser() {
 
 // ══ FIX 1: doLogin — always re-hydrate currentUser, guard against null ══
 function doLogin() {
+  migrateUserIfNeeded(); // heal uid before reading
   currentUser = getUser();
   if(!currentUser) { goPage('faceid'); return; }   // ← FIX 1: guard null user
   stopFidCamera();
@@ -2030,13 +2053,20 @@ async function sendMsg(){
   const chips=document.getElementById('msg-chips');
   if(!text&&(!chips||!chips.children.length))return;
 
-  // FIX 2: prefer currentUser (in-memory), fall back to localStorage, never check .uid
+  // Always get the freshest user — never block if localStorage has a valid user
   const user = currentUser || getUser();
   if(!user) { notif('warning','Not Logged In','Please log in to send messages'); return; }
-  if(!currentUser) currentUser = user; // FIX 2: re-sync stale reference
+  currentUser = user; // always keep in sync
 
-  // FIX 3: build a stable, non-empty sender key from username + 4-digit uid tag
-  const myUid = (user.username || 'user') + (user.uid || '0000');
+  // Ensure uid is valid — self-heal inline if needed
+  if(!user.uid || user.uid === '0000') {
+    user.uid = generateUID();
+    saveUser(user);
+    currentUser = user;
+  }
+
+  // Build a stable sender key with only safe chars
+  const myUid = (user.username || 'user') + '_' + (user.uid || generateUID());
   const contactId = currentContact.id;
   const convoId = getConversationId(myUid, contactId);
   const db = getFirebaseDb();
