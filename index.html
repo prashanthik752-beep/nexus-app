@@ -593,6 +593,28 @@ input,textarea,button,select{font-family:inherit;}
   </div>
 </div>
 
+<!-- ══ FIREBASE CONFIG MODAL ══ -->
+<div class="apik-overlay hidden" id="firebase-modal">
+  <div class="apik-card">
+    <div class="apik-title">Firebase Realtime Database</div>
+    <div class="apik-sub">Enter your Firebase project config to enable real-time messaging between users. Create a free project at <a href="https://console.firebase.google.com" target="_blank">console.firebase.google.com</a></div>
+    <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:12px;">
+      <input id="fb-apikey" class="apik-inp" type="text" placeholder="apiKey" style="margin-bottom:0;"/>
+      <input id="fb-domain" class="apik-inp" type="text" placeholder="authDomain (project.firebaseapp.com)" style="margin-bottom:0;"/>
+      <input id="fb-dburl" class="apik-inp" type="text" placeholder="databaseURL (https://project-default-rtdb.firebaseio.com)" style="margin-bottom:0;"/>
+      <input id="fb-project" class="apik-inp" type="text" placeholder="projectId" style="margin-bottom:0;"/>
+      <input id="fb-bucket" class="apik-inp" type="text" placeholder="storageBucket (project.appspot.com)" style="margin-bottom:0;"/>
+      <input id="fb-sender" class="apik-inp" type="text" placeholder="messagingSenderId" style="margin-bottom:0;"/>
+      <input id="fb-appid" class="apik-inp" type="text" placeholder="appId" style="margin-bottom:0;"/>
+    </div>
+    <div class="apik-btns">
+      <button class="apik-btn" onclick="saveFirebaseConfig()">Save Config</button>
+      <button class="apik-btn sec" onclick="closeFirebaseModal()">Cancel</button>
+    </div>
+    <div class="apik-status" id="fb-status"></div>
+  </div>
+</div>
+
 <!-- ══ SECURITY ALERTS PANEL ══ -->
 <div class="alerts-overlay hidden" id="alerts-modal">
   <div class="alerts-card">
@@ -1109,7 +1131,7 @@ let recognition = null, currentUtterance = null;
 let mouthTick = null, blinkInterval = null, chestInterval = null;
 let conversationHistory = [];
 let robotName = 'NEXUS', voiceType = 'male', langChoice = 'en';
-let replyTimeout = null, voiceRecording = false;
+let voiceRecording = false;
 let currentGeneratedImage = null;
 let faceapi = null, faceModelsLoaded = false;
 let faceEnrollStream = null, fidStream = null, chatFidStream = null;
@@ -1133,33 +1155,12 @@ const CONTACTS = [
   { id:'mom',    name:'Mom',          uid:'@mom#1001',      emoji:'👩', color:'#e67e22', status:'offline', role:'Family', unread:0 },
 ];
 
-const SEED_MSGS = {
-  alex:[
-    {from:'them',text:"Hey! Did you check the new deployment scripts?",time:Date.now()-3600000*4,status:'read'},
-    {from:'me',text:"Yeah, they look solid. Ran a test pass last night.",time:Date.now()-3600000*3,status:'read'},
-    {from:'them',text:"Sweet. The new CI pipeline shaved off like 40% build time 🔥",time:Date.now()-3600000*2,status:'read'},
-    {from:'me',text:"No way! That's massive.",time:Date.now()-3600000*1.5,status:'read'},
-    {from:'them',text:"Parallel jobs + layer caching. Will send the config later.",time:Date.now()-1800000,status:'read'},
-  ],
-  priya:[
-    {from:'them',text:"Are you coming to the meetup this weekend?",time:Date.now()-86400000,status:'read'},
-    {from:'me',text:"Possibly! What's the agenda?",time:Date.now()-80000000,status:'read'},
-    {from:'them',text:"Mostly networking + a talk on system design at scale.",time:Date.now()-72000000,status:'read'},
-    {from:'them',text:"Also Nikhil's presenting his open-source project 😄",time:Date.now()-3000000,status:'delivered'},
-  ],
-  devgrp:[
-    {from:'them',sender:'Rahul',text:"Sprint review at 3pm today. Don't forget!",time:Date.now()-7200000,status:'read'},
-    {from:'me',text:"On it. Will have the dashboard demo ready.",time:Date.now()-7000000,status:'read'},
-    {from:'them',sender:'Ananya',text:"I'll prep the backend metrics slides.",time:Date.now()-5000000,status:'read'},
-    {from:'them',sender:'Rahul',text:"Pushed hotfix for the auth token expiry bug btw",time:Date.now()-1200000,status:'read'},
-    {from:'them',sender:'Ananya',text:"Merged ✅ Tests passing",time:Date.now()-600000,status:'delivered'},
-  ],
-  mom:[
-    {from:'them',text:"Beta, did you eat?",time:Date.now()-86400000*2,status:'read'},
-    {from:'me',text:"Yes mom, had lunch!",time:Date.now()-86400000*2+3600000,status:'read'},
-    {from:'them',text:"Call when you get a chance 💛",time:Date.now()-86400000,status:'read'},
-  ]
-};
+// ══ NO MOCK DATA: Real user-to-user messaging only ══
+// Messages are stored in Firebase and synced live.
+// Each conversation is identified by sorted user UIDs.
+
+const SEED_MSGS = {}; // Empty — no demo data
+
 
 // ══ INIT ══
 window.addEventListener('load', async () => {
@@ -1316,6 +1317,82 @@ async function initMessenger() {
   updateAlertsCount();
 }
 
+
+// ══ REAL-TIME MESSAGING: No mock data, no auto-replies ══
+// Messages are stored in Firebase Realtime Database and synced live.
+// Each conversation is identified by a sorted pair of user UIDs to ensure uniqueness.
+
+function getConversationId(uid1, uid2) {
+  // Sort UIDs alphabetically to create a consistent conversation ID regardless of who initiates
+  const sorted = [uid1, uid2].sort();
+  return `chat_${sorted[0]}_${sorted[1]}`;
+}
+
+let activeListeners = {}; // Track Firebase listeners to prevent duplicates
+
+// ══ REAL-TIME FIREBASE SYNC ══
+function setupRealtimeListeners() {
+  const user = getUser();
+  if(!user || !user.uid) return;
+  const myUid = user.uid;
+  const allContacts = [...CONTACTS, ...getMyContacts()];
+  allContacts.forEach(contact => {
+    const convoId = getConversationId(myUid, contact.id);
+    listenToConversation(convoId, contact.id);
+  });
+}
+
+function listenToConversation(convoId, contactId) {
+  if(activeListeners[convoId]) return; // Already listening
+  const db = getFirebaseDb();
+  if(!db) return; // Firebase not configured
+  const messagesRef = ref(db, `messages/${convoId}`);
+  activeListeners[convoId] = onValue(messagesRef, (snapshot) => {
+    const data = snapshot.val();
+    if(!data) return;
+    // Convert Firebase object to array
+    const msgs = Object.entries(data).map(([key, val]) => ({
+      firebaseKey: key,
+      ...val
+    })).sort((a, b) => a.timestamp - b.timestamp);
+    // Store in local encrypted cache for offline access
+    cacheConversationMessages(contactId, msgs);
+    // If this is the currently open chat, re-render
+    if(currentContact && currentContact.id === contactId) {
+      renderMessagesFromCache(contactId);
+    }
+    // Update contact list preview
+    renderContactList();
+  });
+}
+
+function stopRealtimeListener(convoId) {
+  if(activeListeners[convoId]) {
+    off(activeListeners[convoId]);
+    delete activeListeners[convoId];
+  }
+}
+
+async function cacheConversationMessages(contactId, msgs) {
+  const raw = loadRawChats();
+  raw[contactId] = msgs.map(m => ({
+    from: m.from,
+    text: m.text,
+    time: m.timestamp,
+    status: m.status || 'delivered',
+    sender: m.senderName || null,
+    image: m.image || null,
+    voice: m.voice || null,
+    firebaseKey: m.firebaseKey
+  }));
+  saveRawChats(raw);
+}
+
+// ══ FIREBASE CONNECTION STATUS ══
+function isFirebaseConnected() {
+  return !!getFirebaseConfig() && !!getFirebaseDb();
+}
+
 // ══ MY ID ══
 function getMyFullId() {
   const u = getUser(); if(!u) return '@unknown#0000';
@@ -1370,6 +1447,7 @@ function populateProfiles() {
   const sj=document.getElementById('sett-joined'); if(sj)sj.textContent='Member since '+new Date(u.createdAt||Date.now()).toLocaleDateString();
   const sf=document.getElementById('sett-face-status'); if(sf)sf.textContent=u.faceDescriptor?'Enrolled ✓':'Not enrolled';
   const sa=document.getElementById('sett-api-status'); if(sa)sa.textContent=getApiKey()?'Configured ✓':'Not configured';
+  const fb=document.getElementById('sett-firebase-status'); if(fb)fb.textContent=getFirebaseConfig()?'Configured ✓':'Not configured — required for real messaging';
   updateSnapshotCount();
 }
 
@@ -2024,10 +2102,16 @@ async function openChatContent(){
 
 // ══ MESSAGES ══
 async function renderMessages(){
-  const body=document.getElementById('msg-body'); if(!body||!currentContact)return;
+  if(!currentContact) return;
+  await renderMessagesFromCache(currentContact.id);
+}
+
+// ══ RENDER FROM CACHE (synced from Firebase) ══
+async function renderMessagesFromCache(contactId){
+  const body=document.getElementById('msg-body'); if(!body)return;
   body.innerHTML='';
   const chats=await loadChats();
-  const msgs=chats[currentContact.id]||[];
+  const msgs=chats[contactId]||[];
   let lastDate='';
   for(const msg of msgs){
     const md=fmtDate(msg.time);
@@ -2036,13 +2120,16 @@ async function renderMessages(){
       const sp=document.createElement('span'); sp.textContent=md; div.appendChild(sp); body.appendChild(div);
       lastDate=md;
     }
-    const isMe=msg.from==='me';
+    // Determine if message is from me (compare with current user's UID)
+    const user=getUser();
+    const isMe=msg.from==='me'||msg.from===user?.uid;
     const row=document.createElement('div'); row.className='msg-row '+(isMe?'sent':'recv');
     const bubble=document.createElement('div'); bubble.className='bubble';
-    if(!isMe&&currentContact.id==='devgrp'&&msg.sender){
+    // Show sender name for group chats or if senderName field exists
+    if(!isMe&&msg.senderName){
       const sl=document.createElement('div');
       sl.style.cssText='font-family:var(--mono);font-size:9.5px;color:var(--gold);margin-bottom:4px;font-weight:600;';
-      sl.textContent=msg.sender; bubble.appendChild(sl);
+      sl.textContent=msg.senderName; bubble.appendChild(sl);
     }
     if(msg.image){const img=document.createElement('img');img.className='bubble-img';img.src=msg.image;img.onclick=()=>window.open(msg.image,'_blank');bubble.appendChild(img);}
     if(msg.voice){bubble.appendChild(buildVoiceNoteBubble(msg.voice));}
@@ -2066,159 +2153,86 @@ function buildVoiceNoteBubble(dur){
   vn.appendChild(btn);vn.appendChild(wave);vn.appendChild(d);return vn;
 }
 
-function addTypingIndicator(){
-  const body=document.getElementById('msg-body');if(!body)return;
-  removeTypingIndicator();
-  const row=document.createElement('div');row.className='typing-row';row.id='typing-ind';
-  const b=document.createElement('div');b.className='typing-bubble';
-  for(let i=0;i<3;i++){const d=document.createElement('div');d.className='typing-dot';b.appendChild(d);}
-  row.appendChild(b);body.appendChild(row);body.scrollTop=body.scrollHeight;
-}
-function removeTypingIndicator(){const el=document.getElementById('typing-ind');if(el)el.remove();}
+// ══ TYPING INDICATORS REMOVED: No bot = no simulated typing ══
 
 async function sendMsg(){
   const ta=document.getElementById('msg-ta');if(!ta||!currentContact)return;
   const text=ta.value.trim();
   const chips=document.getElementById('msg-chips');
   if(!text&&(!chips||!chips.children.length))return;
-  if(text){
-    await saveMsg(currentContact.id,{from:'me',text,time:Date.now(),status:'sent'});
-    ta.value='';ta.style.height='auto';
+
+  const user = getUser();
+  if(!user || !user.uid) { notif('warning','Not Logged In','Please log in to send messages'); return; }
+
+  const myUid = user.uid;
+  const contactId = currentContact.id;
+  const convoId = getConversationId(myUid, contactId);
+  const db = getFirebaseDb();
+
+  // If Firebase is configured, push to cloud
+  if(db){
+    const messagesRef = ref(db, `messages/${convoId}`);
+    if(text){
+      const msgData = {
+        from: myUid,
+        to: contactId,
+        text: text,
+        timestamp: Date.now(),
+        status: 'sent',
+        senderName: user.name || 'Me'
+      };
+      try { await push(messagesRef, msgData); } catch(e) { 
+        await saveMsg(contactId, {from:'me', text, time:Date.now(), status:'sent'});
+      }
+      ta.value='';ta.style.height='auto';
+    }
+    for(const chip of document.querySelectorAll('#msg-chips .chip')){
+      if(chip.dataset.img){
+        const imgData = {
+          from: myUid,
+          to: contactId,
+          image: chip.dataset.img,
+          text: '',
+          timestamp: Date.now(),
+          status: 'sent',
+          senderName: user.name || 'Me'
+        };
+        try { await push(messagesRef, imgData); } catch(e) {
+          await saveMsg(contactId, {from:'me', image:chip.dataset.img, text:'', time:Date.now(), status:'sent'});
+        }
+      }
+      chip.remove();
+    }
+  } else {
+    // OFFLINE MODE: Firebase not configured, save locally only
+    if(text){
+      await saveMsg(contactId, {from:'me', text, time:Date.now(), status:'sent'});
+      ta.value='';ta.style.height='auto';
+    }
+    for(const chip of document.querySelectorAll('#msg-chips .chip')){
+      if(chip.dataset.img){
+        await saveMsg(contactId, {from:'me', image:chip.dataset.img, text:'', time:Date.now(), status:'sent'});
+      }
+      chip.remove();
+    }
+    notif('info','Offline Mode','Message saved locally. Configure Firebase for real-time sync.');
   }
-  for(const chip of document.querySelectorAll('#msg-chips .chip')){
-    if(chip.dataset.img) await saveMsg(currentContact.id,{from:'me',image:chip.dataset.img,text:'',time:Date.now(),status:'sent'});
-    chip.remove();
-  }
+
   await renderMessages(); renderContactList();
   setTimeout(()=>markLastRead(currentContact.id,'delivered'),800);
-  setTimeout(()=>markLastRead(currentContact.id,'read'),2500);
-  const c=currentContact;
-  if(replyTimeout)clearTimeout(replyTimeout);
-  if(c.status!=='offline') replyTimeout=setTimeout(()=>simulateReply(c,text),1800+Math.random()*2000);
 }
 
+// ══ markLastRead: Only updates when real user reads, not bot ══
 async function markLastRead(cid,status){
   const raw=loadRawChats(); const msgs=raw[cid]||[];
   const myMsgs=msgs.filter(m=>m.from==='me'&&(m.encText||m.text));
-  if(myMsgs.length){myMsgs[myMsgs.length-1].status=status;saveRawChats(raw);if(currentContact?.id===cid)renderMessages();}
+  if(myMsgs.length){myMsgs[myMsgs.length-1].status=status;saveRawChats(raw);if(currentContact?.id===cid)renderMessagesFromCache(cid);}
 }
 
-async function simulateReply(contact,userText){
-  if(currentContact?.id!==contact.id)return;
-  addTypingIndicator();
-  let reply='';
-  try{
-    const ctx=buildContactContext(contact);
-    reply=await callClaude(ctx+'\n\nUser said: "'+userText+'"\n\nRespond naturally as '+contact.name+' in 1-2 short sentences. No quotes.');
-    reply=reply.trim().replace(/^["']|["']$/g,'');
-  }catch(e){reply=getContactFallback(contact);}
-  removeTypingIndicator();
-  const msg={from:'them',text:reply,time:Date.now(),status:'delivered',sender:contact.name.split(' ')[0]};
-  await saveMsg(contact.id,msg);
-  // Update unread for both static and dynamically added contacts
-  const ci=CONTACTS.findIndex(c=>c.id===contact.id);
-  if(ci>=0) CONTACTS[ci].unread=0;
-  if(currentContact?.id===contact.id){await renderMessages();renderContactList();}
-  else{if(ci>=0) CONTACTS[ci].unread=(CONTACTS[ci].unread||0)+1;renderContactList();}
-}
+// ══ NO AUTO-REPLIES: Real user-to-user messaging only ══
+// Messages only appear when sent by real users via Firebase.
 
-function buildContactContext(c){
-  // Static contacts with predefined personalities
-  const p={alex:'You are Alex Kumar, a software engineer colleague. Casual but professional. Talk about code, deployments.',priya:'You are Priya Sharma, friendly and enthusiastic. Talk about events, life, mutual friends.',devgrp:'You are in a dev team group chat. You are Rahul or Ananya. Keep it work-related.',mom:'You are Mom, loving and caring. Use "beta" occasionally.'};
-  if(p[c.id]) return p[c.id];
-  // Dynamic context for added contacts from USER_DATABASE
-  const role=c.role||'Friend', name=c.name||'User';
-  if(role==='Work') return `You are ${name}, a professional colleague. Keep responses work-appropriate and concise.`;
-  if(role==='Family') return `You are ${name}, a family member. Warm, caring tone. Use casual language.`;
-  return `You are ${name}, a friendly contact. Keep replies brief and natural.`;
-}
-function getContactFallback(c){
-  // Static contacts with predefined fallbacks
-  const f={alex:'Sounds good! Let me check on my end.',priya:'Haha yes! Let me know what you think.',devgrp:'Got it, will follow up.',mom:'Okay beta, take care 💛'};
-  if(f[c.id]) return f[c.id];
-  // Dynamic fallback for added contacts from USER_DATABASE
-  const role=c.role||'Friend';
-  if(role==='Work') return 'Got it, will review and get back to you.';
-  if(role==='Family') return 'Take care! Talk soon 💛';
-  return 'Sure, sounds good! Let me know.';
-}
 
-// ══ BLOCK ══
-function blockCurrentContact(){
-  if(!currentContact)return;
-  if(!confirm(`Block ${currentContact.name}? They will disappear from your chats.`))return;
-  const blocked=getBlockedList();
-  if(!blocked.includes(currentContact.id)){blocked.push(currentContact.id);saveBlockedList(blocked);}
-  notif('info','Blocked',currentContact.name+' has been blocked');
-  currentContact=null;
-  document.getElementById('no-chat-state').classList.remove('hidden');
-  document.getElementById('chat-active').classList.add('hidden');
-  renderContactList();
-  // Update blocked badge
-  const bl=getBlockedList();
-  const badge=document.getElementById('badge-blocked');
-  if(badge&&bl.length){badge.textContent=bl.length;badge.style.display='inline';}
-}
-
-// ══ FILE HANDLING ══
-function handleMsgFile(input){
-  if(!input.files.length||!currentContact)return;
-  const chips=document.getElementById('msg-chips');
-  Array.from(input.files).forEach(file=>{
-    const reader=new FileReader();
-    reader.onload=e=>{
-      const chip=document.createElement('div');chip.className='chip';chip.dataset.img=e.target.result;
-      const nm=document.createElement('span');nm.className='chip-n';nm.textContent=file.name;
-      const x=document.createElement('button');x.className='chip-x';x.textContent='×';x.onclick=()=>chip.remove();
-      chip.appendChild(nm);chip.appendChild(x);chips.appendChild(chip);
-    };
-    if(file.type.startsWith('image/'))reader.readAsDataURL(file);
-    else{
-      const chip=document.createElement('div');chip.className='chip';
-      const nm=document.createElement('span');nm.className='chip-n';nm.textContent=file.name;
-      const x=document.createElement('button');x.className='chip-x';x.textContent='×';x.onclick=()=>chip.remove();
-      chip.appendChild(nm);chip.appendChild(x);chips.appendChild(chip);
-    }
-  });
-  input.value='';
-}
-
-function toggleVoiceNote(){
-  if(!currentContact)return;
-  voiceRecording=!voiceRecording;
-  const btn=document.getElementById('msg-voice-btn');
-  if(voiceRecording){
-    btn.textContent='🔴';btn.style.color='var(--red)';
-    notif('info','Recording','Voice note started…');
-    setTimeout(async()=>{
-      voiceRecording=false;btn.textContent='🎙';btn.style.color='';
-      const dur='0:'+(8+Math.floor(Math.random()*12)).toString().padStart(2,'0');
-      await saveMsg(currentContact.id,{from:'me',voice:dur,text:'',time:Date.now(),status:'sent'});
-      await renderMessages();renderContactList();
-      setTimeout(()=>markLastRead(currentContact.id,'delivered'),900);
-      setTimeout(()=>markLastRead(currentContact.id,'read'),2200);
-    },3000);
-  }else{btn.textContent='🎙';btn.style.color='';}
-}
-
-function msgKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg();}}
-function autoResize(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,90)+'px';}
-
-// ══ SETTINGS ══
-function openCpwModal(){document.getElementById('cpw-modal').classList.remove('hidden');document.getElementById('cpw-current').focus();}
-function closeCpwModal(){document.getElementById('cpw-modal').classList.add('hidden');['cpw-current','cpw-new','cpw-confirm'].forEach(id=>document.getElementById(id).value='');document.getElementById('cpw-err').textContent='';}
-function changePassword(){
-  const cur=document.getElementById('cpw-current').value;
-  const nw=document.getElementById('cpw-new').value;
-  const cf=document.getElementById('cpw-confirm').value;
-  const err=document.getElementById('cpw-err');
-  const user=getUser();
-  if(cur!==user.key){err.textContent='Current key is incorrect';return;}
-  if(nw.length!==6||!/^\d+$/.test(nw)){err.textContent='New key must be 6 digits';return;}
-  if(nw!==cf){err.textContent='Keys do not match';return;}
-  user.key=nw;saveUser(user);closeCpwModal();
-  notif('success','Key Updated','Your safe key has been changed');
-}
 async function reEnrollFace(){
   if(!confirm('Re-enroll your face? This will replace the existing Face ID.'))return;
   feState='idle';
@@ -2245,8 +2259,72 @@ function saveApiKey(){
 }
 function getApiKey(){return localStorage.getItem(API_KEY_STORE)||'';}
 
+// ══ FIREBASE CONFIG FUNCTIONS ══
+const FIREBASE_CONFIG_KEY = 'nexus_firebase_config';
+
+function getFirebaseConfig() {
+  try { return JSON.parse(localStorage.getItem(FIREBASE_CONFIG_KEY)); } catch { return null; }
+}
+
+function saveFirebaseConfig() {
+  const config = {
+    apiKey: document.getElementById('fb-apikey').value.trim(),
+    authDomain: document.getElementById('fb-domain').value.trim(),
+    databaseURL: document.getElementById('fb-dburl').value.trim(),
+    projectId: document.getElementById('fb-project').value.trim(),
+    storageBucket: document.getElementById('fb-bucket').value.trim(),
+    messagingSenderId: document.getElementById('fb-sender').value.trim(),
+    appId: document.getElementById('fb-appid').value.trim()
+  };
+  if(!config.apiKey || !config.databaseURL) {
+    document.getElementById('fb-status').textContent = '❌ apiKey and databaseURL required';
+    return;
+  }
+  localStorage.setItem(FIREBASE_CONFIG_KEY, JSON.stringify(config));
+  document.getElementById('fb-status').textContent = '✓ Config saved! Restart app to connect.';
+  notif('success','Firebase Config Saved','Realtime messaging enabled');
+  setTimeout(closeFirebaseModal, 1500);
+  populateProfiles();
+}
+
+function closeFirebaseModal() {
+  document.getElementById('firebase-modal').classList.add('hidden');
+  document.getElementById('fb-status').textContent = '';
+}
+
+function openFirebaseModal() {
+  const modal = document.getElementById('firebase-modal');
+  modal.classList.remove('hidden');
+  const saved = getFirebaseConfig();
+  if(saved) {
+    document.getElementById('fb-apikey').value = saved.apiKey || '';
+    document.getElementById('fb-domain').value = saved.authDomain || '';
+    document.getElementById('fb-dburl').value = saved.databaseURL || '';
+    document.getElementById('fb-project').value = saved.projectId || '';
+    document.getElementById('fb-bucket').value = saved.storageBucket || '';
+    document.getElementById('fb-sender').value = saved.messagingSenderId || '';
+    document.getElementById('fb-appid').value = saved.appId || '';
+    document.getElementById('fb-status').textContent = '✓ Configured';
+  }
+}
+
+// Override getFirebaseDb to use saved config
+function getFirebaseDb() {
+  if(firebaseDb) return firebaseDb;
+  const saved = getFirebaseConfig();
+  if(!saved) return null;
+  firebaseApp = initializeApp(saved);
+  firebaseDb = getDatabase(firebaseApp);
+  return firebaseDb;
+}
+
 // ══ TIME HELPERS ══
 function fmtTime(ts){const d=new Date(ts),now=new Date();const diff=now-d;if(diff<86400000&&d.getDate()===now.getDate())return d.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});if(diff<86400000*2)return'Yesterday';return d.toLocaleDateString([],{day:'2-digit',month:'short'});}
+
+// ══ FIREBASE CONNECTION STATUS ══
+function isFirebaseConnected() {
+  return !!getFirebaseConfig() && !!getFirebaseDb();
+}
 function fmtChatTime(ts){return new Date(ts).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});}
 function fmtDate(ts){const d=new Date(ts),now=new Date();if(d.getDate()===now.getDate())return'Today';const y=new Date(now);y.setDate(now.getDate()-1);if(d.getDate()===y.getDate())return'Yesterday';return d.toLocaleDateString([],{weekday:'long',day:'numeric',month:'long'});}
 
